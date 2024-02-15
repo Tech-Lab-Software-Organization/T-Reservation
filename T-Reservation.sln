@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34607.119
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "T-Reservation", "T-Reservation.csproj", "{AFC818CA-978D-480E-921A-8A24896F8257}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AFC818CA-978D-480E-921A-8A24896F8257}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AFC818CA-978D-480E-921A-8A24896F8257}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AFC818CA-978D-480E-921A-8A24896F8257}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AFC818CA-978D-480E-921A-8A24896F8257}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {40D68093-EBD0-46F6-8171-E7762BEFEB7D}
+	EndGlobalSection
+EndGlobal
