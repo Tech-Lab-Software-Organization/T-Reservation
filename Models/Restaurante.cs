@@ -10,7 +10,7 @@ using System.ComponentModel.DataAnnotations.Schema;
         [Required(ErrorMessage = "El nombre es obligatorio")]
         [StringLength(100)]
         public string Nombre { get; set; }
-        [Required(ErrorMessage = "El Descripcion es obligatorio")]
+        [Required(ErrorMessage = "El Descripcion es obligatorio ")]
         [StringLength(500)]
         public string Descripcion { get; set; }
         [Required(ErrorMessage = "El Direccion es obligatorio")]
