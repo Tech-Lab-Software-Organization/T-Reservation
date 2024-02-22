@@ -16,5 +16,13 @@ using System.ComponentModel.DataAnnotations.Schema;
         [Required(ErrorMessage = "El Direccion es obligatorio")]
         [StringLength(250)]
         public string Direccion { get; set; }
-    }
+
+        public ICollection<Cliente> Clientes { get; set; }
+        public ICollection<Empleado> Empleados { get; set; }
+        public ICollection<Menu> Menus { get; set; }
+        public ICollection<Mesa> Mesas { get; set; }
+
+        public virtual ICollection<Reserva> Reservas { get; set; }
+
+}
 

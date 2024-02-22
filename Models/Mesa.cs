@@ -8,11 +8,8 @@ namespace T_Reservation.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-        [Required (ErrorMessage = "El campo {0} es requerido")]
-        //[ForeignKey ("RestauranteId")]
-        public int RestauranteId { get; set; }
-        //[ForeignKey ("RestauranteId")]
-        //public Restaurantes restaurantes { get; set; }
+        
+      
         [Required(ErrorMessage = "El campo {0} es requerido")]
 
         public int Numero { get; set; }
@@ -29,7 +26,12 @@ namespace T_Reservation.Models
         [Required(ErrorMessage = "El campo {0} es requerido")]
         
         public string Disponibilidad { get; set; }
-        
+
+        [ForeignKey("Restaurante")]
+        public int RestauranteId { get; set; }
+        public Restaurante Restaurante { get; set; }
+
+        public virtual ICollection<Reserva> Reservas { get; set; }
 
     }
 }

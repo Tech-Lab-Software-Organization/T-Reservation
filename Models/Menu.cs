@@ -23,7 +23,10 @@ public class Menu
     [Required(ErrorMessage = "El campo{0} es requerido")]
     public decimal Precio { get; set; }
 
-    public int RestautanteId { get; set; }
-    //[ForeignKey("RestauranteId)]
-    //public Restaurantes restaurante { get; set; }
+    [ForeignKey("Restaurante")]
+    public int RestauranteId { get; set; }
+    public Restaurante Restaurante { get; set; }
+
+    public virtual ICollection<Reserva> Reservas { get; set; }
+
 }

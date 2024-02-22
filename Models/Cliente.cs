@@ -39,5 +39,12 @@ namespace T_Reservation.Models
         [DataType(DataType.Password)]
         public string Passaword { get; set; }
 
+        [ForeignKey("Restaurante")]
+        public int RestauranteId { get; set; }
+        public Restaurante Restaurante { get; set; }
+
+        public virtual ICollection<Reserva> Reservas { get; set; }
+
+
     }
 }
