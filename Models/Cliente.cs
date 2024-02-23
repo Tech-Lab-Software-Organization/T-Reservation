@@ -8,7 +8,7 @@ namespace T_Reservation.Models
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int ClienteId { get; set; }
+        public int Id { get; set; }
 
         [Required(ErrorMessage = "El nombre es obligatorio")]
         [StringLength(100, ErrorMessage ="el nombre no puede superar los 100 caracteres")]
@@ -39,9 +39,11 @@ namespace T_Reservation.Models
         [DataType(DataType.Password)]
         public string Passaword { get; set; }
 
+        [ForeignKey("Restaurante")]
+        public int RestauranteId { get; set; }
+        public Restaurante Restaurante { get; set; }
 
-        public virtual ICollection<Reserva> Reservaciones { get; set; }
-
+        public  ICollection<Reserva> Reservas { get; set; }
 
     }
 }

@@ -18,11 +18,15 @@ using System.ComponentModel.DataAnnotations.Schema;
         public string Direccion { get; set; }
 
         public ICollection<Cliente> Clientes { get; set; }
-        public ICollection<Empleado> Empleados { get; set; }
+
+       [ForeignKey("EmpleadoId")]
+       public int EmpleadoId { get; set; }
+       public Empleado Empleados { get; set; }
+
         public ICollection<Menu> Menus { get; set; }
         public ICollection<Mesa> Mesas { get; set; }
 
-        public virtual ICollection<Reserva> Reservas { get; set; }
+        public  ICollection<Reserva> Reservas { get; set; }
 
 }
 

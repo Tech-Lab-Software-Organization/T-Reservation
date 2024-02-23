@@ -27,11 +27,11 @@ namespace T_Reservation.Models
         
         public string Disponibilidad { get; set; }
 
-        [ForeignKey("Restaurante")]
+        [ForeignKey("RestauranteId")]
         public int RestauranteId { get; set; }
         public Restaurante Restaurante { get; set; }
 
-        public virtual ICollection<Reserva> Reservaciones { get; set; }
+        public  ICollection<Reserva> Reservas { get; set; }
 
     }
 }

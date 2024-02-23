@@ -41,6 +41,6 @@ namespace T_Reservation.Models
         [DataType(DataType.Password)]
         public string Password { get; set; }
 
-        public ICollection<Restaurante> Restaurantes { get; set; }
+        public ICollection<Restaurante> Restaurante { get; set; }
     }
 }

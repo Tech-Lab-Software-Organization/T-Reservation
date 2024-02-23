@@ -27,6 +27,6 @@ public class Menu
     public int RestauranteId { get; set; }
     public Restaurante Restaurante { get; set; }
 
-    public virtual ICollection<Reserva> Reservaciones { get; set; }
+    public  ICollection<Reserva> Reservas { get; set; }
 
 }

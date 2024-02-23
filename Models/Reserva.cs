@@ -12,26 +12,25 @@ namespace T_Reservation.Models
 
         //**Relacion con cliente**
 
-        [Required(ErrorMessage = "El campo ClienteId es obligatorio.")]
-       public int ClienteId { get; set; }
-
+        [Required(ErrorMessage = "El campo {0} es obligatorio.")]
         [ForeignKey("ClienteId")]
-        public virtual Cliente Cliente { get; set; }
+        public int ClienteId { get; set; }
+        public  Cliente Cliente { get; set; }
 
         //**Relacion con Restaurante**
 
         [Required(ErrorMessage = "El campo RestauranteId es obligatorio.")]
-       public int RestauranteId { get; set; }
 
         [ForeignKey("RestauranteId")]
-        public virtual Restaurante Restaurante { get; set; }
+        public int RestauranteId { get; set; }
+        public  Restaurante Restaurante { get; set; }
 
 
         [Required(ErrorMessage = "El campo MesaId es obligatorio.")]
-       public int MesaId { get; set; }
 
         [ForeignKey("MesaId")]
-        public virtual Mesa Mesa { get; set; }
+        public int MesaId { get; set; }
+        public  Mesa Mesa { get; set; }
 
         //**Cantidad de Persona**
 
@@ -50,6 +49,26 @@ namespace T_Reservation.Models
         [Required(ErrorMessage = "El campo FechaFin es obligatorio.")]
         [DataType(DataType.Date)]
        public DateTime FechaFin { get; set; }
+
+        /*Relaccion al modelo de cliente*/
+
+        /*  [ForeignKey("ClienteId")]
+          public virtual Cliente Cliente { get; set; }
+          /*Relaccion al modelo de Restaurante*/
+
+        /*
+            [ForeignKey("RestauranteId")]
+            public virtual Restaurante Restaurante { get; set; }
+            /*Relaccion al modelo de Menu*/
+        /*
+            [ForeignKey("MenuId")]
+            public virtual Menu Menu { get; set; }
+            /*Relaccion al modelo de Mesa*/
+        /*
+            [ForeignKey("MesaId")]
+            public virtual Mesa Mesa { get; set; }
+
+        */
     }
 }
 
