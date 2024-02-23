@@ -26,15 +26,6 @@ namespace T_Reservation.Models
         [ForeignKey("RestauranteId")]
         public virtual Restaurante Restaurante { get; set; }
 
-        //**Relacion con Menu**
-
-        [Required(ErrorMessage = "El campo MenuId es obligatorio.")]
-       public int MenuId { get; set; }
-
-        [ForeignKey("MenuId")]
-        public virtual Menu Menu { get; set; }
-
-        //**Relacion con Mesa**
 
         [Required(ErrorMessage = "El campo MesaId es obligatorio.")]
        public int MesaId { get; set; }

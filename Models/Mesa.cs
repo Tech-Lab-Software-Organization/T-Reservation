@@ -31,7 +31,7 @@ namespace T_Reservation.Models
         public int RestauranteId { get; set; }
         public Restaurante Restaurante { get; set; }
 
-        public virtual ICollection<Reserva> Reservas { get; set; }
+        public virtual ICollection<Reserva> Reservaciones { get; set; }
 
     }
 }

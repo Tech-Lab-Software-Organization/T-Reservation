@@ -1,6 +1,7 @@
 ﻿namespace T_Reservation.Models;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
     public class Reservacion
     {
@@ -48,28 +49,10 @@ using System.ComponentModel.DataAnnotations;
         [DataType(DataType.Date)]
         public DateTime FechaFin { get; set; }
 
-        ///Relaccion al modelo de cliente/
-
-      /*  [ForeignKey("ClienteId")]
-        public virtual Cliente Cliente { get; set; }
-
-        /Relaccion al modelo de Restaurante/
-
-    /*
-        [ForeignKey("RestauranteId")]
-        public virtual Restaurante Restaurante { get; set; }
-
-        /Relaccion al modelo de Menu/
-    /*
-        [ForeignKey("MenuId")]
-        public virtual Menu Menu { get; set; }
-
-
-        /Relaccion al modelo de Mesa/
-    /*
-        [ForeignKey("MesaId")]
-        public virtual Mesa Mesa { get; set; }
     
-    */
-    }
+
+        public ICollection<Menu> Menus { get; set; }
+        public ICollection<Mesa> Mesas { get; set; }
+        public ICollection<Reservacion> Reservaciones { get; set; }
+}
 
