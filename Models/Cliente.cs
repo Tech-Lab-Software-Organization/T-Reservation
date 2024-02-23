@@ -19,7 +19,8 @@ namespace T_Reservation.Models
         public int Dui { get; set; }
 
         [Required(ErrorMessage = "El Telefono es obligatorio")]
-        [RegularExpression("[0,9]{8}", ErrorMessage ="El telefono debe tener 8 digitos")]
+        //[RegularExpression("[0,9]{8}", ErrorMessage ="El telefono debe tener 8 digitos")]
+        [Phone(ErrorMessage ="El número de telefono no es valido")]
         public int Telefono { get; set; }
 
         [Required(ErrorMessage = "El correo es obligatorio.")]
