@@ -56,16 +56,20 @@ namespace T_Reservation.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Producto,Imagen,Descripcion,NotaEspecial,Precio,RestauranteId")] Menu menu)
+        public async Task<IActionResult> Create([Bind("Id,Producto,Descripcion,NotaEspecial,Precio,RestauranteId")] Menu menu, IFormFile imagen)
         {
-            if (ModelState.IsValid)
+            if (imagen != null && imagen.Length > 0)
             {
-                _context.Add(menu);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                using (var memoryStream = new MemoryStream())
+                {
+                    await imagen.CopyToAsync(memoryStream);
+                    menu.Imagen = memoryStream.ToArray();
+
+                }
             }
-            ViewData["RestauranteId"] = new SelectList(_context.Restaurantes, "Id", "Nombre", menu.RestauranteId);
-            return View(menu);
+            _context.Add(menu);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Menus/Edit/5
@@ -90,35 +94,45 @@ namespace T_Reservation.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Producto,Imagen,Descripcion,NotaEspecial,Precio,RestauranteId")] Menu menu)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Producto,Descripcion,NotaEspecial,Precio,RestauranteId")] Menu menu, IFormFile imagen)
         {
             if (id != menu.Id)
             {
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
+            if (imagen != null && imagen.Length > 0)
             {
-                try
+                
+                 using (var memoryStream = new MemoryStream())
                 {
-                    _context.Update(menu);
-                    await _context.SaveChangesAsync();
+                    await imagen.CopyToAsync(memoryStream);
+                    menu.Imagen = memoryStream.ToArray();
                 }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!MenuExists(menu.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
+                _context.Update(menu);
+                await _context.SaveChangesAsync();
             }
-            ViewData["RestauranteId"] = new SelectList(_context.Restaurantes, "Id", "Nombre", menu.RestauranteId);
-            return View(menu);
+
+            else
+            {
+                var registroFind = await _context.Menu.FirstOrDefaultAsync(s => s.Id == menu.Id);
+
+                if (registroFind?.Imagen?.Length > 0)
+                    menu.Imagen = registroFind.Imagen;
+
+                registroFind.Producto = menu.Producto;
+                registroFind.Descripcion = menu.Descripcion;
+                registroFind.NotaEspecial = menu.NotaEspecial;
+                registroFind.Precio = menu.Precio;
+                registroFind.RestauranteId = menu.RestauranteId;
+
+                _context.Update(registroFind);
+                await _context.SaveChangesAsync();
+            }
+            return RedirectToAction(nameof(Index));
+
+
+           
         }
 
         // GET: Menus/Delete/5
@@ -158,7 +172,24 @@ namespace T_Reservation.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
+        public async Task<IActionResult> DeleteImagen(int? id)
+        {
+            // Busca el registro en la base de datos utilizando el ID proporcionado
+            var datosFind = await _context.Menu.FirstOrDefaultAsync(s => s.Id == id);
 
+            // Establece el campo Imagen del registro encontrado como null
+            datosFind.Imagen = null;
+
+            // Actualiza el registro en el contexto de la base de datos
+            _context.Update(datosFind);
+
+            // Guarda los cambios en la base de datos
+            await _context.SaveChangesAsync();
+
+            // Redirige al usuario a la acción Index para mostrar la lista de registros actualizada
+            return RedirectToAction(nameof(Index));
+
+        }
         private bool MenuExists(int id)
         {
           return _context.Menu.Any(e => e.Id == id);

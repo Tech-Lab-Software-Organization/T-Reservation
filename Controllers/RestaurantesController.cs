@@ -47,7 +47,7 @@ namespace T_Reservation.Controllers
         // GET: Restaurantes/Create
         public IActionResult Create()
         {
-            ViewData["EmpleadoId"] = new SelectList(_context.Empleados, "Id", "Correo");
+            ViewData["EmpleadoId"] = new SelectList(_context.Empleados, "Id", "Nombre");
             return View();
         }
 
@@ -64,7 +64,7 @@ namespace T_Reservation.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["EmpleadoId"] = new SelectList(_context.Empleados, "Id", "Correo", restaurante.EmpleadoId);
+            ViewData["EmpleadoId"] = new SelectList(_context.Empleados, "Id", "Nombre", restaurante.EmpleadoId);
             return View(restaurante);
         }
 
@@ -81,7 +81,7 @@ namespace T_Reservation.Controllers
             {
                 return NotFound();
             }
-            ViewData["EmpleadoId"] = new SelectList(_context.Empleados, "Id", "Correo", restaurante.EmpleadoId);
+            ViewData["EmpleadoId"] = new SelectList(_context.Empleados, "Id", "Nombre", restaurante.EmpleadoId);
             return View(restaurante);
         }
 
@@ -117,7 +117,7 @@ namespace T_Reservation.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["EmpleadoId"] = new SelectList(_context.Empleados, "Id", "Correo", restaurante.EmpleadoId);
+            ViewData["EmpleadoId"] = new SelectList(_context.Empleados, "Id", "Nombre", restaurante.EmpleadoId);
             return View(restaurante);
         }
 
