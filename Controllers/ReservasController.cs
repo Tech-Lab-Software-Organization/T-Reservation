@@ -51,7 +51,7 @@ namespace T_Reservation.Controllers
         {
             ViewData["ClienteId"] = new SelectList(_context.Clientes, "Id", "Correo");
             ViewData["MesaId"] = new SelectList(_context.Mesas, "Id", "Area");
-            ViewData["RestauranteId"] = new SelectList(_context.Restaurantes, "Id", "Descripcion");
+            ViewData["RestauranteId"] = new SelectList(_context.Restaurantes, "Id", "Nombre");
             return View();
         }
 
@@ -70,7 +70,7 @@ namespace T_Reservation.Controllers
             }
             ViewData["ClienteId"] = new SelectList(_context.Clientes, "Id", "Correo", reserva.ClienteId);
             ViewData["MesaId"] = new SelectList(_context.Mesas, "Id", "Area", reserva.MesaId);
-            ViewData["RestauranteId"] = new SelectList(_context.Restaurantes, "Id", "Descripcion", reserva.RestauranteId);
+            ViewData["RestauranteId"] = new SelectList(_context.Restaurantes, "Id", "Nombre", reserva.RestauranteId);
             return View(reserva);
         }
 
@@ -89,7 +89,7 @@ namespace T_Reservation.Controllers
             }
             ViewData["ClienteId"] = new SelectList(_context.Clientes, "Id", "Correo", reserva.ClienteId);
             ViewData["MesaId"] = new SelectList(_context.Mesas, "Id", "Area", reserva.MesaId);
-            ViewData["RestauranteId"] = new SelectList(_context.Restaurantes, "Id", "Descripcion", reserva.RestauranteId);
+            ViewData["RestauranteId"] = new SelectList(_context.Restaurantes, "Id", "Nombre", reserva.RestauranteId);
             return View(reserva);
         }
 
@@ -127,7 +127,7 @@ namespace T_Reservation.Controllers
             }
             ViewData["ClienteId"] = new SelectList(_context.Clientes, "Id", "Correo", reserva.ClienteId);
             ViewData["MesaId"] = new SelectList(_context.Mesas, "Id", "Area", reserva.MesaId);
-            ViewData["RestauranteId"] = new SelectList(_context.Restaurantes, "Id", "Descripcion", reserva.RestauranteId);
+            ViewData["RestauranteId"] = new SelectList(_context.Restaurantes, "Id", "Nombre", reserva.RestauranteId);
             return View(reserva);
         }
 

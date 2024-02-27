@@ -47,7 +47,7 @@ namespace T_Reservation.Controllers
         // GET: Mesas/Create
         public IActionResult Create()
         {
-            ViewData["RestauranteId"] = new SelectList(_context.Restaurantes, "Id", "Descripcion");
+            ViewData["RestauranteId"] = new SelectList(_context.Restaurantes, "Id", "Nombre");
             return View();
         }
 
@@ -64,7 +64,7 @@ namespace T_Reservation.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["RestauranteId"] = new SelectList(_context.Restaurantes, "Id", "Descripcion", mesa.RestauranteId);
+            ViewData["RestauranteId"] = new SelectList(_context.Restaurantes, "Id", "Nombre", mesa.RestauranteId);
             return View(mesa);
         }
 
@@ -81,7 +81,7 @@ namespace T_Reservation.Controllers
             {
                 return NotFound();
             }
-            ViewData["RestauranteId"] = new SelectList(_context.Restaurantes, "Id", "Descripcion", mesa.RestauranteId);
+            ViewData["RestauranteId"] = new SelectList(_context.Restaurantes, "Id", "Nombre", mesa.RestauranteId);
             return View(mesa);
         }
 
@@ -117,7 +117,7 @@ namespace T_Reservation.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["RestauranteId"] = new SelectList(_context.Restaurantes, "Id", "Descripcion", mesa.RestauranteId);
+            ViewData["RestauranteId"] = new SelectList(_context.Restaurantes, "Id", "Nombre", mesa.RestauranteId);
             return View(mesa);
         }
 

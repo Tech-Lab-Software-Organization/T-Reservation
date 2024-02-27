@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using T_Reservation.Models;
 
-namespace T_Reservation.Migrations
+namespace T_Reservation.Controllers
 {
     public class ClientesController : Controller
     {
@@ -47,7 +47,7 @@ namespace T_Reservation.Migrations
         // GET: Clientes/Create
         public IActionResult Create()
         {
-            ViewData["RestauranteId"] = new SelectList(_context.Restaurantes, "Id", "Descripcion");
+            ViewData["RestauranteId"] = new SelectList(_context.Restaurantes, "Id", "Nombre");
             return View();
         }
 
@@ -64,7 +64,7 @@ namespace T_Reservation.Migrations
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["RestauranteId"] = new SelectList(_context.Restaurantes, "Id", "Descripcion", cliente.RestauranteId);
+            ViewData["RestauranteId"] = new SelectList(_context.Restaurantes, "Id", "Nombre", cliente.RestauranteId);
             return View(cliente);
         }
 
@@ -81,7 +81,7 @@ namespace T_Reservation.Migrations
             {
                 return NotFound();
             }
-            ViewData["RestauranteId"] = new SelectList(_context.Restaurantes, "Id", "Descripcion", cliente.RestauranteId);
+            ViewData["RestauranteId"] = new SelectList(_context.Restaurantes, "Id", "Nombre", cliente.RestauranteId);
             return View(cliente);
         }
 
@@ -117,7 +117,7 @@ namespace T_Reservation.Migrations
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["RestauranteId"] = new SelectList(_context.Restaurantes, "Id", "Descripcion", cliente.RestauranteId);
+            ViewData["RestauranteId"] = new SelectList(_context.Restaurantes, "Id", "Nombre", cliente.RestauranteId);
             return View(cliente);
         }
 
@@ -154,14 +154,14 @@ namespace T_Reservation.Migrations
             {
                 _context.Clientes.Remove(cliente);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool ClienteExists(int id)
         {
-          return _context.Clientes.Any(e => e.Id == id);
+            return _context.Clientes.Any(e => e.Id == id);
         }
     }
 }
