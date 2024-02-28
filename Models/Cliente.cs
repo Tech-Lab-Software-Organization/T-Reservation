@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel;
 
 namespace T_Reservation.Models
 {
@@ -31,14 +32,17 @@ namespace T_Reservation.Models
 
         [Required(ErrorMessage = "la fecha es obligatoria")]
         [DataType(DataType.Date)]
+        [DisplayName("Fecha nacimineto")]
         public DateTime FechaNacimiento { get; set; }
 
         [Required(ErrorMessage = "la contraseña es obligatoria")]
         [StringLength(20, MinimumLength =8, ErrorMessage ="La contraseña debe tener 8 y 20 caracteres.")]
         [DataType(DataType.Password)]
+        [DisplayName("Contraseña")]
         public string Passaword { get; set; }
 
         [ForeignKey("Restaurante")]
+        [DisplayName("Restaurante")]
         public int RestauranteId { get; set; }
         public Restaurante Restaurante { get; set; }
 
