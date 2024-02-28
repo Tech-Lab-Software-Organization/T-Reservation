@@ -1,0 +1,34 @@
+﻿@model T_Reservation.Models.Login
+
+@{
+    ViewBag.Title = "Inicio de Sesión";
+}
+
+<h2>@ViewBag.Title</h2>
+
+@using (Html.BeginForm("Index", "Login", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Correo)
+        @Html.TextBoxFor(model => model.Correo, new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.Correo)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Password)
+        @Html.PasswordFor(model => model.Password, new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.Password)
+    </div>
+
+    <button type="submit" class="btn btn-primary">Iniciar Sesión</button>
+}
+
+@if (!ViewData.ModelState.IsValid)
+{
+    <div class="alert alert-danger mt-3" role="alert">
+        <strong>Error:</strong> @Html.ValidationSummary(false)
+    </div>
+}
+

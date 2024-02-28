@@ -5,6 +5,8 @@ namespace T_Reservation.Models
 {
     public class ApplicationDbContext : DbContext
     {
+        
+
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
         }
@@ -56,6 +58,18 @@ namespace T_Reservation.Models
                 .WithMany(c => c.Reservas)
                 .HasForeignKey(r => r.ClienteId)
                 .OnDelete(DeleteBehavior.Restrict);
+        }
+
+        public string ValidarLogin(string correo, string password)
+        {
+            // PA CLIENTE
+            var cliente = Clientes.FirstOrDefault(c => c.Correo == correo && c.Passaword == password);
+            if (cliente != null)
+                return cliente.Nombre;
+
+            // PA EMPLEADO
+            var empleado = Empleados.FirstOrDefault(e => e.Correo == correo && e.Password == password);
+            return empleado != null ? empleado.Nombre : null;
         }
 
     }

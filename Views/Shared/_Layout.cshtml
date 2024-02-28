@@ -37,6 +37,10 @@
                         <li class="nav-item">
                             <a class="nav-link" asp-area="" asp-controller="Restaurantes" asp-action="Index">Restaurantes</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Login" asp-action="Index">Iniciar Sesion</a>
+                        </li>
+                        <li style="font-family: 'Press Start 2P', sans-serif;">@(TempData["UsuarioCorreo"] as string)</li>
                     </ul>
                 </div>
             </div>
