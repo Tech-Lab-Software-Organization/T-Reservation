@@ -8,17 +8,14 @@
 
 <h4>Menú</h4>
 <hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create" enctype="multipart/form-data">
+
+        <form asp-action="Create" enctype="multipart/form-data" class="row g-3">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
+            <div class="form-group col-md-6">
                 <label asp-for="Producto" class="control-label"></label>
                 <input asp-for="Producto" class="form-control" />
                 <span asp-validation-for="Producto" class="text-danger"></span>
             </div>
-
-
 
             <div class="form-group col-md-7">
                 <label asp-for="Imagen" class="control-label"></label>
@@ -26,39 +23,37 @@
                 <span asp-validation-for="Imagen" class="text-danger"></span>
             </div>
             <div class="form-group col-7">
-                <img id="imagenPrevia" src="~/img/default.jpg" alt="Vista previa de la imagen" style="max-width: 200px; max-height: 200px;">
+                <img id="imagenPrevia" src="~/img/default.jpg" alt="Vista previa de la imagen" style="max-width: 220px; max-height: 220px;">
             </div>
 
 
-            <div class="form-group">
+            <div class="form-group col-md-6 ">
                 <label asp-for="Descripcion" class="control-label"></label>
-                <input asp-for="Descripcion" class="form-control" />
+                <textarea asp-for="Descripcion" class="form-control"></textarea>
                 <span asp-validation-for="Descripcion" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="NotaEspecial" class="control-label"></label>
+            <div class="form-group col-md-6">
+                <label asp-for="NotaEspecial" class="control-label"> Nota Especial</label>
                 <input asp-for="NotaEspecial" class="form-control" />
                 <span asp-validation-for="NotaEspecial" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group col-md-4">
                 <label asp-for="Precio" class="control-label"></label>
                 <input asp-for="Precio" class="form-control" />
                 <span asp-validation-for="Precio" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="RestauranteId" class="control-label"></label>
+            <div class="form-group col-md-8">
+                <label asp-for="RestauranteId" class="control-label">Restaurante</label>
                 <select asp-for="RestauranteId" class ="form-control" asp-items="ViewBag.RestauranteId"></select>
             </div>
+            <br />
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Create" class="btn btn-outline-dark" />
+                <a asp-action="Index" class="btn btn-outline-secondary">Cancelar</a>
             </div>
         </form>
-    </div>
-</div>
 
-<div>
-    <a asp-action="Index">Cancelar</a>
-</div>
+
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
