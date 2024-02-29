@@ -10,13 +10,32 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Edit">
+        <form asp-action="Edit" >
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
             <div class="form-group">
                 <label asp-for="Nombre" class="control-label"></label>
                 <input asp-for="Nombre" class="form-control" />
                 <span asp-validation-for="Nombre" class="text-danger"></span>
+            </div>
+             <div class="form-group col-md-7">
+                <label asp-for="Imagen" class="control-label"></label>
+
+                <input type="file" id="fileImagen" onchange="mostrarVistaPrevia()" accept="image/*" asp-for="Imagen" class="form-control" />
+                <span asp-validation-for="Imagen" class="text-danger"></span>
+            </div>
+
+            <div class="col-7">
+                @if (Model.Imagen != null && Model.Imagen.Length > 0)
+                {
+                    <!-- Muestra la imagen actual si existe -->
+                    <img class="bloque d mx-auto redondeado" src="data:image/jpg;base64,@(Convert.ToBase64String(Model.Imagen))" width="95" height="95">
+                }
+                else
+                {
+                    <!-- Muestra una imagen predeterminada si no hay imagen actual -->
+                    <img id="imagenPrevia" src="~/img/default.jpg" alt="Vista previa de la imagen" style="max-width: 200px; max-height: 200px;">
+                }
             </div>
             <div class="form-group">
                 <label asp-for="Descripcion" class="control-label"></label>
@@ -34,16 +53,27 @@
                 <span asp-validation-for="EmpleadoId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+              <input type="submit" value="Crear" class="btn btn-outline-info" />
+                <a asp-action="Index" class="btn btn-outline-dark">cancelar</a>
+
             </div>
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Cancelar</a>
-</div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        function mostrarVistaPrevia() {
+            var input = document.getElementById('fileImagen');
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    document.getElementById('imagenPrevia').src = e.target.result;
+                }
+                reader.readAsDataURL(input.files[0]); // Convierte el archivo a una URL base64
+            }
+        }
+    </script>
 }

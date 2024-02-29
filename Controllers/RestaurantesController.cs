@@ -94,35 +94,41 @@ namespace T_Reservation.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Nombre,Descripcion,Direccion,EmpleadoId")] Restaurante restaurante)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Nombre,Descripcion,Direccion,EmpleadoId")] Restaurante restaurante, IFormFile imagen)
         {
             if (id != restaurante.Id)
             {
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
+            if (imagen != null && imagen.Length > 0)
             {
-                try
+
+                using (var memoryStream = new MemoryStream())
                 {
-                    _context.Update(restaurante);
-                    await _context.SaveChangesAsync();
+                    await imagen.CopyToAsync(memoryStream);
+                    restaurante.Imagen = memoryStream.ToArray();
                 }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!RestauranteExists(restaurante.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
+                _context.Update(restaurante);
+                await _context.SaveChangesAsync();
             }
-            ViewData["EmpleadoId"] = new SelectList(_context.Empleados, "Id", "Nombre", restaurante.EmpleadoId);
-            return View(restaurante);
+
+            else
+            {
+                var registroFind = await _context.Restaurantes.FirstOrDefaultAsync(s => s.Id == restaurante.Id);
+
+                if (registroFind?.Imagen?.Length > 0)
+                    restaurante.Imagen = registroFind.Imagen;
+
+                registroFind.Nombre = restaurante.Nombre;
+                registroFind.Descripcion = restaurante.Descripcion;
+                registroFind.Direccion = restaurante.Direccion;
+
+                _context.Update(registroFind);
+                await _context.SaveChangesAsync();
+            }
+            return RedirectToAction(nameof(Index));
+
         }
 
         // GET: Restaurantes/Delete/5
@@ -162,6 +168,8 @@ namespace T_Reservation.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
+
+        
 
         private bool RestauranteExists(int id)
         {
