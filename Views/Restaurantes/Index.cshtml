@@ -16,6 +16,9 @@
                 @Html.DisplayNameFor(model => model.Nombre)
             </th>
             <th>
+                @Html.DisplayNameFor(model => model.Imagen)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.Descripcion)
             </th>
             <th>
@@ -33,6 +36,13 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Nombre)
             </td>
+                <td>
+                    @if (item.Imagen != null && item.Imagen.Length > 0)
+                    {
+                        <img class="bloque d mx-auto redondeado" src="data:image/jpg;base64,@(Convert.ToBase64String(item.Imagen))" style="max-width: 100px; max-height: 100px;">
+                    }
+
+                </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Descripcion)
             </td>
