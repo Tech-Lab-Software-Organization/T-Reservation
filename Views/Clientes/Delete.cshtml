@@ -6,9 +6,8 @@
 
 <h1>Eliminar</h1>
 
-<h3>¿Estas suguro que quieres eliminar el elemento?</h3>
+<h6 class="text-success">¿Estas suguro que quieres eliminar el elemento?</h6>
 <div>
-    <h4>Cliente</h4>
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
@@ -63,7 +62,7 @@
     
     <form asp-action="Delete">
         <input type="hidden" asp-for="Id" />
-        <input type="submit" value="Eliminar" class="btn btn-danger" /> |
-        <a asp-action="Index">Cancelar</a>
+        <input type="submit" value="Eliminar" class="btn btn-outline-danger" /> 
+        <a class="btn btn-outline-danger" asp-action="Index">Cancelar</a>
     </form>
 </div>
