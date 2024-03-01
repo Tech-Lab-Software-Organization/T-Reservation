@@ -8,9 +8,9 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/T_Reservation.styles.css" asp-append-version="true" />
 </head>
-<body>
+<body style="background-color: #daf0ff;">
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm border-bottom box-shadow mb-3 navbar-light" style="background-color: #6980ad;">
             <div class="container-fluid">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">T-Reservation</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
@@ -40,7 +40,7 @@
                         <li class="nav-item">
                             <a class="nav-link" asp-area="" asp-controller="Login" asp-action="Index">Iniciar Sesion</a>
                         </li>
-                        <li style="font-family: 'Press Start 2P', sans-serif;">@(TempData["UsuarioCorreo"] as string)</li>
+                        <li>@(TempData["UsuarioCorreo"] as string)</li>
                     </ul>
                 </div>
             </div>
