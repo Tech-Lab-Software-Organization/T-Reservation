@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace T_Reservation.Models
@@ -27,6 +28,7 @@ namespace T_Reservation.Models
         
         public string Disponibilidad { get; set; }
 
+        [DisplayName("Restaurante")]
         [ForeignKey("RestauranteId")]
         public int RestauranteId { get; set; }
         public Restaurante Restaurante { get; set; }
