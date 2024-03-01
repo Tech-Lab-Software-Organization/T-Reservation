@@ -3,12 +3,15 @@
 @{
     ViewData["Title"] = "Eliminar";
 }
+<div class="card">
+    <div class="card-body" >
+<h1 class="card-title">Eliminar registro</h1>
+<br />
 
-<h1>Eliminar registro</h1>
-
-<h6 class="text-success">¿Esta seguro de que quiere eliminar la mesa?</h6>
+<h6 class="text-danger">¿Esta seguro de que quiere eliminar la mesa?</h6>
+<br />
 <div>
-    <hr />
+
     <dl class="row">
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Numero)
@@ -47,4 +50,6 @@
         <input class="btn btn-outline-danger" type="submit" value="Eliminar"/> 
         <a class="btn btn-outline-danger" asp-action="Index">Cancelar</a>
     </form>
+</div>
+    </div>
 </div>

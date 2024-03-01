@@ -3,10 +3,10 @@
 @{
     ViewData["Title"] = "Crear";
 }
+<div class="card">
+    <div class="card-body">
+<h1 class="card-title">Registrar mesa</h1>
 
-<h1>Registrar mesa</h1>
-
-<hr />
 <div class="row">
     <div class="col-md-12">
         <form asp-action="Create" class="row g-3">
@@ -50,3 +50,5 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
+    </div>
+</div>
