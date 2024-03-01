@@ -7,7 +7,7 @@
 <h1>Reservaciones</h1>
 
 <p>
-    <a asp-action="Create">Nueva reserva</a>
+    <a asp-action="Create" class="btn btn-outline-dark">Nueva Reserva</a>
 </p>
 <table class="table">
     <thead>
@@ -55,9 +55,9 @@
                 @Html.DisplayFor(modelItem => item.FechaFin)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Editar</a> 
-                <a asp-action="Details" asp-route-id="@item.Id">Detalles</a> 
-                <a asp-action="Delete" asp-route-id="@item.Id">Eliminar</a>
+                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-outline-dark">Editar</a>
+                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-outline-secondary">Detalles</a>
+                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-outline-danger">Eliminar</a>
             </td>
         </tr>
 }
