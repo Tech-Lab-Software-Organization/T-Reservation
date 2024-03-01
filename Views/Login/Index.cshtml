@@ -5,7 +5,9 @@
 }
 
 <h2>@ViewBag.Title</h2>
-
+<head>
+    <link rel="stylesheet" href="~/css/login.css">
+</head>
 @using (Html.BeginForm("Index", "Login", FormMethod.Post))
 {
     @Html.AntiForgeryToken()
