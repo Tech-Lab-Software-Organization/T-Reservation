@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 using T_Reservation.Models;
 
@@ -6,27 +7,42 @@ namespace T_Reservation.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly ApplicationDbContext _context;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ApplicationDbContext context)
         {
-            _logger = logger;
+            _context = context;
         }
 
-        public IActionResult Index()
+
+        public async Task<IActionResult> CatalogoMenu()
         {
-            return View();
+            var applicationDbContext = _context.Menu.Include(m => m.Restaurante);
+            return View(await applicationDbContext.ToListAsync());
         }
 
-        public IActionResult Privacy()
+        public async Task<IActionResult> VerMas(int? id)
         {
-            return View();
+            if (id == null || _context.Menu == null)
+            {
+                return NotFound();
+            }
+
+            var menu = await _context.Menu
+                .Include(m => m.Restaurante)
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (menu == null)
+            {
+                return NotFound();
+            }
+
+            return View(menu);
         }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
+        private bool MenuExists(int id)
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            return _context.Menu.Any(e => e.Id == id);
         }
+
     }
 }
