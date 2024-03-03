@@ -1,13 +1,13 @@
 ﻿@model T_Reservation.Models.Cliente
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Registrar Cliente";
 }
+<div class="card">
+    <div class="card-body">
 
-<h1>Crear</h1>
+<h1 class="card-title">Cliente</h1>
 
-<h4>Cliente</h4>
-<hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
@@ -52,16 +52,16 @@
                 <select asp-for="RestauranteId" class ="form-control" asp-items="ViewBag.RestauranteId"></select>
             </div>
             <div class="form-group">
-                <input type="submit" value="Crear" class="btn btn-primary" />
+                <input type="submit" value="Crear" class="btn btn-secondary" />
+                        <a asp-action="Index" class="btn btn-danger">Cancelar</a>
             </div>
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Cancelar</a>
-</div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
+    </div>
+</div>
