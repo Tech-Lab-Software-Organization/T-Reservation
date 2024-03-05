@@ -3,15 +3,16 @@
 @{
     ViewData["Title"] = "Index";
 }
-
-<h1>Menú</h1>
+<div class="card">
+    <div class="card-body">
+<h1 class="card-title">Menú</h1>
 
 <p>
-    <a asp-action="Create" class="btn btn-outline-dark">Nuevo Menú</a>
+<a asp-action="Create" class="btn btn-secondary">Nuevo Menú</a>
 </p>
-<table class="table">
+<table class="table table-bordered table-sm">
     <thead>
-        <tr>
+ <tr class="table-dark">
             <th>
                 @Html.DisplayNameFor(model => model.Producto)
             </th>
@@ -59,13 +60,16 @@
                     @Html.DisplayFor(modelItem => item.Restaurante.Nombre)
                 </td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-outline-dark" >Editar</a>
-                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-outline-secondary">Detalles</a>
-                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-outline-danger">Eliminar</a>
-                    <a asp-action="DeleteImagen" asp-route-id="@item.Id" class="btn btn-outline-danger">Eliminar Imagen</a>
+                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-secondary" >Editar</a>
+                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-secondary">Detalles</a>
+                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">Eliminar</a>
+                    <a></a>
+                    <a asp-action="DeleteImagen" asp-route-id="@item.Id" class="btn btn-danger">Eliminar Imagen</a>
                 </td>
         </tr>
 
 }
     </tbody>
 </table>
+</div>
+</div>
