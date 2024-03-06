@@ -9,45 +9,45 @@
 <h1 class="card-title">Crear empleado</h1>
 
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-12">
         <form asp-action="Create" enctype="multipart/form-data" class="row g-3">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
+            <div class="form-group col-md-6">
                 <label asp-for="Nombre" class="control-label"></label>
                 <input asp-for="Nombre" class="form-control" />
                 <span asp-validation-for="Nombre" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group col-md-6">
                 <label asp-for="Dui" class="control-label"></label>
                 <input asp-for="Dui" class="form-control" />
                 <span asp-validation-for="Dui" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group col-md-6">
                 <label asp-for="FechaNacimiento" class="control-label">Fecha de Nacimiento</label>
                 <input asp-for="FechaNacimiento" class="form-control" />
                 <span asp-validation-for="FechaNacimiento" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group col-md-6">
                 <label asp-for="Direccion" class="control-label">Dirreción</label>
                 <input asp-for="Direccion" class="form-control" />
                 <span asp-validation-for="Direccion" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group col-md-7">
                 <label asp-for="Correo" class="control-label"></label>
                 <input asp-for="Correo" class="form-control" />
                 <span asp-validation-for="Correo" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group col-md-5">
                 <label asp-for="Telefono" class="control-label">Teléfono</label>
                 <input asp-for="Telefono" class="form-control" />
                 <span asp-validation-for="Telefono" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group col-md-7">
                 <label asp-for="Rol" class="control-label"></label>
                 <input asp-for="Rol" class="form-control" />
                 <span asp-validation-for="Rol" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group col-md-5">
                 <label asp-for="Password" class="control-label">Contraseña</label>
                 <input asp-for="Password" class="form-control" />
                 <span asp-validation-for="Password" class="text-danger"></span>
@@ -59,6 +59,7 @@
     </div>
 </div>
 
+    <br/>
 <div>
     <a asp-action="Index" class="btn btn-outline-danger">Cancelar</a>
 </div>
