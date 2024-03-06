@@ -4,13 +4,15 @@
     ViewData["Title"] = "Delete";
 }
 
-<h1>Eliminar Reserva</h1>
+<div class="card"> 
+    <div class="card-body">
 
-<div class="container">
-    <div class="card border-secundary mb-3">
-        <div class="card-body">
-            <h3>¿Está Seguro Que Desea Eliminar Esta Reserva?</h3>
-            <hr />
+<h1 class="card-title">Eliminar Reserva</h1>
+
+
+
+            <h5 class="card-text text-danger">¿Está Seguro Que Desea Eliminar Esta Reserva?</h5>
+        <br />
             <dl class="row">
                 <dt class="col-md-4">
                     @Html.DisplayNameFor(model => model.Cliente)
@@ -49,19 +51,22 @@
                     @Html.DisplayFor(model => model.FechaFin)
                 </dd>
             </dl>
-        </div>
-        <div class="card-footer d-flex justify-content-end">
+       
+        <div>
             <form asp-action="Delete">
                 <input type="hidden" asp-for="Id" />
-                <button type="submit" class="btn btn-outline-danger me-3">Eliminar</button>
+                <button type="submit" class="btn btn-danger">Eliminar</button>
+            <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
             </form>
-            <a asp-action="Index" class="btn btn-outline-secondary">Regresar</a>
-        </div>
-    </div>
-</div>
+            
+      
+
 
 @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
 }
+        </div>
+    </div>
+</div>
