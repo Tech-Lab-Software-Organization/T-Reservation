@@ -1,0 +1,24 @@
+﻿@{
+	ViewBag.Title = "IndexHome";
+	Layout = "~/Views/Shared/_LayoutLogin.cshtml";
+}
+
+
+
+<h1>Bienvenidos a T-Reservation</h1>
+
+<h2>Crea Una Cuenta Para Registrar un Restaurante</h2>
+<div>
+	<a asp-area="" asp-controller="Empleados" asp-action="create">Registrarse</a>
+</div>
+
+
+	<h2>Crea Una Cuenta Para Registrarte Como Usuario</h2>
+	<div>
+	<a asp-area="" asp-controller="Clientes" asp-action="create">Registrarse</a>
+	</div>
+
+	<h2>Inicia Sesion</h2>
+<div>
+	<a asp-area="" asp-controller="Login" asp-action="Index">Iniciar Sesion</a>
+</div>

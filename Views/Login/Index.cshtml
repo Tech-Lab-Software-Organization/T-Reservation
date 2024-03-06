@@ -2,7 +2,9 @@
 
 @{
     ViewBag.Title = "Inicio de Sesión";
+    Layout = "~/Views/Shared/_LayoutLogin.cshtml";
 }
+
 
 <h2>@ViewBag.Title</h2>
 <head>
@@ -25,6 +27,8 @@
     </div>
 
     <button type="submit" class="btn btn-primary">Iniciar Sesión</button>
+    <p>¿No tienes una cuenta? <a href="@Url.Action("Registrar","Accesos")">Regístrate</a></p>
+
 }
 
 @if (!ViewData.ModelState.IsValid)

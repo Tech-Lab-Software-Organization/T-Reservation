@@ -21,6 +21,12 @@ namespace T_Reservation.Controllers
             return View(await applicationDbContext.ToListAsync());
         }
 
+        [HttpGet]
+        public ActionResult IndexHome()
+        {
+            return View();
+        }
+
         public async Task<IActionResult> VerMas(int? id)
         {
             if (id == null || _context.Menu == null)

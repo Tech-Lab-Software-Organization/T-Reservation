@@ -42,5 +42,6 @@ namespace T_Reservation.Models
         public string Password { get; set; }
 
         public ICollection<Restaurante> Restaurante { get; set; }
+       
     }
 }

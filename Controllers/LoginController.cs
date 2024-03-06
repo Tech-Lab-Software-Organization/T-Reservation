@@ -7,10 +7,12 @@ namespace T_Reservation.Controllers
     public class LoginController : Controller
     {
         private readonly ApplicationDbContext _contexto;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public LoginController(ApplicationDbContext contexto)
+        public LoginController(ApplicationDbContext contexto, IHttpContextAccessor httpContextAccessor)
         {
             _contexto = contexto;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         [HttpGet]
@@ -27,22 +29,30 @@ namespace T_Reservation.Controllers
                 return View(model); 
             }
 
-           
-            var nombreUsuario = _contexto.ValidarLogin(model.Correo, model.Password);
 
-            if (nombreUsuario != null)
+            var cliente = _contexto.Clientes.FirstOrDefault(c => c.Correo == model.Correo && c.Passaword == model.Password);
+            var empleado = _contexto.Empleados.FirstOrDefault(e => e.Correo == model.Correo && e.Password == model.Password);
+
+            if (cliente != null)
             {
-                //SI FURULA
-                TempData["UsuarioCorreo"] = model.Correo;
-                return RedirectToAction("Index", "Home");
+                _httpContextAccessor.HttpContext.Session.SetString("UsuarioCorreo", model.Correo);
+                return RedirectToAction("CatalogoRestaurante", "Home");
+                
+            }
+            else if (empleado != null)
+            {
+
+                _httpContextAccessor.HttpContext.Session.SetString("UsuarioCorreo", model.Correo);
+                return RedirectToAction("Index", "Restaurantes");
             }
             else
             {
-                // NO FURULA
                 ModelState.AddModelError(string.Empty, "El correo o la contraseña son incorrectos.");
                 return View(model);
             }
         }
+
+       
 
 
     }

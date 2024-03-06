@@ -9,7 +9,8 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 options.UseSqlServer(builder.Configuration.GetConnectionString("conn")));
 
-
+builder.Services.AddHttpContextAccessor(); 
+builder.Services.AddSession();
 
 var app = builder.Build();
 
@@ -28,9 +29,11 @@ app.UseRouting();
 
 app.UseAuthorization();
 
+app.UseSession();
+
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=CatalogoMenu}/{id?}");
+    pattern: "{controller=Home}/{action=IndexHome}/{id?}");
 
 app.Run();
 
