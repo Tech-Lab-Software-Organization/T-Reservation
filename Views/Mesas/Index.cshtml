@@ -51,7 +51,7 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Restaurante.Nombre)
             </td>
-            <td>
+            <td class="btn-group-vertical">
                         <a class="mb3 btn btn-secondary" asp-action="Edit" asp-route-id="@item.Id">Editar</a>
                         <a class="mb3 btn btn-secondary" asp-action="Details" asp-route-id="@item.Id">Detalles</a>
                         <a class="mb3 btn btn-danger" asp-action="Delete" asp-route-id="@item.Id">Eliminar</a>

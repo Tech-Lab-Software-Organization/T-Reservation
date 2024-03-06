@@ -41,13 +41,13 @@
             @Html.DisplayNameFor(model => model.Restaurante)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Restaurante.Descripcion)
+            @Html.DisplayFor(model => model.Restaurante.Nombre)
         </dd>
     </dl>
     
     <form asp-action="Delete">
         <input type="hidden" asp-for="Id" />
-        <input class="btn btn-danger" type="submit" value="Eliminar"/> 
+        <input class="btn btn-danger" type="submit" value="Eliminar"/> |
         <a class="btn btn-danger" asp-action="Index">Cancelar</a>
     </form>
 </div>
