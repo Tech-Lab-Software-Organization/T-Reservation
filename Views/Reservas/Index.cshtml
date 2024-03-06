@@ -56,8 +56,8 @@
             <td>
                 @Html.DisplayFor(modelItem => item.FechaFin)
             </td>
-            <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-secondary">Editar</a>
+            <td class="btn-group-vertical">
+                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-dark">Editar</a>
                     <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-secondary">Detalles</a>
                     <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">Eliminar</a>
             </td>
