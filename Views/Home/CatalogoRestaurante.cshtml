@@ -15,20 +15,16 @@
         <div class="col-md-4">
             <div class="card mb-4">
                 <div class="card-body">
-                    <img class="rounded mx-auto d-block" src="data:image/jpg;base64,@(Convert.ToBase64String(item.Imagen))" width="95" height="95" />
-                    <h5 class="card-title">@item.Nombre</h5>
-                    <p class="card-text">
-                        <strong>Descripción:</strong> @item.Descripcion <br />
-                        <strong>Dirección:</strong> @item.Direccion <br />
-
-                    </p>
-                    <div class="text-right">
-
-                        <a href="@Url.Action("VerMasR", new { id = item.Id })" class="btn btn-outline-dark">Ver más</a>
+                    <img class="rounded mx-auto d-block" src="data:image/jpg;base64,@(Convert.ToBase64String(item.Imagen))" width="200" height="200" />
+                    <h5 class="text-center">@item.Nombre</h5>   
+                    
+                 <br />
+                 <div class="d-flex justify-content-center">
+                        <a href="@Url.Action("VerMasR", new { id = item.Id })" class="btn btn-dark" >Ver más</a>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
     }
 </div>
 
