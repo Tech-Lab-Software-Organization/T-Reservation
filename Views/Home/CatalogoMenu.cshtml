@@ -11,24 +11,7 @@
 <div class="row">
     @foreach (var item in Model)
     {
-        <div class="col-md-4">
-            <div class="card mb-4">
-                <div class="card-body">
-                    <img class="rounded mx-auto d-block" src="data:image/jpg;base64,@(Convert.ToBase64String(item.Imagen))" width="200" height="200" />
-                    <h5 class="text-center">@item.Producto</h5>
-                    <p class="text-center">
-                        <strong>Nota Especial:</strong> @item.NotaEspecial <br />
-                        <strong>Precio:</strong> @item.Precio <br />
-
-                    </p>
-                    <div class="d-flex justify-content-center">
-                       
-                        <a href="@Url.Action("VerMas", new { id = item.Id })" class="btn btn-dark">Ver más</a>
-                    </div>
-                  
-                </div>
-            </div>
-        </div>
+       
     }
 </div>
 

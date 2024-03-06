@@ -53,16 +53,13 @@
                 <span asp-validation-for="Password" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Crear nuevo empleado" class="btn btn-outline-info" />
+                <input type="submit" value="Crear nuevo empleado" class="btn btn-dark" />
+
             </div>
         </form>
     </div>
 </div>
 
-    <br/>
-<div>
-    <a asp-action="Index" class="btn btn-outline-danger">Cancelar</a>
-</div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
