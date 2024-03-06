@@ -172,24 +172,7 @@ namespace T_Reservation.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
-        public async Task<IActionResult> DeleteImagen(int? id)
-        {
-            // Busca el registro en la base de datos utilizando el ID proporcionado
-            var datosFind = await _context.Menu.FirstOrDefaultAsync(s => s.Id == id);
-
-            // Establece el campo Imagen del registro encontrado como null
-            datosFind.Imagen = null;
-
-            // Actualiza el registro en el contexto de la base de datos
-            _context.Update(datosFind);
-
-            // Guarda los cambios en la base de datos
-            await _context.SaveChangesAsync();
-
-            // Redirige al usuario a la acción Index para mostrar la lista de registros actualizada
-            return RedirectToAction(nameof(Index));
-
-        }
+        
         private bool MenuExists(int id)
         {
           return _context.Menu.Any(e => e.Id == id);
