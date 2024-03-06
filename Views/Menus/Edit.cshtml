@@ -3,11 +3,12 @@
 @{
     ViewData["Title"] = "Edit";
 }
+<div class="card">
+    <div class="card-body">
 
-<h1>Editar</h1>
+<h1 class="card-title">Editar producto</h1>
 
-<h4>Menu</h4>
-<hr />
+
 
 <form asp-action="Edit" enctype="multipart/form-data" class="row g-3">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -59,8 +60,8 @@
             </div>
             <br />
             <div class="form-group">
-                <input type="submit" value="Guardar" class="btn btn-outline-dark" />
-                <a asp-action="Index" class="btn btn-outline-secondary">Cancelar</a>
+                <input type="submit" value="Guardar" class="btn btn-dark" />
+                <a asp-action="Index" class="btn btn-danger">Cancelar</a>
 
             </div>
         </form>
@@ -83,3 +84,5 @@
         }
     </script>
 }
+    </div>
+</div>

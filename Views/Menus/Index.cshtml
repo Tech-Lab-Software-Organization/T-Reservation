@@ -8,7 +8,7 @@
 <h1 class="card-title">Menú</h1>
 
 <p>
-<a asp-action="Create" class="btn btn-secondary">Nuevo Menú</a>
+<a asp-action="Create" class="btn btn-dark">Agregar producto</a>
 </p>
 <table class="table table-bordered table-sm">
     <thead>
@@ -60,7 +60,7 @@
                     @Html.DisplayFor(modelItem => item.Restaurante.Nombre)
                 </td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-secondary" >Editar</a>
+                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-dark" >Editar</a>
                     <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-secondary">Detalles</a>
                     <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">Eliminar</a>
                     <a></a>
