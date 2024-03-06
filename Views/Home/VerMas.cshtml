@@ -4,11 +4,13 @@
     ViewData["Title"] = "VerMas";
 }
 
-<h1>Detalles</h1>
+<div class="card">
+    <div class="card-body">
+<h1 class="card-title">Detalles</h1>
 
 <div>
     <h4>Menú</h4>
-    <hr />
+
     <dl class="row">
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Producto)
@@ -54,4 +56,6 @@
 <div>
     <a asp-action="Edit" asp-route-id="@Model?.Id"></a>
     <a asp-action="CatalogoMenu" class="btn btn-outline-secondary">Regresar</a>
+</div>
+    </div>
 </div>
