@@ -1,0 +1,32 @@
+﻿.card-custom {
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: transform 0.3s ease-in-out;
+}
+
+    .card-custom:hover {
+        transform: translateY(-5px);
+    }
+
+    .card-custom .card-img-center {
+        height: 200px; /* Altura de la imagen */
+        width: auto;
+    }
+
+    .card-custom .card-title {
+        color: #333;
+        font-size: 24px;
+        font-weight: bold;
+        margin-top: 1rem;
+    }
+
+    .card-custom .card-body {
+        padding: 1.5rem;
+    }
+
+    .card-custom .btn-custom {
+        font-size: 24px; /* Cambia el valor aquí */
+        padding: 1rem; /* Cambia el valor aquí */
+    }

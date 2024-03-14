@@ -12,17 +12,50 @@ namespace T_Reservation.Controllers
     public class MenusController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public MenusController(ApplicationDbContext context)
+        public MenusController(ApplicationDbContext context, IHttpContextAccessor httpContextAccessor)
         {
             _context = context;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         // GET: Menus
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Menu.Include(m => m.Restaurante);
-            return View(await applicationDbContext.ToListAsync());
+            var usuarioRol = _httpContextAccessor.HttpContext.Session.GetString("UsuarioRol");
+
+            if (usuarioRol == "Administrador" || usuarioRol == "Cliente")
+            {
+
+                var applicationDbContext = _context.Menu.Include(m => m.Restaurante);
+                return View(await applicationDbContext.ToListAsync());
+            }
+
+
+            else if (usuarioRol == "Empleado")
+            {
+                int usuarioId = _httpContextAccessor.HttpContext.Session.GetInt32("UsuarioId") ?? default(int);
+                var empleado = await _context.Empleados.FirstOrDefaultAsync(e => e.Id == usuarioId);
+
+                
+                 var menus = await _context.Menu
+                .Include(m => m.Restaurante) 
+                .Where(m => m.Restaurante.EmpleadoId == usuarioId)
+                .ToListAsync();
+
+               
+                foreach (var menu in menus)
+                {
+                    Console.WriteLine($"Menu ID: {menu.Id}, Restaurant Name: {menu.Restaurante.Nombre}");
+                }
+
+                return View(menus); 
+
+            }
+
+            
+            return RedirectToAction("Index", "Login");
         }
 
         // GET: Menus/Details/5

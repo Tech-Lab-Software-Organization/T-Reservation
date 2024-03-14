@@ -2,7 +2,6 @@
 
 @{
     ViewData["Title"] = "Cliente";
-    Layout = "~/Views/Shared/_LayoutCliente.cshtml";
 }
 
 <div class="card">
@@ -37,9 +36,6 @@
             <th>
                 @Html.DisplayNameFor(model => model.Passaword)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Restaurante)
-            </th>
             <th></th>
         </tr>
     </thead>
@@ -66,9 +62,6 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Passaword)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Restaurante.Nombre)
             </td>
              <td class="btn-group-vertical" >
                         <a class="mb3 btn btn-dark" asp-action="Edit" asp-route-id="@item.Id">Editar</a>

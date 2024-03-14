@@ -2,16 +2,25 @@
 
 @{
     ViewData["Title"] = "Index";
-    Layout = "~/Views/Shared/_LayoutEmpleado.cshtml";
 
 
 }
+
+@{
+    var httpContext = ViewContext.HttpContext;
+    var usuarioRol = httpContext.Session.GetString("UsuarioRol");
+}
+
 <div class="card">
     <div class="card-body">
 <h1 class="card-title">Menú</h1>
 
 <p>
+            @if (usuarioRol == "Administrador" || usuarioRol == "Dueño" || usuarioRol == "Empleado")
+                            
+                            {
 <a asp-action="Create" class="btn btn-dark">Agregar producto</a>
+                            }
 </p>
 <table class="table table-bordered table-sm">
     <thead>
@@ -63,11 +72,20 @@
                     @Html.DisplayFor(modelItem => item.Restaurante.Nombre)
                 </td>
                  <td class="btn-group-vertical">
+                            @if (usuarioRol == "Administrador" || usuarioRol == "Dueño" || usuarioRol == "Empleado")
+                            {
                     <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-dark" >Editar</a>
-                   
+                            }
+                            @if (usuarioRol == "Administrador" || usuarioRol == "Dueño" || usuarioRol == "Empleado")
+
+                            {
                     <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-secondary">Detalles</a>
+                            }
+                            @if (usuarioRol == "Administrador" || usuarioRol == "Empleado")
+
+                                {
                     <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">Eliminar</a>
-                  
+                                }
                    
                 </td>
         </tr>

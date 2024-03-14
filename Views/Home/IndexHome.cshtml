@@ -2,25 +2,40 @@
 	ViewBag.Title = "IndexHome";
 	Layout = "~/Views/Shared/_LayoutLogin.cshtml";
 }
-<div class="card  text-center" >
+
+<head>
+	<link rel="stylesheet" href="~/css/loginhome.css">
+</head>
+
 	<h1 class="card-footer"  style="background-color:lavenderblush" >Bienvenidos a T-Reservation</h1>
-	<div class="card-body">
-		
-
-<h5>Crea Una Cuenta Para Registrar un Restaurante</h5>
-<div>
-	<a asp-area="" class="btn btn-dark" asp-controller="Empleados" asp-action="create">Registrarse</a>
-</div>
-
-
-	<h5>Crea Una Cuenta Para Registrarte Como Usuario</h5>
-	<div>
-	<a asp-area="" class="btn btn-dark" asp-controller="Clientes" asp-action="create">Registrarse</a>
-	</div>
-
-	<h5>Inicia Sesion</h5>
-<div>
-	<a asp-area="" class="btn btn-dark" asp-controller="Login" asp-action="Index">Iniciar Sesion</a>
-</div>
-</div>
+<div class="container text-center" style="margin-top: 3rem;">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card card-custom">
+                <img class="card-img-center" src="~/img/2.png" alt="Imagen de Restaurante">
+                <div class="card-body">
+                    <h5 class="card-title">Crea una cuenta de Restaurante</h5>
+                    <a asp-area="" class="btn btn-dark btn-block btn-custom" asp-controller="Empleados" asp-action="create">Registrar Empleado</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card card-custom">
+                <img class="card-img-center" src="~/img/3.png" alt="Imagen de Iniciar Sesion">
+                <div class="card-body">
+                    <h5 class="card-title">Inicia Sesion</h5>
+                    <a asp-area="" class="btn btn-dark btn-block btn-custom" asp-controller="Login" asp-action="Index">Iniciar Sesion</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card card-custom">
+                <img class="card-img-center" src="~/img/1.png" alt="Imagen de Cliente">
+                <div class="card-body">
+                    <h5 class="card-title">Crea una cuenta de Cliente</h5>
+                    <a asp-area="" class="btn btn-dark btn-block btn-custom" asp-controller="Clientes" asp-action="create">Registrar Cliente</a>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

@@ -36,6 +36,8 @@ namespace T_Reservation.Controllers
             if (cliente != null)
             {
                 _httpContextAccessor.HttpContext.Session.SetString("UsuarioCorreo", model.Correo);
+                _httpContextAccessor.HttpContext.Session.SetString("UsuarioRol", "Cliente");
+                _httpContextAccessor.HttpContext.Session.SetInt32("UsuarioId", cliente.Id);
                 return RedirectToAction("CatalogoRestaurante", "Home");
                 
             }
@@ -43,6 +45,8 @@ namespace T_Reservation.Controllers
             {
 
                 _httpContextAccessor.HttpContext.Session.SetString("UsuarioCorreo", model.Correo);
+                _httpContextAccessor.HttpContext.Session.SetString("UsuarioRol", empleado.Rol);
+                _httpContextAccessor.HttpContext.Session.SetInt32("UsuarioId", empleado.Id);
                 return RedirectToAction("Index", "Restaurantes");
             }
             else

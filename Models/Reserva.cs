@@ -50,6 +50,7 @@ namespace T_Reservation.Models
         [Required(ErrorMessage = "El campo FechaFin es obligatorio.")]
         [DataType(DataType.Date)]
        public DateTime FechaFin { get; set; }
+        
 
         /*Relaccion al modelo de cliente*/
 

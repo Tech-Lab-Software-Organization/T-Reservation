@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using T_Reservation.Models;
 
 namespace T_Reservation.Controllers
@@ -53,13 +54,13 @@ namespace T_Reservation.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Nombre,Dui,FechaNacimiento,Direccion,Correo,Telefono,Rol,Password")] Empleado empleado)
+        public async Task<IActionResult> Create([Bind("Id,Nombre,Dui,FechaNacimiento,Direccion,Correo,Telefono,Rol,Password,RestauranteId")] Empleado empleado)
         {
             if (ModelState.IsValid)
             {
                 _context.Add(empleado);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", "Login");
             }
             return View(empleado);
         }
@@ -85,7 +86,7 @@ namespace T_Reservation.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Nombre,Dui,FechaNacimiento,Direccion,Correo,Telefono,Rol,Password")] Empleado empleado)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Nombre,Dui,FechaNacimiento,Direccion,Correo,Telefono,Rol,Password,RestauranteId")] Empleado empleado)
         {
             if (id != empleado.Id)
             {
@@ -155,6 +156,22 @@ namespace T_Reservation.Controllers
         private bool EmpleadoExists(int id)
         {
           return _context.Empleados.Any(e => e.Id == id);
+        }
+
+
+        public List<string> GetBotonesPorRol(string rol)
+        {
+            switch (rol)
+            {
+                case "Administrador":
+                    return new List<string>() { "Crear", "Editar", "Eliminar" };
+                case "Empleado":
+                    return new List<string>() { "Ver", "Editar" };
+                case "Dueño":
+                    return new List<string>() { "Ver", "Crear" };
+                default:
+                    return new List<string>();
+            }
         }
     }
 }

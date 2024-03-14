@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -11,18 +13,50 @@ namespace T_Reservation.Controllers
 {
     public class MesasController : Controller
     {
+        private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly ApplicationDbContext _context;
 
-        public MesasController(ApplicationDbContext context)
+        public MesasController(ApplicationDbContext context, IHttpContextAccessor httpContextAccessor)
         {
             _context = context;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         // GET: Mesas
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Mesas.Include(m => m.Restaurante);
-            return View(await applicationDbContext.ToListAsync());
+            var usuarioRol = _httpContextAccessor.HttpContext.Session.GetString("UsuarioRol");
+
+
+            if (usuarioRol == "administrador" || usuarioRol == "Cliente")
+            {
+                var applicationDbContext = _context.Mesas.Include(m => m.Restaurante);
+                return View(await applicationDbContext.ToListAsync());
+            }
+
+            else if (usuarioRol == "Empleado"){
+
+                int usuarioId = _httpContextAccessor.HttpContext.Session.GetInt32("UsuarioId") ?? default(int);
+                var cliente = await _context.Clientes.FirstOrDefaultAsync(c => c.Id == usuarioId);
+
+
+                if (cliente != null)
+                {
+                    var mesas = await _context.Mesas
+                        .Include(m => m.Restaurante)
+               .Where(m => m.Restaurante.EmpleadoId == usuarioId)
+                    .ToListAsync();
+
+
+                    foreach (var mesa in mesas)
+                    {
+                        Console.WriteLine($"Menu ID: {mesa.Id}, Restaurant Name: {mesa.Restaurante.Nombre}");
+                    }
+                    return View(mesas);
+                }
+            }
+
+            return RedirectToAction("Index", "Login");
         }
 
         // GET: Mesas/Details/5

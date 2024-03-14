@@ -3,6 +3,11 @@
 @{
     ViewData["Title"] = "Details";
 }
+@{
+    var httpContext = ViewContext.HttpContext;
+    var usuarioRol = httpContext.Session.GetString("UsuarioRol");
+
+}
 <div class="card">
 <div class="card-body">
 <h1 class="card-title">Detalle de Reserva</h1>
@@ -49,7 +54,11 @@
     
 
     <div>
+        @if (usuarioRol == "Administrador" || usuarioRol == "Cliente" )
+
+                                        {
         <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-secondary">Editar</a>
+                                        }
         <a asp-action="Index" class="btn btn-danger">Cancelar</a>
     </div>
 

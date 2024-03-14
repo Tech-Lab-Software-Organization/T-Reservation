@@ -1,5 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using System.ComponentModel;
 
 namespace T_Reservation.Models
 {
@@ -40,8 +42,8 @@ namespace T_Reservation.Models
         [StringLength(20, MinimumLength = 8, ErrorMessage = "La contraseña debe tener entre 8 y 20 caracteres")]
         [DataType(DataType.Password)]
         public string Password { get; set; }
-
+        
         public ICollection<Restaurante> Restaurante { get; set; }
-       
+
     }
 }

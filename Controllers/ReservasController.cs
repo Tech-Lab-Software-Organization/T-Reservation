@@ -12,17 +12,65 @@ namespace T_Reservation.Controllers
     public class ReservasController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public ReservasController(ApplicationDbContext context)
+        public ReservasController(ApplicationDbContext context, IHttpContextAccessor httpContextAccessor)
         {
             _context = context;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         // GET: Reservas
         public async Task<IActionResult> Index()
         {
+            var usuario = _httpContextAccessor.HttpContext.Session.GetString("UsuarioCorreo");
+            var usuarioRol = _httpContextAccessor.HttpContext.Session.GetString("UsuarioRol");
+
+
+            
+
+            if (usuarioRol == "Administrador")
+            {
             var applicationDbContext = _context.Reservas.Include(r => r.Cliente).Include(r => r.Mesa).Include(r => r.Restaurante);
             return View(await applicationDbContext.ToListAsync());
+                 }
+
+              else if (usuarioRol == "Cliente")
+             {
+                int usuarioId = _httpContextAccessor.HttpContext.Session.GetInt32("UsuarioId") ?? default(int);
+
+                // Pasar la ID del usuario a la vista
+                ViewBag.UsuarioId = usuarioId;
+                
+                var cliente = await _context.Clientes.FirstOrDefaultAsync(c => c.Id == usuarioId);
+
+                if (cliente != null)
+                {
+
+                    var reservas = await _context.Reservas.Where(r => r.ClienteId == usuarioId).Include(r => r.Cliente).Include(r => r.Mesa).Include(r => r.Restaurante).ToListAsync();
+                    return View(reservas);
+                }
+                
+                
+            }
+
+            else if (usuarioRol == "Empleado" || usuario == "Dueño")
+            {
+                int usuarioId = _httpContextAccessor.HttpContext.Session.GetInt32("UsuarioId") ?? default(int);
+                var empleado = await _context.Empleados.FirstOrDefaultAsync(e => e.Id == usuarioId);
+
+                ViewBag.UsuarioId = usuarioId;
+
+                if (empleado != null)
+                {
+                    var reservas = await _context.Reservas.Where(r => r.Restaurante.EmpleadoId == usuarioId).Include(r => r.Cliente).Include(r => r.Mesa).Include(r => r.Restaurante).ToListAsync();
+                    return View(reservas);
+                }
+                
+            }
+
+            return RedirectToAction("Index", "Login");
+        
         }
 
         // GET: Reservas/Details/5

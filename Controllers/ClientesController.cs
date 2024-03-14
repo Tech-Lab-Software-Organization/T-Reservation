@@ -21,7 +21,7 @@ namespace T_Reservation.Controllers
         // GET: Clientes
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Clientes.Include(c => c.Restaurante);
+            var applicationDbContext = _context.Clientes;
             return View(await applicationDbContext.ToListAsync());
         }
 
@@ -62,7 +62,7 @@ namespace T_Reservation.Controllers
             {
                 _context.Add(cliente);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", "Login");
             }
             ViewData["RestauranteId"] = new SelectList(_context.Restaurantes, "Id", "Nombre", cliente.RestauranteId);
             return View(cliente);
