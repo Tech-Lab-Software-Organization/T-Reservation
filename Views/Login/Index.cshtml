@@ -26,8 +26,9 @@
         @Html.ValidationMessageFor(model => model.Password)
     </div>
 
-    <button type="submit" class="btn btn-primary">Iniciar Sesión</button>
+    <button type="submit" class="btn btn-dark">Iniciar Sesión</button>
     <p>¿No tienes una cuenta? <a href="@Url.Action("IndexHome","Home")">Regístrate</a></p>
+    <a asp-area="" class="btn btn-secondary" asp-controller="Home" asp-action="IndexHome">Cancelar</a>
 
 }
 
