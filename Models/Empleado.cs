@@ -40,7 +40,6 @@ namespace T_Reservation.Models
 
         [Required(ErrorMessage = "La contraseña es obligatoria")]
         [StringLength(20, MinimumLength = 8, ErrorMessage = "La contraseña debe tener entre 8 y 20 caracteres")]
-        [DataType(DataType.Password)]
         public string Password { get; set; }
         
         public ICollection<Restaurante> Restaurante { get; set; }

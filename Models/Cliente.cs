@@ -37,7 +37,6 @@ namespace T_Reservation.Models
 
         [Required(ErrorMessage = "la contraseña es obligatoria")]
         [StringLength(20, MinimumLength =8, ErrorMessage ="La contraseña debe tener 8 y 20 caracteres.")]
-        [DataType(DataType.Password)]
         [DisplayName("Contraseña")]
         public string Passaword { get; set; }
 
