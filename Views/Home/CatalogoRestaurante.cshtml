@@ -4,13 +4,14 @@
     ViewData["Title"] = "Restaurante";
     
 }
+
 <div class="card">
     <div class="card-body">
         <h1 class="card-title text-center">🍽️ Restaurantes 🍽️</h1>
 
-        <form asp-controller="Restaurantes" asp-action="CatalogoRestaurante">
+        <form asp-controller="Home" asp-action="CatalogoRestaurante">
             <p>
-                Buscar: <input type="text" name="Buscar" class="form-text" />
+                Buscar: <input type="text" name="searchString" class="form-text" />
                 <input type="submit" value="Buscar" class="btn btn-sm btn-dark"/>
             </p>
             </form>
@@ -34,4 +35,3 @@
             </div>
     }
 </div>
-

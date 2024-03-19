@@ -51,11 +51,24 @@ namespace T_Reservation.Controllers
         }
 
 
-        public async Task<IActionResult> CatalogoRestaurante()
+        public async Task<IActionResult> CatalogoRestaurante(string searchString)
         {
+            var restaurantes = from r in _context.Restaurantes
+                               select r;
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                restaurantes = restaurantes.Where(r => r.Nombre.Contains(searchString));
+            }
+
+            
+
+            return View(await restaurantes.ToListAsync());
             var applicationDbContext = _context.Restaurantes.Include(m => m.Menus);
             return View(await applicationDbContext.ToListAsync());
         }
+
+        
 
         public async Task<IActionResult> VerMasR(int? id)
         {
