@@ -7,6 +7,13 @@
 <div class="card">
     <div class="card-body">
         <h1 class="card-title text-center">🍽️ Restaurantes 🍽️</h1>
+
+        <form asp-controller="Restaurantes" asp-action="CatalogoRestaurante">
+            <p>
+                Buscar: <input type="text" name="Buscar" class="form-text" />
+                <input type="submit" value="Buscar" class="btn btn-sm btn-dark"/>
+            </p>
+            </form>
     </div>
 </div>
 <br />
