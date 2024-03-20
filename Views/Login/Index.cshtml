@@ -5,11 +5,11 @@
     Layout = "~/Views/Shared/_LayoutLogin.cshtml";
 }
 
-
 <h2>@ViewBag.Title</h2>
 <head>
     <link rel="stylesheet" href="~/css/login.css">
 </head>
+
 @using (Html.BeginForm("Index", "Login", FormMethod.Post))
 {
     @Html.AntiForgeryToken()
@@ -20,10 +20,12 @@
         @Html.ValidationMessageFor(model => model.Correo)
     </div>
 
-    <div class="form-group">
+    <div class="form-group password-container">
         @Html.LabelFor(model => model.Password)
-        @Html.PasswordFor(model => model.Password, new { @class = "form-control" })
+        @Html.PasswordFor(model => model.Password, new { @class = "form-control", id = "password" })
         @Html.ValidationMessageFor(model => model.Password)
+
+        <i class="fas fa-eye password-toggle" id="toggle-password" onclick="togglePassword()">&#128065;</i>
     </div>
 
     <button type="submit" class="btn btn-dark">Iniciar Sesión</button>
@@ -39,3 +41,39 @@
     </div>
 }
 
+<script>
+    function togglePassword() {
+        let passwordInput = document.getElementById("password");
+        let toggleIcon = document.getElementById("toggle-password");
+
+        if (passwordInput.type === "password") {
+            passwordInput.type = "text";
+            toggleIcon.classList.add("active");
+        } else {
+            passwordInput.type = "password";
+            toggleIcon.classList.remove("active");
+        }
+    }
+</script>
+
+<style>
+    /* Style the password container for better placement of the icon */
+    .password-container {
+        position: relative;
+    }
+
+    /* Style the eye icon */
+    .password-toggle {
+        font-size: 24px;
+        position: absolute;
+        right: 20px;
+        top: 70%;
+        transform: translateY(-50%);
+        cursor: pointer;
+        color: #ccc;
+    }
+
+        .password-toggle.active {
+            color: #000;
+        }
+</style>

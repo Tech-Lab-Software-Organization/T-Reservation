@@ -33,9 +33,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.FechaNacimiento)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Passaword)
-            </th>
+            
             <th></th>
         </tr>
     </thead>
@@ -60,10 +58,7 @@
             <td>
                 @Html.DisplayFor(modelItem => item.FechaNacimiento)
             </td>
-                            <td colspan="8" class="text-center">
-                           *********
-
-            </td>
+                           
              <td class="btn-group-vertical" >
                         <a class="mb3 btn btn-dark" asp-action="Edit" asp-route-id="@item.Id">Editar</a>
                         <a class="mb3 btn btn-secondary" asp-action="Details" asp-route-id="@item.Id">Detalle</a>

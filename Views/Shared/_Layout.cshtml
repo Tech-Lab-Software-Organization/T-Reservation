@@ -72,17 +72,21 @@
                                         <a class="nav-link text-white" asp-area="" asp-controller="Restaurantes" asp-action="Index">Restaurantes</a>
                                     }
                                 </li>
+
+
+                                
                         <li class="nav-item">
 
-                            <a class="nav-link text-white" asp-area="" asp-controller="Login" asp-action="Index">Iniciar Sesion</a>
+                            <a class="nav-link text-white" asp-area="" asp-controller="Login" asp-action="Index">Cerrar Sesión</a>
                         </li>
 
-
+                        
                         @{
                             var usuarioCorreo = ViewContext.HttpContext.Session.GetString("UsuarioCorreo");
                             if (!string.IsNullOrEmpty(usuarioCorreo))
                             {
-                                <li class="text-white">@usuarioCorreo</li>
+                                
+                                <a class="nav-link text-white" asp-area="" asp-controller="" asp-action="">@usuarioCorreo</a>
                             }
                         }
                     </ul>

@@ -90,7 +90,7 @@ namespace T_Reservation.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Nombre,Dui,Telefono,Correo,Direccion,FechaNacimiento,Passaword,RestauranteId")] Cliente cliente)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Nombre,Dui,Telefono,Correo,Direccion,FechaNacimiento,RestauranteId")] Cliente cliente)
         {
             if (id != cliente.Id)
             {
@@ -101,7 +101,15 @@ namespace T_Reservation.Controllers
             {
                 try
                 {
-                    _context.Update(cliente);
+                    // Obtener el cliente original de la base de datos
+                    var originalCliente = await _context.Clientes.FindAsync(id);
+
+                    // Copiar la contraseña original al cliente que se va a actualizar
+                    cliente.Passaword = originalCliente.Passaword;
+
+                    // Actualizar el resto de las propiedades del cliente
+                    _context.Entry(originalCliente).CurrentValues.SetValues(cliente);
+
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -120,6 +128,7 @@ namespace T_Reservation.Controllers
             ViewData["RestauranteId"] = new SelectList(_context.Restaurantes, "Id", "Nombre", cliente.RestauranteId);
             return View(cliente);
         }
+
 
         // GET: Clientes/Delete/5
         public async Task<IActionResult> Delete(int? id)

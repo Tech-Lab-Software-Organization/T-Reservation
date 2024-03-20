@@ -38,7 +38,6 @@ namespace T_Reservation.Models
         [Required(ErrorMessage = "El rol es obligatorio")]
         public string Rol { get; set; }
 
-        [Required(ErrorMessage = "La contraseña es obligatoria")]
         [StringLength(20, MinimumLength = 8, ErrorMessage = "La contraseña debe tener entre 8 y 20 caracteres")]
         public string Password { get; set; }
         

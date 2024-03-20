@@ -34,9 +34,6 @@
             <th>
                 @Html.DisplayNameFor(model => model.Rol)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Password)
-            </th>
         </tr>
     </thead>
     <tbody>
@@ -63,9 +60,7 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Rol)
             </td>
-                        <td colspan="8" class="text-center">
-                ************
-            </td>
+                      
                      
                     <td class="btn-group-vertical">
                     <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-dark">Editar</a> 

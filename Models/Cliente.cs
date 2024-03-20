@@ -16,8 +16,18 @@ namespace T_Reservation.Models
         public string Nombre { get; set; }
 
         [Required(ErrorMessage = "El Dui es obligatorio")]
-        [RegularExpression("[0-9]{9}", ErrorMessage ="El dui debe tener 9 digitos")]
+        [RegularExpression("[0-9]{9}", ErrorMessage = "El DUI debe contener 9 dígitos")]
         public int Dui { get; set; }
+
+        public bool IsValidDui(int dui)
+        {
+            string duiString = dui.ToString();
+            return duiString.Length == 9 && !duiString.StartsWith("0");
+        }
+
+
+
+
         [Required(ErrorMessage = "El teléfono es obligatorio")]
         [RegularExpression("[0-9]{8}", ErrorMessage = "El teléfono debe tener 8 dígitos")]
         public int Telefono { get; set; }
@@ -35,7 +45,7 @@ namespace T_Reservation.Models
         [DisplayName("Fecha nacimineto")]
         public DateTime FechaNacimiento { get; set; }
 
-        [Required(ErrorMessage = "la contraseña es obligatoria")]
+
         [StringLength(20, MinimumLength =8, ErrorMessage ="La contraseña debe tener 8 y 20 caracteres.")]
         [DisplayName("Contraseña")]
         public string Passaword { get; set; }
