@@ -15,8 +15,17 @@ namespace T_Reservation.Controllers
         }
 
 
-        public async Task<IActionResult> CatalogoMenu()
+        public async Task<IActionResult> CatalogoMenu(string searchString)
         {
+            var menu = from m in _context.Menu
+                       select m;
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                menu = menu.Where(m => m.Producto.Contains(searchString));
+            }
+
+            return View(await menu.ToListAsync());
             var applicationDbContext = _context.Menu.Include(m => m.Restaurante);
             return View(await applicationDbContext.ToListAsync());
         }

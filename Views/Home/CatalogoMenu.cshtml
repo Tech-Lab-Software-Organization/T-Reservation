@@ -6,6 +6,12 @@
 }
 <div class="card"> <div class="card-body">
         <h1 div class="card-title text-center">🦐Menú🦐</h1>
+        <form asp-controller="Home" asp-action="CatalogoMenu">
+            <p>
+                Buscar: <input type="text" name="searchString" class="form-text" />
+                <input type="submit" value="Buscar" class="btn btn-sm btn-dark"/>
+            </p>
+            </form>
 </div>
 </div>
 <br />
