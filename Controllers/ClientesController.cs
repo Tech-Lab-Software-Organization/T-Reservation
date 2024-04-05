@@ -34,7 +34,7 @@ namespace T_Reservation.Controllers
             return View(await applicationDbContext.ToListAsync());
         }
 
-        // GET: Clientes/Details/5
+        // GET: Clientes/Details/5 Administrador
         [Authorize(Roles = "Administrador, Empleado")]
         public async Task<IActionResult> Details(int? id)
         {

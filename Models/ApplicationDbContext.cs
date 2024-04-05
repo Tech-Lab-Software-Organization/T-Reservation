@@ -19,6 +19,16 @@ namespace T_Reservation.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Empleado>().HasData(
+                new Empleado { Correo = "root@gmail.com", 
+                    Id = 1, Nombre = "root", Dui = 234555321, 
+                    FechaNacimiento = new DateTime(1990, 1, 1),
+                    Direccion="NINGUNA,NINGUNA",
+                    Telefono=22229090, 
+                    Rol = "Administrador", 
+                    Password = "25d55ad283aa400af464c76d713c07ad"
+                }
+                );
             //Configuración de la relación entre Empleado y Restaurante ( 1: M)/
             modelBuilder.Entity<Restaurante>()
                 .HasOne(r => r.Empleados)

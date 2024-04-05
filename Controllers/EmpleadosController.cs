@@ -55,6 +55,7 @@ namespace T_Reservation.Controllers
 
         public IActionResult Create()
         {
+            Empleado empleado = new Empleado();
             return View();
         }
 
@@ -64,7 +65,7 @@ namespace T_Reservation.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Administrador")]
-        public async Task<IActionResult> Create([Bind("Id,Nombre,Dui,FechaNacimiento,Direccion,Correo,Telefono,Rol,Password,RestauranteId")] Empleado empleado)
+        public async Task<IActionResult> Create([Bind("Id,Nombre,Dui,FechaNacimiento,Direccion,Correo,Telefono,Password,RestauranteId")] Empleado empleado)
         {
             empleado.Password = CalcularHashMD5(empleado.Password);
             _context.Add(empleado);

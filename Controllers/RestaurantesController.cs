@@ -22,6 +22,7 @@ namespace T_Reservation.Controllers
 
         // GET: Restaurantes
 
+  
         public async Task<IActionResult> Index()
         {
             var applicationDbContext = _context.Restaurantes.Include(r => r.Empleados);
@@ -49,7 +50,7 @@ namespace T_Reservation.Controllers
         }
 
         // GET: Restaurantes/Create
-       
+        [Authorize(Roles = "Administrador,Empleado")]
         public IActionResult Create()
         {
             ViewData["EmpleadoId"] = new SelectList(_context.Empleados, "Id", "Nombre");
@@ -61,7 +62,7 @@ namespace T_Reservation.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Administrador, Empleado")]
+        [Authorize(Roles = "Administrador,Empleado")]
         public async Task<IActionResult> Create([Bind("Id,Nombre,Descripcion,Direccion,EmpleadoId")] Restaurante restaurante, IFormFile imagen)
         {
             if (imagen != null && imagen.Length > 0)

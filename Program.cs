@@ -10,21 +10,16 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 options.UseSqlServer(builder.Configuration.GetConnectionString("conn")));
 
-builder.Services.AddAuthentication(options =>
-{
-    options.DefaultScheme = "Cookies";
-    options.DefaultChallengeScheme = "Cookies";
-})
-.AddCookie("Cookies", options =>
-{
-    options.LoginPath = "/Login/LoginC"; // Ruta de inicio de sesión para clientes
-    options.AccessDeniedPath = "/Login/LoginC"; // Ruta de acceso denegado para clientes
-})
-.AddCookie("EmpleadoAuthenticationScheme", options =>
-{
-    options.LoginPath = "/Login/LoginE"; // Ruta de inicio de sesión para empleados
-    options.AccessDeniedPath = "/Login/LoginE"; // Ruta de acceso denegado para empleados
-});
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
+    {
+        options.LoginPath = new PathString("/Usuarios/login");
+        options.AccessDeniedPath = new PathString("/Usuarios/login");
+        options.ExpireTimeSpan = TimeSpan.FromHours(8);
+        options.SlidingExpiration = true;
+        options.Cookie.HttpOnly = true;
+    });
+
 
 
 builder.Services.AddHttpContextAccessor(); 

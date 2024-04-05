@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using T_Reservation.Models;
 
@@ -11,9 +12,10 @@ using T_Reservation.Models;
 namespace T_Reservation.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240405055954_0004")]
+    partial class _0004
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -115,6 +117,7 @@ namespace T_Reservation.Migrations
                         .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("Rol")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Telefono")
@@ -123,20 +126,6 @@ namespace T_Reservation.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Empleados");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Correo = "root@gmail.com",
-                            Direccion = "NINGUNA,NINGUNA",
-                            Dui = 234555321,
-                            FechaNacimiento = new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Nombre = "root",
-                            Password = "25d55ad283aa400af464c76d713c07ad",
-                            Rol = "Administrador",
-                            Telefono = 22229090
-                        });
                 });
 
             modelBuilder.Entity("T_Reservation.Models.Menu", b =>

@@ -35,7 +35,7 @@ namespace T_Reservation.Models
         [RegularExpression("[0-9]{8}", ErrorMessage = "El teléfono debe tener 8 dígitos")]
         public int Telefono { get; set; }
 
-        [Required(ErrorMessage = "El rol es obligatorio")]
+       
         public string Rol { get; set; }
 
         [Required(ErrorMessage = "La contraseña es requerida")]
@@ -52,5 +52,10 @@ namespace T_Reservation.Models
 
         public ICollection<Restaurante> Restaurante { get; set; }
 
+        public Empleado()
+        {
+
+            Rol = "Empleado";
+        }
     }
 }

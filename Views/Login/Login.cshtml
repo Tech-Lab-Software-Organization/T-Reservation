@@ -1,0 +1,41 @@
+﻿@model T_Reservation.Models.Usuario
+
+@{
+    ViewBag.Title = "Inicio de Sesión";
+    Layout = "~/Views/Shared/_LayoutLogin.cshtml";
+}
+
+<h4>Cliente</h4>
+<hr />
+
+<div class="col-md-4">
+    <form asp-action="Login">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input type="hidden" name="ReturnUrl" value="@ViewBag.ReturnUrl" />
+        <div class="form-group">
+            <label asp-for="Correo" class="control-label"></label>
+            <input asp-for="Correo" class="form-control" />
+            <span asp-validation-for="Correo" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Password" class="control-label"></label>
+            <input asp-for="Password" class="form-control" />
+            <span asp-validation-for="Password" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <input type="submit" value="Entrar" class="btn btn-primary" />
+            <span>@ViewBag.Error</span>
+            <label class="control-label">¿No tienes una cuenta?</label>
+            <span> <a asp-area="" class="btn btn-link" asp-controller="Home" asp-action="IndexHome">Registrar</a></span>
+         
+        </div>
+    </form>
+</div>
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

@@ -23,82 +23,93 @@ namespace T_Reservation.Controllers
         }
 
         [AllowAnonymous]
-        public async Task<IActionResult> LoginC(string ReturnUrl)
+        public async Task<IActionResult> Login(string returnUrl = null)
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            ViewBag.ReturnUrl = ReturnUrl;
+            ViewBag.ReturnUrl = returnUrl;
             return View();
         }
-        //se recibe, se comparann datos
         [AllowAnonymous]
-        [HttpPost]
-        public async Task<IActionResult> LoginC([Bind("Correo,Password")] Cliente cliente, string ReturnUrl)
+    [HttpPost]
+    public async Task<IActionResult> Login(Usuario model, string returnUrl = null)
+    {
+        if (ModelState.IsValid)
         {
-            cliente.Password = CalcularHashMD5(cliente.Password);
-            var usuarioAut = await _context.Clientes.FirstOrDefaultAsync(s => s.Correo == cliente.Correo && s.Password == cliente.Password);
-            if (usuarioAut != null)
-            {
-                var claims = new[]
+            
+            string passwordHash = CalcularHashMD5(model.Password);
+
+                // Verificar si el usuario es "root"
+                if (model.Correo == "root@gmail.com")
                 {
-            new Claim(ClaimTypes.Name, usuarioAut.Correo),
-            new Claim(ClaimTypes.Role, usuarioAut.Rol),
-            new Claim("Id", usuarioAut.Id.ToString())
-        };
+                    // Autenticar como administrador
+                    var claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.Name, "root@gmail.com"),
+                new Claim(ClaimTypes.Role, "Administrador"),
+                // Otras claims según sea necesario
+            };
 
-                var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity), new AuthenticationProperties { IsPersistent = true });
+                    var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                    await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity));
+                    return RedirectToAction("Index", "Empleados"); // Cambiar a la acción adecuada para el administrador
+                }
+                // Verificar las credenciales del empleado
+                var empleado = await _context.Empleados.FirstOrDefaultAsync(e => e.Correo == model.Correo && e.Password == passwordHash);
 
-                if (!string.IsNullOrWhiteSpace(ReturnUrl))
-                    return Redirect(ReturnUrl);
-                else
+            // Verificar las credenciales del cliente si no se encontró un empleado
+            if (empleado == null)
+            {
+                var cliente = await _context.Clientes.FirstOrDefaultAsync(c => c.Correo == model.Correo && c.Password == passwordHash);
+            
+                if (cliente != null)
+                {
+                    // Autenticación del cliente
+                    // Crear las claims necesarias
+                    var claims = new List<Claim>
+                    {
+                        new Claim(ClaimTypes.Name, cliente.Correo),
+                        new Claim(ClaimTypes.Role, "Cliente"),
+                        // Otras claims según sea necesario
+                    };
+
+                    // Crear el identity del cliente
+                    var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+
+                    // Iniciar sesión del cliente
+                    await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity));
+
+                    // Redirigir al cliente al destino adecuado
                     return RedirectToAction("CatalogoRestaurante", "Home");
+                }
             }
             else
             {
-                ViewBag.Error = "Credenciales Incorrectas";
-                ViewBag.ReturnUrl = ReturnUrl;
-                return View(cliente);
-            }
-        }
-
-        [AllowAnonymous]
-        public async Task<IActionResult> LoginE(string ReturnUrl)
-        {
-            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            ViewBag.ReturnUrl = ReturnUrl;
-            return View();
-        }
-        //se recibe, se comparann datos
-        [AllowAnonymous]
-        [HttpPost]
-        public async Task<IActionResult> LoginE([Bind("Correo,Password")] Empleado empleado, string ReturnUrl)
-        {
-            empleado.Password = CalcularHashMD5(empleado.Password);
-            var usuarioAut = await _context.Empleados.FirstOrDefaultAsync(s => s.Correo == empleado.Correo && s.Password == empleado.Password);
-            if (usuarioAut != null)
-            {
-                var claims = new[]
+                // Autenticación del empleado
+                // Crear las claims necesarias
+                var claims = new List<Claim>
                 {
-            new Claim(ClaimTypes.Name, usuarioAut.Correo),
-            new Claim(ClaimTypes.Role, usuarioAut.Rol),
-            new Claim("Id", usuarioAut.Id.ToString())
-        };
+                    new Claim(ClaimTypes.Name, empleado.Correo),
+                    new Claim(ClaimTypes.Role, "Empleado"),
+                    // Otras claims según sea necesario
+                };
 
+                // Crear el identity del empleado
                 var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity), new AuthenticationProperties { IsPersistent = true });
 
-                if (!string.IsNullOrWhiteSpace(ReturnUrl))
-                    return Redirect(ReturnUrl);
-                else
-                    return RedirectToAction("Index", "Restaurantes");
+                // Iniciar sesión del empleado
+                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity));
+
+                // Redirigir al empleado al destino adecuado
+                return RedirectToAction("Index", "Restaurantes");
             }
-            else
-            {
-                ViewBag.Error = "Credenciales Incorrectas";
-                ViewBag.ReturnUrl = ReturnUrl;
-                return View(empleado);
-            }
+        
+            ModelState.AddModelError(string.Empty, "Credenciales incorrectas");
         }
+
+       
+        return View(model);
+    }
+    
        
         private string CalcularHashMD5(string texto)
         {
