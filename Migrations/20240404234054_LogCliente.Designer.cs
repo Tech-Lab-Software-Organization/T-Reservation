@@ -12,8 +12,8 @@ using T_Reservation.Models;
 namespace T_Reservation.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240227223326_mia")]
-    partial class mia
+    [Migration("20240404234054_LogCliente")]
+    partial class LogCliente
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -23,6 +23,21 @@ namespace T_Reservation.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
+
+            modelBuilder.Entity("ClienteRestaurante", b =>
+                {
+                    b.Property<int>("ClientesId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RestauranteId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ClientesId", "RestauranteId");
+
+                    b.HasIndex("RestauranteId");
+
+                    b.ToTable("RestauranteCliente", (string)null);
+                });
 
             modelBuilder.Entity("T_Reservation.Models.Cliente", b =>
                 {
@@ -52,20 +67,18 @@ namespace T_Reservation.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<string>("Passaword")
+                    b.Property<string>("Password")
                         .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
-                    b.Property<int>("RestauranteId")
-                        .HasColumnType("int");
+                    b.Property<string>("Rol")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Telefono")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("RestauranteId");
 
                     b.ToTable("Clientes");
                 });
@@ -99,7 +112,6 @@ namespace T_Reservation.Migrations
                         .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("Password")
-                        .IsRequired()
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
 
@@ -249,6 +261,9 @@ namespace T_Reservation.Migrations
                     b.Property<int>("EmpleadoId")
                         .HasColumnType("int");
 
+                    b.Property<byte[]>("Imagen")
+                        .HasColumnType("varbinary(max)");
+
                     b.Property<string>("Nombre")
                         .IsRequired()
                         .HasMaxLength(100)
@@ -261,15 +276,19 @@ namespace T_Reservation.Migrations
                     b.ToTable("Restaurantes");
                 });
 
-            modelBuilder.Entity("T_Reservation.Models.Cliente", b =>
+            modelBuilder.Entity("ClienteRestaurante", b =>
                 {
-                    b.HasOne("T_Reservation.Models.Restaurante", "Restaurante")
-                        .WithMany("Clientes")
-                        .HasForeignKey("RestauranteId")
+                    b.HasOne("T_Reservation.Models.Cliente", null)
+                        .WithMany()
+                        .HasForeignKey("ClientesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Restaurante");
+                    b.HasOne("T_Reservation.Models.Restaurante", null)
+                        .WithMany()
+                        .HasForeignKey("RestauranteId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("T_Reservation.Models.Menu", b =>
@@ -358,8 +377,6 @@ namespace T_Reservation.Migrations
 
             modelBuilder.Entity("T_Reservation.Models.Restaurante", b =>
                 {
-                    b.Navigation("Clientes");
-
                     b.Navigation("Menus");
 
                     b.Navigation("Mesas");

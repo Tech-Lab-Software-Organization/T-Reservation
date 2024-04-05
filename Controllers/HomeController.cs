@@ -1,12 +1,15 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 using T_Reservation.Models;
 
 namespace T_Reservation.Controllers
 {
+    [Authorize(Roles = "Cliente,Administrador")]
     public class HomeController : Controller
     {
+       
         private readonly ApplicationDbContext _context;
 
         public HomeController(ApplicationDbContext context)
@@ -14,7 +17,7 @@ namespace T_Reservation.Controllers
             _context = context;
         }
 
-
+        
         public async Task<IActionResult> CatalogoMenu(string searchString)
         {
             var menu = from m in _context.Menu
@@ -29,7 +32,7 @@ namespace T_Reservation.Controllers
             var applicationDbContext = _context.Menu.Include(m => m.Restaurante);
             return View(await applicationDbContext.ToListAsync());
         }
-
+        [AllowAnonymous]
         [HttpGet]
         public ActionResult IndexHome()
         {

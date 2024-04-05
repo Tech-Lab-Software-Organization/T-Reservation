@@ -58,19 +58,14 @@ namespace T_Reservation.Models
                 .WithMany(c => c.Reservas)
                 .HasForeignKey(r => r.ClienteId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            //relación M:M entre restaurante y cliente, utilizando una tabla de unión implícita RestauranteCliente
+            modelBuilder.Entity<Restaurante>()
+            .HasMany(r => r.Clientes)
+            .WithMany(c => c.Restaurante)
+            .UsingEntity(j => j.ToTable("RestauranteCliente"));
         }
 
-        public string ValidarLogin(string correo, string password)
-        {
-            // PA CLIENTE
-            var cliente = Clientes.FirstOrDefault(c => c.Correo == correo && c.Passaword == password);
-            if (cliente != null)
-                return cliente.Nombre;
-
-            // PA EMPLEADO
-            var empleado = Empleados.FirstOrDefault(e => e.Correo == correo && e.Password == password);
-            return empleado != null ? empleado.Nombre : null;
-        }
-
+   
     }
 }

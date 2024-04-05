@@ -12,7 +12,7 @@ namespace T_Reservation.Models
         public int Id { get; set; }
 
         [Required(ErrorMessage = "El nombre es obligatorio")]
-        [StringLength(100, ErrorMessage ="el nombre no puede superar los 100 caracteres")]
+        [StringLength(100, ErrorMessage = "el nombre no puede superar los 100 caracteres")]
         public string Nombre { get; set; }
 
         [Required(ErrorMessage = "El Dui es obligatorio")]
@@ -33,11 +33,11 @@ namespace T_Reservation.Models
         public int Telefono { get; set; }
 
         [Required(ErrorMessage = "El correo es obligatorio.")]
-        [EmailAddress(ErrorMessage ="El correo electronico no es valido.")]
+        [EmailAddress(ErrorMessage = "El correo electronico no es valido.")]
         public string Correo { get; set; }
 
         [Required(ErrorMessage = "La dirección es obligatoria")]
-        [StringLength(400, ErrorMessage ="La dirección no puede superar los 400 caracteres.")]
+        [StringLength(400, ErrorMessage = "La dirección no puede superar los 400 caracteres.")]
         public string Direccion { get; set; }
 
         [Required(ErrorMessage = "la fecha es obligatoria")]
@@ -46,19 +46,30 @@ namespace T_Reservation.Models
         public DateTime FechaNacimiento { get; set; }
 
 
-        [StringLength(20, MinimumLength =8, ErrorMessage ="La contraseña debe tener 8 y 20 caracteres.")]
+        [Required(ErrorMessage = "La contraseña es requerida")]
+        [StringLength(100, MinimumLength = 6, ErrorMessage = "La contraseña debe tener 6 y 100 caracteres.")]
         [DisplayName("Contraseña")]
-        public string Passaword { get; set; }
+        [DataType(DataType.Password)]
+        public string Password { get; set; }
 
-        [ForeignKey("Restaurante")]
-        [DisplayName("Restaurante")]
-        public int? RestauranteId { get; set; }
-        public Restaurante Restaurante { get; set; }
+        [NotMapped]//esta propiedad no sera mapeada en la base de datos.
+        [Compare("Password", ErrorMessage = "La contraseña no coincide")]
+        [StringLength(100, MinimumLength = 6, ErrorMessage = "La contraseña debe tener 6 y 100 caracteres.")]
+        [DataType(DataType.Password)]
+        public string ConfirmPassword { get; set; }
 
-        public  ICollection<Reserva> Reservas { get; set; }
+        public string Rol { get; set; }
 
+        public ICollection<Restaurante> Restaurante { get; set; }
 
-   
+        public ICollection<Reserva> Reservas { get; set; }
+
+        public Cliente()
+        {
+
+            Rol = "Cliente";
+        }
 
     }
+    
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -11,6 +12,7 @@ using T_Reservation.Models;
 
 namespace T_Reservation.Controllers
 {
+    [Authorize(Roles = "Administrador, Empleado")]
     public class MesasController : Controller
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
@@ -23,43 +25,17 @@ namespace T_Reservation.Controllers
         }
 
         // GET: Mesas
+        [Authorize(Roles = "Administrador, Empleado")]
         public async Task<IActionResult> Index()
         {
-            var usuarioRol = _httpContextAccessor.HttpContext.Session.GetString("UsuarioRol");
-
-
-            if (usuarioRol == "administrador" || usuarioRol == "Cliente")
-            {
+            
                 var applicationDbContext = _context.Mesas.Include(m => m.Restaurante);
                 return View(await applicationDbContext.ToListAsync());
-            }
 
-            else if (usuarioRol == "Empleado"){
-
-                int usuarioId = _httpContextAccessor.HttpContext.Session.GetInt32("UsuarioId") ?? default(int);
-                var cliente = await _context.Clientes.FirstOrDefaultAsync(c => c.Id == usuarioId);
-
-
-                if (cliente != null)
-                {
-                    var mesas = await _context.Mesas
-                        .Include(m => m.Restaurante)
-               .Where(m => m.Restaurante.EmpleadoId == usuarioId)
-                    .ToListAsync();
-
-
-                    foreach (var mesa in mesas)
-                    {
-                        Console.WriteLine($"Menu ID: {mesa.Id}, Restaurant Name: {mesa.Restaurante.Nombre}");
-                    }
-                    return View(mesas);
-                }
-            }
-
-            return RedirectToAction("Index", "Login");
         }
 
         // GET: Mesas/Details/5
+        [Authorize(Roles = "Administrador, Empleado")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null || _context.Mesas == null)
@@ -79,6 +55,7 @@ namespace T_Reservation.Controllers
         }
 
         // GET: Mesas/Create
+        [Authorize(Roles = "Administrador, Empleado")]
         public IActionResult Create()
         {
             ViewData["RestauranteId"] = new SelectList(_context.Restaurantes, "Id", "Nombre");
@@ -90,6 +67,7 @@ namespace T_Reservation.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Administrador, Empleado")]
         public async Task<IActionResult> Create([Bind("Id,Numero,Capacidad,Area,Disponibilidad,RestauranteId")] Mesa mesa)
         {
             if (ModelState.IsValid)
@@ -103,6 +81,7 @@ namespace T_Reservation.Controllers
         }
 
         // GET: Mesas/Edit/5
+        [Authorize(Roles = "Administrador, Empleado")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.Mesas == null)
@@ -124,6 +103,7 @@ namespace T_Reservation.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Administrador, Empleado")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Numero,Capacidad,Area,Disponibilidad,RestauranteId")] Mesa mesa)
         {
             if (id != mesa.Id)
@@ -156,6 +136,7 @@ namespace T_Reservation.Controllers
         }
 
         // GET: Mesas/Delete/5
+        [Authorize(Roles = "Administrador, Empleado")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.Mesas == null)
@@ -176,6 +157,7 @@ namespace T_Reservation.Controllers
 
         // POST: Mesas/Delete/5
         [HttpPost, ActionName("Delete")]
+        [Authorize(Roles = "Administrador, Empleado")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {

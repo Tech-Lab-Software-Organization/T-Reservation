@@ -47,16 +47,26 @@
             @Html.DisplayFor(model => model.FechaNacimiento)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Passaword)
+            @Html.DisplayNameFor(model => model.Password)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Passaword)
+            @Html.DisplayFor(model => model.Password)
         </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Rol)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Rol)
+                </dd>
     </dl>
 </div>
 <div>
-    <a class="btn btn-secondary" asp-action="Edit" asp-route-id="@Model?.Id">Editar</a> |
-    <a class="btn btn-danger" asp-action="Index">Cancelar</a>
+     @if (User.IsInRole("Cliente"))
+            {
+                <a class="btn btn-secondary" asp-action="Edit" asp-route-id="@Model?.Id">Editar</a>
+            }
+            <span>|</span>
+            <a class="btn btn-danger" asp-action="Index">Cancelar</a>
 </div>
     </div>
 </div>

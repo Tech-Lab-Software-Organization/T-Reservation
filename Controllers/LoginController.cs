@@ -1,63 +1,124 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
+using System.Security.Cryptography;
+using System.Text;
 using T_Reservation.Models;
 
 namespace T_Reservation.Controllers
 {
     public class LoginController : Controller
     {
-        private readonly ApplicationDbContext _contexto;
+        private readonly ApplicationDbContext _context;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
         public LoginController(ApplicationDbContext contexto, IHttpContextAccessor httpContextAccessor)
         {
-            _contexto = contexto;
+            _context = contexto;
             _httpContextAccessor = httpContextAccessor;
         }
 
-        [HttpGet]
-        public ActionResult Index()
+        [AllowAnonymous]
+        public async Task<IActionResult> LoginC(string ReturnUrl)
         {
-            return View(); 
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            ViewBag.ReturnUrl = ReturnUrl;
+            return View();
         }
-
+        //se recibe, se comparann datos
+        [AllowAnonymous]
         [HttpPost]
-        public ActionResult Index(Login model)
+        public async Task<IActionResult> LoginC([Bind("Correo,Password")] Cliente cliente, string ReturnUrl)
         {
-            if (!ModelState.IsValid)
+            cliente.Password = CalcularHashMD5(cliente.Password);
+            var usuarioAut = await _context.Clientes.FirstOrDefaultAsync(s => s.Correo == cliente.Correo && s.Password == cliente.Password);
+            if (usuarioAut != null)
             {
-                return View(model); 
-            }
+                var claims = new[]
+                {
+            new Claim(ClaimTypes.Name, usuarioAut.Correo),
+            new Claim(ClaimTypes.Role, usuarioAut.Rol),
+            new Claim("Id", usuarioAut.Id.ToString())
+        };
 
+                var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity), new AuthenticationProperties { IsPersistent = true });
 
-            var cliente = _contexto.Clientes.FirstOrDefault(c => c.Correo == model.Correo && c.Passaword == model.Password);
-            var empleado = _contexto.Empleados.FirstOrDefault(e => e.Correo == model.Correo && e.Password == model.Password);
-
-            if (cliente != null)
-            {
-                _httpContextAccessor.HttpContext.Session.SetString("UsuarioCorreo", model.Correo);
-                _httpContextAccessor.HttpContext.Session.SetString("UsuarioRol", "Cliente");
-                _httpContextAccessor.HttpContext.Session.SetInt32("UsuarioId", cliente.Id);
-                return RedirectToAction("CatalogoRestaurante", "Home");
-                
-            }
-            else if (empleado != null)
-            {
-
-                _httpContextAccessor.HttpContext.Session.SetString("UsuarioCorreo", model.Correo);
-                _httpContextAccessor.HttpContext.Session.SetString("UsuarioRol", empleado.Rol);
-                _httpContextAccessor.HttpContext.Session.SetInt32("UsuarioId", empleado.Id);
-                return RedirectToAction("Index", "Restaurantes");
+                if (!string.IsNullOrWhiteSpace(ReturnUrl))
+                    return Redirect(ReturnUrl);
+                else
+                    return RedirectToAction("CatalogoRestaurante", "Home");
             }
             else
             {
-                ModelState.AddModelError(string.Empty, "El correo o la contraseña son incorrectos.");
-                return View(model);
+                ViewBag.Error = "Credenciales Incorrectas";
+                ViewBag.ReturnUrl = ReturnUrl;
+                return View(cliente);
             }
         }
 
-       
+        [AllowAnonymous]
+        public async Task<IActionResult> LoginE(string ReturnUrl)
+        {
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            ViewBag.ReturnUrl = ReturnUrl;
+            return View();
+        }
+        //se recibe, se comparann datos
+        [AllowAnonymous]
+        [HttpPost]
+        public async Task<IActionResult> LoginE([Bind("Correo,Password")] Empleado empleado, string ReturnUrl)
+        {
+            empleado.Password = CalcularHashMD5(empleado.Password);
+            var usuarioAut = await _context.Empleados.FirstOrDefaultAsync(s => s.Correo == empleado.Correo && s.Password == empleado.Password);
+            if (usuarioAut != null)
+            {
+                var claims = new[]
+                {
+            new Claim(ClaimTypes.Name, usuarioAut.Correo),
+            new Claim(ClaimTypes.Role, usuarioAut.Rol),
+            new Claim("Id", usuarioAut.Id.ToString())
+        };
 
+                var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity), new AuthenticationProperties { IsPersistent = true });
+
+                if (!string.IsNullOrWhiteSpace(ReturnUrl))
+                    return Redirect(ReturnUrl);
+                else
+                    return RedirectToAction("Index", "Restaurantes");
+            }
+            else
+            {
+                ViewBag.Error = "Credenciales Incorrectas";
+                ViewBag.ReturnUrl = ReturnUrl;
+                return View(empleado);
+            }
+        }
+       
+        private string CalcularHashMD5(string texto)
+        {
+            using (MD5 md5 = MD5.Create())
+            {
+                //Convierte la cadena de texto a bytes
+                byte[] inputbytes = Encoding.UTF8.GetBytes(texto);
+
+                //Calcula el hash MD5 de los bytes
+                byte[] HashBytes = md5.ComputeHash(inputbytes);
+
+                //convierte el hash a una cadena hexadecimal
+                StringBuilder sb = new StringBuilder();
+                for (int i = 0; i < HashBytes.Length; i++)
+                {
+                    sb.Append(HashBytes[i].ToString("x2"));
+                }
+                return sb.ToString();
+            }
+        }
 
     }
 }

@@ -5,10 +5,30 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace T_Reservation.Migrations
 {
-    public partial class InitialCreate01 : Migration
+    public partial class LogCliente : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "Clientes",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Nombre = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Dui = table.Column<int>(type: "int", nullable: false),
+                    Telefono = table.Column<int>(type: "int", nullable: false),
+                    Correo = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Direccion = table.Column<string>(type: "nvarchar(400)", maxLength: 400, nullable: false),
+                    FechaNacimiento = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Password = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Rol = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Clientes", x => x.Id);
+                });
+
             migrationBuilder.CreateTable(
                 name: "Empleados",
                 columns: table => new
@@ -22,7 +42,7 @@ namespace T_Reservation.Migrations
                     Correo = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Telefono = table.Column<int>(type: "int", nullable: false),
                     Rol = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Password = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false)
+                    Password = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -36,6 +56,7 @@ namespace T_Reservation.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Nombre = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Imagen = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
                     Descripcion = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
                     Direccion = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false),
                     EmpleadoId = table.Column<int>(type: "int", nullable: false)
@@ -47,32 +68,6 @@ namespace T_Reservation.Migrations
                         name: "FK_Restaurantes_Empleados_EmpleadoId",
                         column: x => x.EmpleadoId,
                         principalTable: "Empleados",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Clientes",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Nombre = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    Dui = table.Column<int>(type: "int", nullable: false),
-                    Telefono = table.Column<int>(type: "int", nullable: false),
-                    Correo = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Direccion = table.Column<string>(type: "nvarchar(400)", maxLength: 400, nullable: false),
-                    FechaNacimiento = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Passaword = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
-                    RestauranteId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Clientes", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Clientes_Restaurantes_RestauranteId",
-                        column: x => x.RestauranteId,
-                        principalTable: "Restaurantes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -125,6 +120,30 @@ namespace T_Reservation.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "RestauranteCliente",
+                columns: table => new
+                {
+                    ClientesId = table.Column<int>(type: "int", nullable: false),
+                    RestauranteId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_RestauranteCliente", x => new { x.ClientesId, x.RestauranteId });
+                    table.ForeignKey(
+                        name: "FK_RestauranteCliente_Clientes_ClientesId",
+                        column: x => x.ClientesId,
+                        principalTable: "Clientes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_RestauranteCliente_Restaurantes_RestauranteId",
+                        column: x => x.RestauranteId,
+                        principalTable: "Restaurantes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Reservas",
                 columns: table => new
                 {
@@ -167,11 +186,6 @@ namespace T_Reservation.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Clientes_RestauranteId",
-                table: "Clientes",
-                column: "RestauranteId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Menu_RestauranteId",
                 table: "Menu",
                 column: "RestauranteId");
@@ -202,6 +216,11 @@ namespace T_Reservation.Migrations
                 column: "RestauranteId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_RestauranteCliente_RestauranteId",
+                table: "RestauranteCliente",
+                column: "RestauranteId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Restaurantes_EmpleadoId",
                 table: "Restaurantes",
                 column: "EmpleadoId");
@@ -213,13 +232,16 @@ namespace T_Reservation.Migrations
                 name: "Reservas");
 
             migrationBuilder.DropTable(
-                name: "Clientes");
+                name: "RestauranteCliente");
 
             migrationBuilder.DropTable(
                 name: "Menu");
 
             migrationBuilder.DropTable(
                 name: "Mesas");
+
+            migrationBuilder.DropTable(
+                name: "Clientes");
 
             migrationBuilder.DropTable(
                 name: "Restaurantes");

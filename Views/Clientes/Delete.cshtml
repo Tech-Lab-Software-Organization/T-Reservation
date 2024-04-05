@@ -48,11 +48,17 @@
             @Html.DisplayFor(model => model.FechaNacimiento)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Passaword)
+            @Html.DisplayNameFor(model => model.Password)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Passaword)
+            @Html.DisplayFor(model => model.Password)
         </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Rol)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Rol)
+                </dd>
     </dl>
     
     <form asp-action="Delete">

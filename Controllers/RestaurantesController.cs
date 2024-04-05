@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -9,6 +10,7 @@ using T_Reservation.Models;
 
 namespace T_Reservation.Controllers
 {
+    [Authorize(Roles = "Administrador, Empleado")]
     public class RestaurantesController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -19,6 +21,7 @@ namespace T_Reservation.Controllers
         }
 
         // GET: Restaurantes
+
         public async Task<IActionResult> Index()
         {
             var applicationDbContext = _context.Restaurantes.Include(r => r.Empleados);
@@ -26,6 +29,7 @@ namespace T_Reservation.Controllers
         }
 
         // GET: Restaurantes/Details/5
+
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null || _context.Restaurantes == null)
@@ -45,6 +49,7 @@ namespace T_Reservation.Controllers
         }
 
         // GET: Restaurantes/Create
+       
         public IActionResult Create()
         {
             ViewData["EmpleadoId"] = new SelectList(_context.Empleados, "Id", "Nombre");
@@ -56,6 +61,7 @@ namespace T_Reservation.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Administrador, Empleado")]
         public async Task<IActionResult> Create([Bind("Id,Nombre,Descripcion,Direccion,EmpleadoId")] Restaurante restaurante, IFormFile imagen)
         {
             if (imagen != null && imagen.Length > 0)
@@ -73,6 +79,7 @@ namespace T_Reservation.Controllers
         }
 
         // GET: Restaurantes/Edit/5
+        [Authorize(Roles = "Administrador, Empleado")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.Restaurantes == null)
@@ -94,6 +101,7 @@ namespace T_Reservation.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Administrador, Empleado")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Nombre,Descripcion,Direccion,EmpleadoId")] Restaurante restaurante, IFormFile imagen)
         {
             if (id != restaurante.Id)
@@ -132,6 +140,7 @@ namespace T_Reservation.Controllers
         }
 
         // GET: Restaurantes/Delete/5
+        [Authorize(Roles = "Empleado, Administrador")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.Restaurantes == null)
@@ -152,6 +161,7 @@ namespace T_Reservation.Controllers
 
         // POST: Restaurantes/Delete/5
         [HttpPost, ActionName("Delete")]
+        [Authorize(Roles = "Administrador, Empleado")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {

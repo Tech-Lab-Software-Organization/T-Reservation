@@ -10,11 +10,7 @@
 </head>
 <body class="bg-image" style="background-image: url('https://static.vecteezy.com/system/resources/previews/015/805/854/non_2x/eco-friendly-cutlery-seamless-pattern-knife-fork-spoon-eco-kitchen-cutlery-vector.jpg');">
     <header>
-        @{
-            var httpContext = ViewContext.HttpContext;
-            var usuarioRol = httpContext.Session.GetString("UsuarioRol");
-
-        }
+       
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm border-bottom box-shadow mb-3 navbar-dark bg-body">
             <div class="container-fluid">
                 <a class="navbar-brand">T-Reservation</a>
@@ -24,71 +20,119 @@
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            @if (usuarioRol == "Administrador")
 
-                                {
-                            <a class="nav-link text-white" asp-area="" asp-controller="Clientes" asp-action="Index">Clientes</a>
-                                }
-                        </li>
-                        <li class="nav-item">
-                            @if (usuarioRol == "Administrador" || usuarioRol == "Dueño"){
-                            <a class="nav-link text-white" asp-area="" asp-controller="Empleados" asp-action="Index">Empleados</a>
-                            }
-                        </li>
-                        <li class="nav-item">
-                            @if (usuarioRol == "Administrador" || usuarioRol == "Cliente" || usuarioRol == "Dueño")
+                         @if (User.Identity.IsAuthenticated)
+                        {
+                            @if (User.IsInRole("Administrador"))
                             {
-                                <a class="nav-link text-white" asp-area="" asp-controller="Home" asp-action="CatalogoMenu">Catálogo de Menú</a>
-                            }
-                        </li>
-                        <li class="nav-item">
-                            @if (usuarioRol == "Administrador" || usuarioRol == "Empleado" || usuarioRol == "Dueño")
-                            {
-                                <a class="nav-link text-white" asp-area="" asp-controller="Menus" asp-action="Index">Menú</a>
-                            }
-                        </li>
-                        <li class="nav-item">
-                            @if (usuarioRol == "Administrador" || usuarioRol == "Empleado")
-                            {
-                                <a class="nav-link text-white" asp-area="" asp-controller="Mesas" asp-action="Index">Mesas</a>
-                            }
-                        </li>
-                        <li class="nav-item">
-                            @if (usuarioRol == "Administrador" || usuarioRol == "Cliente" || usuarioRol == "Dueño" || usuarioRol == "Empleado")
-                            {
-                                <a class="nav-link text-white" asp-area="" asp-controller="Reservas" asp-action="Index">Reservaciones</a>
-                            }
-                        </li>
-                        <li class="nav-item">
-                            @if (usuarioRol == "Administrador" || usuarioRol == "Cliente" || usuarioRol == "Dueño")
-                            {
-                                <a class="nav-link text-white" asp-area="" asp-controller="Home" asp-action="CatalogoRestaurante">Catálogo Restaurante</a>
-                            }
-                        </li>
                                 <li class="nav-item">
-                            @if (usuarioRol == "Administrador" || usuarioRol == "Empleado" || usuarioRol == "Dueño")
-                                    {
-                                        <a class="nav-link text-white" asp-area="" asp-controller="Restaurantes" asp-action="Index">Restaurantes</a>
-                                    }
+
+                                    <a class="nav-link text-white" asp-area="" asp-controller="Clientes" asp-action="Index">Clientes</a>
+
                                 </li>
+                                <li class="nav-item">
 
+                                    <a class="nav-link text-white" asp-area="" asp-controller="Empleados" asp-action="Index">Empleados</a>
 
-                                
-                        <li class="nav-item">
+                                </li>
+                                <li class="nav-item">
 
-                            <a class="nav-link text-white" asp-area="" asp-controller="Login" asp-action="Index">Cerrar Sesión</a>
-                        </li>
+                                    <a class="nav-link text-white" asp-area="" asp-controller="Home" asp-action="CatalogoMenu">Catálogo de Menú</a>
 
-                        
-                        @{
-                            var usuarioCorreo = ViewContext.HttpContext.Session.GetString("UsuarioCorreo");
-                            if (!string.IsNullOrEmpty(usuarioCorreo))
-                            {
-                                
-                                <a class="nav-link text-white" asp-area="" asp-controller="" asp-action="">@usuarioCorreo</a>
+                                </li>
+                                <li class="nav-item">
+
+                                    <a class="nav-link text-white" asp-area="" asp-controller="Menus" asp-action="Index">Menú</a>
+
+                                </li>
+                                <li class="nav-item">
+
+                                    <a class="nav-link text-white" asp-area="" asp-controller="Mesas" asp-action="Index">Mesas</a>
+
+                                </li>
+                                <li class="nav-item">
+
+                                    <a class="nav-link text-white" asp-area="" asp-controller="Reservas" asp-action="Index">Reservaciones</a>
+
+                                </li>
+                                <li class="nav-item">
+
+                                    <a class="nav-link text-white" asp-area="" asp-controller="Home" asp-action="CatalogoRestaurante">Catálogo Restaurante</a>
+
+                                </li>
+                                <li class="nav-item">
+
+                                    <a class="nav-link text-white" asp-area="" asp-controller="Restaurantes" asp-action="Index">Restaurantes</a>
+
+                                </li>
+                                <li class="nav-item">
+
+                                    <a class="nav-link text-white" asp-area="" asp-controller="Login" asp-action="LoginE">Cerrar Sesión</a>
+                                </li>
                             }
                         }
+                        @if (User.IsInRole("Empleado"))
+                        {
+                            <li class="nav-item">
+
+                                <a class="nav-link text-white" asp-area="" asp-controller="Restaurantes" asp-action="Index">Restaurants</a>
+
+                            </li>
+                            <li class="nav-item">
+
+                                <a class="nav-link text-white" asp-area="" asp-controller="Menus" asp-action="Index">Menú</a>
+
+                            </li>
+                            <li class="nav-item">
+
+                                <a class="nav-link text-white" asp-area="" asp-controller="Reservas" asp-action="Index">Reservaciones</a>
+
+                            </li>
+                            <li class="nav-item">
+
+                                <a class="nav-link text-white" asp-area="" asp-controller="Mesas" asp-action="Index">Mesas</a>
+
+                            </li>
+                            <li class="nav-item">
+
+                                <a class="nav-link text-white" asp-area="" asp-controller="Clientes" asp-action="Index">Clientes</a>
+
+                            </li>
+                            <li class="nav-item">
+
+                                <a class="nav-link text-white" asp-area="" asp-controller="Login" asp-action="LoginE">Cerrar Sesión</a>
+                            </li>
+                        }
+
+                           @if (User.IsInRole("Cliente"))
+                        {
+                            <li class="nav-item">
+
+                                <a class="nav-link text-white" asp-area="" asp-controller="Home" asp-action="CatalogoRestaurante">Catálogo Restaurante</a>
+
+                            </li>
+                            <li class="nav-item">
+
+                                <a class="nav-link text-white" asp-area="" asp-controller="Reservas" asp-action="Index">Reservaciones</a>
+
+                            </li>
+                            <li class="nav-item">
+
+                                <a class="nav-link text-white" asp-area="" asp-controller="Home" asp-action="CatalogoMenu">Catálogo de Menú</a>
+
+                            </li>
+
+                            <li class="nav-item">
+
+                                <a class="nav-link text-white" asp-area="" asp-controller="Login" asp-action="LoginC">Cerrar Sesión</a>
+                            </li>
+                        }
+                        
+                            <li>
+                            <span>@User.Identity.Name</span>
+                            </li>
+                        
+                       
                     </ul>
                 </div>
             </div>

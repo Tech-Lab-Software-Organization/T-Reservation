@@ -38,9 +38,18 @@ namespace T_Reservation.Models
         [Required(ErrorMessage = "El rol es obligatorio")]
         public string Rol { get; set; }
 
-        [StringLength(20, MinimumLength = 8, ErrorMessage = "La contraseña debe tener entre 8 y 20 caracteres")]
+        [Required(ErrorMessage = "La contraseña es requerida")]
+        [StringLength(100, MinimumLength = 6, ErrorMessage = "La contraseña debe tener 6 y 100 caracteres.")]
+        [DisplayName("Contraseña")]
+        [DataType(DataType.Password)]
         public string Password { get; set; }
-        
+
+        [NotMapped]//esta propiedad no sera mapeada en la base de datos.
+        [Compare("Password", ErrorMessage = "La contraseña no coincide")]
+        [StringLength(100, MinimumLength = 6, ErrorMessage = "La contraseña debe tener 6 y 100 caracteres.")]
+        [DataType(DataType.Password)]
+        public string ConfirmPassword { get; set; }
+
         public ICollection<Restaurante> Restaurante { get; set; }
 
     }

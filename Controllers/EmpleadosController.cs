@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -10,6 +13,7 @@ using T_Reservation.Models;
 
 namespace T_Reservation.Controllers
 {
+    [Authorize(Roles = "Administrador, Empleado")]
     public class EmpleadosController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -20,12 +24,15 @@ namespace T_Reservation.Controllers
         }
 
         // GET: Empleados
+
+        [Authorize(Roles = "Administrador")]
         public async Task<IActionResult> Index()
         {
               return View(await _context.Empleados.ToListAsync());
         }
 
         // GET: Empleados/Details/5
+        [Authorize(Roles = "Administrador, Empleado")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null || _context.Empleados == null)
@@ -44,6 +51,8 @@ namespace T_Reservation.Controllers
         }
 
         // GET: Empleados/Create
+        [Authorize(Roles = "Administrador")]
+
         public IActionResult Create()
         {
             return View();
@@ -54,18 +63,17 @@ namespace T_Reservation.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Administrador")]
         public async Task<IActionResult> Create([Bind("Id,Nombre,Dui,FechaNacimiento,Direccion,Correo,Telefono,Rol,Password,RestauranteId")] Empleado empleado)
         {
-            if (ModelState.IsValid)
-            {
-                _context.Add(empleado);
-                await _context.SaveChangesAsync();
-                return RedirectToAction("Index", "Login");
-            }
-            return View(empleado);
+            empleado.Password = CalcularHashMD5(empleado.Password);
+            _context.Add(empleado);
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Index", "Restaurantes");
         }
 
         // GET: Empleados/Edit/5
+        [Authorize(Roles = "Administrador,Empleado")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.Empleados == null)
@@ -86,7 +94,8 @@ namespace T_Reservation.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Nombre,Dui,FechaNacimiento,Direccion,Correo,Telefono,Rol,RestauranteId")] Empleado empleado)
+        [Authorize(Roles = "Administrador,Empleado")]
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Nombre,Dui,FechaNacimiento,Direccion,Correo,Telefono,RestauranteId")] Empleado empleado)
         {
             if (id != empleado.Id)
             {
@@ -125,6 +134,7 @@ namespace T_Reservation.Controllers
         }
 
         // GET: Empleados/Delete/5
+        [Authorize(Roles = "Administrador")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.Empleados == null)
@@ -144,6 +154,7 @@ namespace T_Reservation.Controllers
 
         // POST: Empleados/Delete/5
         [HttpPost, ActionName("Delete")]
+        [Authorize(Roles = "Administrador")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
@@ -166,20 +177,39 @@ namespace T_Reservation.Controllers
           return _context.Empleados.Any(e => e.Id == id);
         }
 
-
-        public List<string> GetBotonesPorRol(string rol)
+        private string CalcularHashMD5(string texto)
         {
-            switch (rol)
+            using (MD5 md5 = MD5.Create())
             {
-                case "Administrador":
-                    return new List<string>() { "Crear", "Editar", "Eliminar" };
-                case "Empleado":
-                    return new List<string>() { "Ver", "Editar" };
-                case "Dueño":
-                    return new List<string>() { "Ver", "Crear" };
-                default:
-                    return new List<string>();
+                //Convierte la cadena de texto a bytes
+                byte[] inputbytes = Encoding.UTF8.GetBytes(texto);
+
+                //Calcula el hash MD5 de los bytes
+                byte[] HashBytes = md5.ComputeHash(inputbytes);
+
+                //convierte el hash a una cadena hexadecimal
+                StringBuilder sb = new StringBuilder();
+                for (int i = 0; i < HashBytes.Length; i++)
+                {
+                    sb.Append(HashBytes[i].ToString("x2"));
+                }
+                return sb.ToString();
             }
         }
+
+        //public List<string> GetBotonesPorRol(string rol)
+        //{
+        //    switch (rol)
+        //    {
+        //        case "Administrador":
+        //            return new List<string>() { "Crear", "Editar", "Eliminar" };
+        //        case "Empleado":
+        //            return new List<string>() { "Ver", "Editar" };
+        //        case "Dueño":
+        //            return new List<string>() { "Ver", "Crear" };
+        //        default:
+        //            return new List<string>();
+        //    }
+        //}
     }
 }

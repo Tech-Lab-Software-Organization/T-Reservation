@@ -1,14 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
+using System.Security.Cryptography;
+using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using T_Reservation.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace T_Reservation.Controllers
 {
+   
     public class ClientesController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -18,7 +25,9 @@ namespace T_Reservation.Controllers
             _context = context;
         }
 
+
         // GET: Clientes
+        [Authorize(Roles = "Administrador, Empleado")]
         public async Task<IActionResult> Index()
         {
             var applicationDbContext = _context.Clientes;
@@ -26,6 +35,7 @@ namespace T_Reservation.Controllers
         }
 
         // GET: Clientes/Details/5
+        [Authorize(Roles = "Administrador, Empleado")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null || _context.Clientes == null)
@@ -34,7 +44,7 @@ namespace T_Reservation.Controllers
             }
 
             var cliente = await _context.Clientes
-                .Include(c => c.Restaurante)
+                
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (cliente == null)
             {
@@ -45,10 +55,11 @@ namespace T_Reservation.Controllers
         }
 
         // GET: Clientes/Create
+        
         public IActionResult Create()
         {
-            ViewData["RestauranteId"] = new SelectList(_context.Restaurantes, "Id", "Nombre");
-            return View();
+            Cliente cliente = new Cliente();
+            return View(cliente);
         }
 
         // POST: Clientes/Create
@@ -56,19 +67,17 @@ namespace T_Reservation.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Nombre,Dui,Telefono,Correo,Direccion,FechaNacimiento,Passaword,RestauranteId")] Cliente cliente)
+        public async Task<IActionResult> Create([Bind("Id,Nombre,Dui,Telefono,Correo,Direccion,FechaNacimiento,Password")] Cliente cliente)
         {
-            if (ModelState.IsValid)
-            {
-                _context.Add(cliente);
-                await _context.SaveChangesAsync();
-                return RedirectToAction("Index", "Login");
-            }
-            ViewData["RestauranteId"] = new SelectList(_context.Restaurantes, "Id", "Nombre", cliente.RestauranteId);
-            return View(cliente);
+
+            cliente.Password = CalcularHashMD5(cliente.Password);
+            _context.Add(cliente);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Clientes/Edit/5
+        [Authorize(Roles = "Cliente")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.Clientes == null)
@@ -81,7 +90,7 @@ namespace T_Reservation.Controllers
             {
                 return NotFound();
             }
-            ViewData["RestauranteId"] = new SelectList(_context.Restaurantes, "Id", "Nombre", cliente.RestauranteId);
+          
             return View(cliente);
         }
 
@@ -89,8 +98,9 @@ namespace T_Reservation.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
+        [Authorize(Roles = "Cliente")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Nombre,Dui,Telefono,Correo,Direccion,FechaNacimiento,RestauranteId")] Cliente cliente)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Nombre,Dui,Telefono,Correo,Direccion,FechaNacimiento")] Cliente cliente)
         {
             if (id != cliente.Id)
             {
@@ -101,15 +111,7 @@ namespace T_Reservation.Controllers
             {
                 try
                 {
-                    // Obtener el cliente original de la base de datos
-                    var originalCliente = await _context.Clientes.FindAsync(id);
-
-                    // Copiar la contraseña original al cliente que se va a actualizar
-                    cliente.Passaword = originalCliente.Passaword;
-
-                    // Actualizar el resto de las propiedades del cliente
-                    _context.Entry(originalCliente).CurrentValues.SetValues(cliente);
-
+                    _context.Update(cliente);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -125,12 +127,13 @@ namespace T_Reservation.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["RestauranteId"] = new SelectList(_context.Restaurantes, "Id", "Nombre", cliente.RestauranteId);
+          
             return View(cliente);
         }
 
 
         // GET: Clientes/Delete/5
+        [Authorize(Roles = "Administrador,Cliente")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.Clientes == null)
@@ -139,7 +142,7 @@ namespace T_Reservation.Controllers
             }
 
             var cliente = await _context.Clientes
-                .Include(c => c.Restaurante)
+                
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (cliente == null)
             {
@@ -151,6 +154,7 @@ namespace T_Reservation.Controllers
 
         // POST: Clientes/Delete/5
         [HttpPost, ActionName("Delete")]
+        [Authorize(Roles = "Administrador,Cliente")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
@@ -171,6 +175,26 @@ namespace T_Reservation.Controllers
         private bool ClienteExists(int id)
         {
             return _context.Clientes.Any(e => e.Id == id);
+        }
+
+        private string CalcularHashMD5(string texto)
+        {
+            using (MD5 md5 = MD5.Create())
+            {
+                //Convierte la cadena de texto a bytes
+                byte[] inputbytes = Encoding.UTF8.GetBytes(texto);
+
+                //Calcula el hash MD5 de los bytes
+                byte[] HashBytes = md5.ComputeHash(inputbytes);
+
+                //convierte el hash a una cadena hexadecimal
+                StringBuilder sb = new StringBuilder();
+                for (int i = 0; i < HashBytes.Length; i++)
+                {
+                    sb.Append(HashBytes[i].ToString("x2"));
+                }
+                return sb.ToString();
+            }
         }
     }
 }

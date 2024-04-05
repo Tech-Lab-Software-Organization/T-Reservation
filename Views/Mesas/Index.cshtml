@@ -6,20 +6,14 @@
 }
 
 
-@{
-    var httpContext = ViewContext.HttpContext;
-    var usuarioRol = httpContext.Session.GetString("UsuarioRol");
-}
 <div class="card">
     <div class="card-body">
 <h1 class="card-title">Registro de mesas</h1>
 
 <p>
-            @if (usuarioRol == "Administrador" || usuarioRol == "Empleado")
-
-                                {
+          
     <a class="btn btn-secondary" asp-action="Create">Agreagar mesa</a>
-                                }
+                                
 </p>
 <div class="table-responsive">
     <table class="table table-bordered table-sm">
@@ -62,21 +56,14 @@
                 @Html.DisplayFor(modelItem => item.Restaurante.Nombre)
             </td>
             <td class="btn-group-vertical">
-                                @if (usuarioRol == "Administrador" || usuarioRol == "Empleado")
-
-                                {
+                               
                                     <a class="mb3 btn btn-dark" asp-action="Edit" asp-route-id="@item.Id">Editar</a>
-                                }
-                                @if (usuarioRol == "Administrador" || usuarioRol == "Empleado")
-
-                                {
+                                
+                                
                                     <a class="mb3 btn btn-secondary" asp-action="Details" asp-route-id="@item.Id">Detalles</a>
-                                }
-                                @if (usuarioRol == "Administrador" || usuarioRol == "Empleado")
-
-                                        {
+                                
                         <a class="mb3 btn btn-danger" asp-action="Delete" asp-route-id="@item.Id">Eliminar</a>
-                                        }
+                                        
             </td>
         </tr>
 }

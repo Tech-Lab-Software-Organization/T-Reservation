@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using T_Reservation.Models;
 
@@ -8,6 +9,23 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 options.UseSqlServer(builder.Configuration.GetConnectionString("conn")));
+
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultScheme = "Cookies";
+    options.DefaultChallengeScheme = "Cookies";
+})
+.AddCookie("Cookies", options =>
+{
+    options.LoginPath = "/Login/LoginC"; // Ruta de inicio de sesión para clientes
+    options.AccessDeniedPath = "/Login/LoginC"; // Ruta de acceso denegado para clientes
+})
+.AddCookie("EmpleadoAuthenticationScheme", options =>
+{
+    options.LoginPath = "/Login/LoginE"; // Ruta de inicio de sesión para empleados
+    options.AccessDeniedPath = "/Login/LoginE"; // Ruta de acceso denegado para empleados
+});
+
 
 builder.Services.AddHttpContextAccessor(); 
 builder.Services.AddSession();
@@ -27,6 +45,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.UseSession();
