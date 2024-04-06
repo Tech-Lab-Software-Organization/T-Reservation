@@ -70,19 +70,32 @@
 
 
 
+
+
+
 @section Scripts {
-
-
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
+
     <script>
+        function generarCodigo() {
+            const caracteres = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+            let codigo = '';
+            for (let i = 0; i < 6; i++) { // Generar un código de 6 caracteres
+                codigo += caracteres.charAt(Math.floor(Math.random() * caracteres.length));
+            }
+            return codigo;
+        }
+
         function enviarFormulario(e) {
             e.preventDefault();
 
+            const codigoReserva = generarCodigo(); // Generar un nuevo código de reserva
+
             Swal.fire({
                 title: "Su reservación se realizo correctamente",
-                // text: "¡No podrás revertir esto!",
+                text: "Su Código de es reserva: " + codigoReserva, // Mostrar el código generado
                 icon: "success",
                 showCancelButton: true,
                 confirmButtonColor: "#3085d6",
@@ -94,8 +107,6 @@
                     formulario.submit();
                 }
             });
-            return false; // Evitar envío automático del formulario
         }
     </script>
-
 }
