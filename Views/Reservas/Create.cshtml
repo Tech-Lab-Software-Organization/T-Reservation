@@ -3,61 +3,99 @@
 @{
     ViewData["Title"] = "Create";
 }
+
+<head>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+
 <div class="card">
+
     <div class="card-body">
 
-<h1 class="card-title">Crear Reservación</h1>
+        <h1 class="card-title">Crear Reservación</h1>
 
-<div class="container">
-    <form asp-action="Create">
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="container">
 
-        <div class="row mb-3">
-            <div class="col-md-4">
-                <label asp-for="ClienteId" class="form-label">Cliente:</label>
-                <select asp-for="ClienteId" class="form-select" asp-items="ViewBag.ClienteId"></select>
-            </div>
-            <div class="col-md-4">
-                <label asp-for="RestauranteId" class="form-label">Restaurante:</label>
-                <select asp-for="RestauranteId" class="form-select" asp-items="ViewBag.RestauranteId"></select>
-            </div>
-            <div class="col-md-4">
-                <label asp-for="MesaId" class="form-label">Mesa:</label>
-                <select asp-for="MesaId" class="form-select" asp-items="ViewBag.MesaId"></select>
-            </div>
+            <form asp-action="Create" method="post" id="formulario" onsubmit="enviarFormulario(event)">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                <div class="row mb-3">
+                    <div class="col-md-4">
+                        <label asp-for="ClienteId" class="form-label">Cliente:</label>
+                        <select asp-for="ClienteId" class="form-select" asp-items="ViewBag.ClienteId"></select>
+                    </div>
+                    <div class="col-md-4">
+                        <label asp-for="RestauranteId" class="form-label">Restaurante:</label>
+                        <select asp-for="RestauranteId" class="form-select" asp-items="ViewBag.RestauranteId"></select>
+                    </div>
+                    <div class="col-md-4">
+                        <label asp-for="MesaId" class="form-label">Mesa:</label>
+                        <select asp-for="MesaId" class="form-select" asp-items="ViewBag.MesaId"></select>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-md-4">
+                        <label asp-for="CantidadPersonas" class="form-label">Cantidad de Personas:</label>
+                        <input asp-for="CantidadPersonas" class="form-control" />
+                        <span asp-validation-for="CantidadPersonas" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-4">
+                        <label asp-for="FechaInicio" class="form-label">Fecha de Inicio:</label>
+                        <input asp-for="FechaInicio" class="form-control" />
+                        <span asp-validation-for="FechaInicio" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-4">
+                        <label asp-for="FechaFin" class="form-label">Fecha de Fin:</label>
+                        <input asp-for="FechaFin" class="form-control" />
+                        <span asp-validation-for="FechaFin" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div>
+                    <button type="submit" class="btn btn-secondary">Crear</button>
+                    <a asp-action="Index" class="btn btn-danger">Cancelar</a>
+                </div>
+
+
+            </form>
+
+
+
+
         </div>
 
-        <div class="row mb-3">
-            <div class="col-md-4">
-                <label asp-for="CantidadPersonas" class="form-label">Cantidad de Personas:</label>
-                <input asp-for="CantidadPersonas" class="form-control" />
-                <span asp-validation-for="CantidadPersonas" class="text-danger"></span>
-            </div>
-            <div class="col-md-4">
-                <label asp-for="FechaInicio" class="form-label">Fecha de Inicio:</label>
-                <input asp-for="FechaInicio" class="form-control" />
-                <span asp-validation-for="FechaInicio" class="text-danger"></span>
-            </div>
-            <div class="col-md-4">
-                <label asp-for="FechaFin" class="form-label">Fecha de Fin:</label>
-                <input asp-for="FechaFin" class="form-control" />
-                <span asp-validation-for="FechaFin" class="text-danger"></span>
-            </div>
-        </div>
-
-        <div>
-            <button type="submit" class="btn btn-secondary">Crear</button>
-            <a asp-action="Index" class="btn btn-danger">Cancelar</a>
-        </div>
-
-
-    </form>
+    </div>
 </div>
 
+
+
 @section Scripts {
+
+
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
+    <script>
+        function enviarFormulario(e) {
+            e.preventDefault();
+
+            Swal.fire({c
+                title: "Su reservación se realizo correctamente",
+                // text: "¡No podrás revertir esto!",
+                icon: "success",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Aceptar"
+            }).then((resultado) => {
+                if (resultado.isConfirmed) {
+                    const formulario = document.getElementById('formulario');
+                    formulario.submit();
+                }
+            });
+            return false; // Evitar envío automático del formulario
+        }
+    </script>
+
 }
-    </div>
-</div>

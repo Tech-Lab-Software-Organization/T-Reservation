@@ -20,14 +20,14 @@ namespace T_Reservation.Models
 
         //**Relacion con Restaurante**
 
-        [Required(ErrorMessage = "El campo RestauranteId es obligatorio.")]
+        [Required(ErrorMessage = "El campo Restaurante es obligatorio.")]
         [Display(Name = "Restaurante")]
         [ForeignKey("RestauranteId")]
         public int RestauranteId { get; set; }
         public  Restaurante Restaurante { get; set; }
 
 
-        [Required(ErrorMessage = "El campo MesaId es obligatorio.")]
+        [Required(ErrorMessage = "El campo Mesa es obligatorio.")]
         [Display(Name = "Mesa")]
         [ForeignKey("MesaId")]
         public int MesaId { get; set; }
@@ -35,19 +35,19 @@ namespace T_Reservation.Models
 
         //**Cantidad de Persona**
         [Display(Name = "Cantidad De Personas")]
-        [Required(ErrorMessage = "El campo CantidadPersonas es obligatorio.")]
+        [Required(ErrorMessage = "El campo de Cantidad Personas es obligatorio.")]
         [Range(1, int.MaxValue, ErrorMessage = "La cantidad de personas debe ser mayor que cero.")]
        public int CantidadPersonas { get; set; }
 
         //**Fecha de Inicio**
         [Display(Name = "Fecha Inicio")]
-        [Required(ErrorMessage = "El campo FechaInicio es obligatorio.")]
+        [Required(ErrorMessage = "El campo de Fecha Inicio es obligatorio.")]
         [DataType(DataType.Date)]
        public DateTime FechaInicio { get; set; }
 
         //**Fecha de Finalizacion**
         [Display(Name = "Fecha Final")]
-        [Required(ErrorMessage = "El campo FechaFin es obligatorio.")]
+        [Required(ErrorMessage = "El campo de Fecha Fin es obligatorio.")]
         [DataType(DataType.Date)]
        public DateTime FechaFin { get; set; }
         

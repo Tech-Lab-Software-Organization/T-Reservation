@@ -30,11 +30,14 @@ namespace T_Reservation.Controllers
 
             var applicationDbContext = _context.Reservas.Include(r => r.Cliente).Include(r => r.Mesa).Include(r => r.Restaurante);
             return View(await applicationDbContext.ToListAsync());
-                 
+          
+
         }
+       
+
 
         // GET: Reservas/Details/5
-      
+
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null || _context.Reservas == null)
@@ -70,6 +73,7 @@ namespace T_Reservation.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [Authorize(Roles = "Cliente")]
         [HttpPost]
+
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,ClienteId,RestauranteId,MesaId,CantidadPersonas,FechaInicio,FechaFin")] Reserva reserva)
         {
@@ -102,6 +106,7 @@ namespace T_Reservation.Controllers
             ViewData["ClienteId"] = new SelectList(_context.Clientes, "Id", "Correo", reserva.ClienteId);
             ViewData["MesaId"] = new SelectList(_context.Mesas, "Id", "Area", reserva.MesaId);
             ViewData["RestauranteId"] = new SelectList(_context.Restaurantes, "Id", "Nombre", reserva.RestauranteId);
+            
             return View(reserva);
         }
 
@@ -136,6 +141,7 @@ namespace T_Reservation.Controllers
                         throw;
                     }
                 }
+        
                 return RedirectToAction(nameof(Index));
             }
             ViewData["ClienteId"] = new SelectList(_context.Clientes, "Id", "Correo", reserva.ClienteId);
@@ -143,6 +149,8 @@ namespace T_Reservation.Controllers
             ViewData["RestauranteId"] = new SelectList(_context.Restaurantes, "Id", "Nombre", reserva.RestauranteId);
             return View(reserva);
         }
+
+        
 
         // GET: Reservas/Delete/5
         [Authorize(Roles = "Cliente, Administrador")]

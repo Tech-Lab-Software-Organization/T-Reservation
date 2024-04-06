@@ -42,7 +42,7 @@ namespace T_Reservation.Models
 
         [Required(ErrorMessage = "la fecha es obligatoria")]
         [DataType(DataType.Date)]
-        [DisplayName("Fecha nacimineto")]
+        [DisplayName("Fecha de nacimiento")]
         public DateTime FechaNacimiento { get; set; }
 
 
@@ -56,6 +56,7 @@ namespace T_Reservation.Models
         [Compare("Password", ErrorMessage = "La contraseña no coincide")]
         [StringLength(100, MinimumLength = 6, ErrorMessage = "La contraseña debe tener 6 y 100 caracteres.")]
         [DataType(DataType.Password)]
+        [DisplayName("Confirmar contraseña")]
         public string ConfirmPassword { get; set; }
 
         public string Rol { get; set; }
