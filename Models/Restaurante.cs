@@ -4,9 +4,13 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 public class Restaurante
 {
+    public Restaurante()
+    {
+        Mesas = new List<Mesa>();
+    }
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public int Id { get; set; }
+    public int IdRestaurante { get; set; }
     [Required(ErrorMessage = "El nombre es obligatorio")]
     [StringLength(100)]
     public string Nombre { get; set; }
@@ -28,7 +32,7 @@ public class Restaurante
     public Empleado Empleados { get; set; }
 
     public ICollection<Menu> Menus { get; set; }
-    public ICollection<Mesa> Mesas { get; set; }
+    public IList<Mesa> Mesas { get; set; }
 
     public ICollection<Reserva> Reservas { get; set; }
 

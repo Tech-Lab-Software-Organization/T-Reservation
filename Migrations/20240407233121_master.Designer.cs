@@ -12,8 +12,8 @@ using T_Reservation.Models;
 namespace T_Reservation.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240405055954_0004")]
-    partial class _0004
+    [Migration("20240407233121_master")]
+    partial class master
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -29,12 +29,12 @@ namespace T_Reservation.Migrations
                     b.Property<int>("ClientesId")
                         .HasColumnType("int");
 
-                    b.Property<int>("RestauranteId")
+                    b.Property<int>("RestauranteIdRestaurante")
                         .HasColumnType("int");
 
-                    b.HasKey("ClientesId", "RestauranteId");
+                    b.HasKey("ClientesId", "RestauranteIdRestaurante");
 
-                    b.HasIndex("RestauranteId");
+                    b.HasIndex("RestauranteIdRestaurante");
 
                     b.ToTable("RestauranteCliente", (string)null);
                 });
@@ -117,7 +117,6 @@ namespace T_Reservation.Migrations
                         .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("Rol")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Telefono")
@@ -126,6 +125,20 @@ namespace T_Reservation.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Empleados");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Correo = "root@gmail.com",
+                            Direccion = "NINGUNA,NINGUNA",
+                            Dui = 234555321,
+                            FechaNacimiento = new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Nombre = "root",
+                            Password = "25d55ad283aa400af464c76d713c07ad",
+                            Rol = "Administrador",
+                            Telefono = 22229090
+                        });
                 });
 
             modelBuilder.Entity("T_Reservation.Models.Menu", b =>
@@ -186,15 +199,15 @@ namespace T_Reservation.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Numero")
+                    b.Property<int>("IdRestaurante")
                         .HasColumnType("int");
 
-                    b.Property<int>("RestauranteId")
+                    b.Property<int>("Numero")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("RestauranteId");
+                    b.HasIndex("IdRestaurante");
 
                     b.ToTable("Mesas");
                 });
@@ -243,11 +256,11 @@ namespace T_Reservation.Migrations
 
             modelBuilder.Entity("T_Reservation.Models.Restaurante", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("IdRestaurante")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdRestaurante"), 1L, 1);
 
                     b.Property<string>("Descripcion")
                         .IsRequired()
@@ -270,7 +283,7 @@ namespace T_Reservation.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.HasKey("Id");
+                    b.HasKey("IdRestaurante");
 
                     b.HasIndex("EmpleadoId");
 
@@ -287,7 +300,7 @@ namespace T_Reservation.Migrations
 
                     b.HasOne("T_Reservation.Models.Restaurante", null)
                         .WithMany()
-                        .HasForeignKey("RestauranteId")
+                        .HasForeignKey("RestauranteIdRestaurante")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -307,7 +320,7 @@ namespace T_Reservation.Migrations
                 {
                     b.HasOne("T_Reservation.Models.Restaurante", "Restaurante")
                         .WithMany("Mesas")
-                        .HasForeignKey("RestauranteId")
+                        .HasForeignKey("IdRestaurante")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

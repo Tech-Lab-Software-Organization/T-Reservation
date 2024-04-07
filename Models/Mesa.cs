@@ -29,8 +29,8 @@ namespace T_Reservation.Models
         public string Disponibilidad { get; set; }
 
         [DisplayName("Restaurante")]
-        [ForeignKey("RestauranteId")]
-        public int RestauranteId { get; set; }
+        [ForeignKey("IdRestaurante")]
+        public int IdRestaurante { get; set; }
         public Restaurante Restaurante { get; set; }
 
         public  ICollection<Reserva> Reservas { get; set; }

@@ -39,13 +39,14 @@ namespace T_Reservation.Controllers
             }
 
             var restaurante = await _context.Restaurantes
+                 .Include(s => s.Mesas)
                 .Include(r => r.Empleados)
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .FirstOrDefaultAsync(m => m.IdRestaurante == id);
             if (restaurante == null)
             {
                 return NotFound();
             }
-
+            ViewBag.Accion = "Details";
             return View(restaurante);
         }
 
@@ -53,8 +54,19 @@ namespace T_Reservation.Controllers
         [Authorize(Roles = "Administrador,Empleado")]
         public IActionResult Create()
         {
+            var restaurant = new Restaurante();
+
+
+            restaurant.Mesas = new List<Mesa>();
+            restaurant.Mesas.Add(new Mesa
+            {
+                Numero = 1,
+                Capacidad = 1,
+            });
+
+            ViewBag.Accion = "Create";
             ViewData["EmpleadoId"] = new SelectList(_context.Empleados, "Id", "Nombre");
-            return View();
+            return View(restaurant);
         }
 
         // POST: Restaurantes/Create
@@ -63,7 +75,7 @@ namespace T_Reservation.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Administrador,Empleado")]
-        public async Task<IActionResult> Create([Bind("Id,Nombre,Descripcion,Direccion,EmpleadoId")] Restaurante restaurante, IFormFile imagen)
+        public async Task<IActionResult> Create([Bind("IdRestaurante,Nombre,Descripcion,Direccion,EmpleadoId,Mesas")] Restaurante restaurante, IFormFile imagen)
         {
             if (imagen != null && imagen.Length > 0)
             {
@@ -74,9 +86,53 @@ namespace T_Reservation.Controllers
 
                 }
             }
+            //// Asignar RestauranteId a las mesas
+            //foreach (var mesa in restaurante.Mesas)
+            //{
+            //    mesa.IdRestaurante = restaurante.Id;
+            //}
             _context.Add(restaurante);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
+        }
+        [HttpPost]
+        public ActionResult AgregarDetalles([Bind("IdRestaurante,Nombre,Descripcion,Direccion,EmpleadoId,Mesas")] Restaurante restaurante, string accion)
+        {
+            // Agregar una nueva mesa al restaurante
+            restaurante.Mesas.Add(new Mesa());
+
+            // Mantener la imagen y el empleado seleccionado en la vista
+
+            ViewData["EmpleadoId"] = new SelectList(_context.Empleados, "Id", "Nombre", restaurante.EmpleadoId);
+            ViewData["Imagen"] = restaurante.Imagen; // Mantener la imagen en la vista
+            ViewBag.Accion = accion;
+
+            // Devolver la vista con los datos actualizados
+            return View(accion, restaurante);
+        }
+
+        public ActionResult EliminarDetalles([Bind("IdRestaurante,Nombre,Descripcion,Direccion,EmpleadoId,Mesas")] Restaurante restaurante, int index, string accion)
+        {
+            // Eliminar la mesa seleccionada
+            var det = restaurante.Mesas[index];
+            if (accion == "Edit" && det.Id > 0)
+            {
+                det.Id = det.Id * -1;
+            }
+            else
+            {
+                restaurante.Mesas.RemoveAt(index);
+            }
+
+
+            ViewBag.Accion = accion;
+            // Mantener la imagen y el empleado seleccionado en la vista
+
+            ViewData["EmpleadoId"] = new SelectList(_context.Empleados, "Id", "Nombre", restaurante.EmpleadoId);
+            ViewData["Imagen"] = restaurante.Imagen; // Mantener la imagen en la vista
+  
+            // Devolver la vista con los datos actualizados
+            return View(accion, restaurante);
         }
 
         // GET: Restaurantes/Edit/5
@@ -88,12 +144,17 @@ namespace T_Reservation.Controllers
                 return NotFound();
             }
 
-            var restaurante = await _context.Restaurantes.FindAsync(id);
+            var restaurante = await _context.Restaurantes
+                .Include(s => s.Mesas)
+                .Include(r => r.Empleados)
+                .FirstOrDefaultAsync(m => m.IdRestaurante == id);
             if (restaurante == null)
             {
                 return NotFound();
             }
+           
             ViewData["EmpleadoId"] = new SelectList(_context.Empleados, "Id", "Nombre", restaurante.EmpleadoId);
+            ViewBag.Accion = "Edit";
             return View(restaurante);
         }
 
@@ -103,38 +164,78 @@ namespace T_Reservation.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Administrador, Empleado")]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Nombre,Descripcion,Direccion,EmpleadoId")] Restaurante restaurante, IFormFile imagen)
+        public async Task<IActionResult> Edit([Bind("IdRestaurante,Nombre,Descripcion,Direccion,EmpleadoId,Mesas")] Restaurante restaurante, IFormFile imagen)
         {
-            if (id != restaurante.Id)
+            try
             {
-                return NotFound();
-            }
-
-            if (imagen != null && imagen.Length > 0)
-            {
-
-                using (var memoryStream = new MemoryStream())
+                if (imagen != null && imagen.Length > 0)
                 {
-                    await imagen.CopyToAsync(memoryStream);
-                    restaurante.Imagen = memoryStream.ToArray();
+
+                    using (var memoryStream = new MemoryStream())
+                    {
+                        await imagen.CopyToAsync(memoryStream);
+                        restaurante.Imagen = memoryStream.ToArray();
+                    }
+                    _context.Update(restaurante);
+                    await _context.SaveChangesAsync();
                 }
-                _context.Update(restaurante);
-                await _context.SaveChangesAsync();
+
+                else
+                {
+                    var registroupdate = await _context.Restaurantes
+                            .Include(s => s.Mesas)
+                            .FirstAsync(s => s.IdRestaurante == restaurante.IdRestaurante);
+
+                    if (registroupdate?.Imagen?.Length > 0)
+                        restaurante.Imagen = registroupdate.Imagen;
+
+                    registroupdate.Nombre = restaurante.Nombre;
+                    registroupdate.Descripcion = restaurante.Descripcion;
+                    registroupdate.Direccion = restaurante.Direccion;
+                    // Obtener todos los detalles que seran nuevos y agregarlos a la base de datos
+                    var detNew = restaurante.Mesas.Where(s => s.Id == 0);
+                    foreach (var d in detNew)
+                    {
+                        registroupdate.Mesas.Add(d);
+                    }
+                    // Obtener todos los detalles que seran modificados y actualizar a la base de datos
+                    var detUpdate = restaurante.Mesas.Where(s => s.Id > 0);
+                    foreach (var d in detUpdate)
+                    {
+                        var det = registroupdate.Mesas.FirstOrDefault(s => s.Id == d.Id);
+                        det.Numero = d.Numero;
+                        det.Capacidad = d.Capacidad;
+                        det.Area = d.Area;
+                        det.Disponibilidad = d.Disponibilidad;
+                    }
+                    // Obtener todos los detalles que seran eliminados y actualizar a la base de datos
+                    var delDet = restaurante.Mesas.Where(s => s.Id < 0).ToList();
+                    if (delDet != null && delDet.Count > 0)
+                    {
+                        foreach (var d in delDet)
+                        {
+                            d.Id = d.Id * -1;
+                            var det = registroupdate.Mesas.FirstOrDefault(s => s.Id == d.Id);
+                            _context.Remove(det);
+
+                        }
+                    }
+                    _context.Update(registroupdate);
+                    await _context.SaveChangesAsync();
+                }
             }
 
-            else
+
+            catch (DbUpdateConcurrencyException)
             {
-                var registroFind = await _context.Restaurantes.FirstOrDefaultAsync(s => s.Id == restaurante.Id);
-
-                if (registroFind?.Imagen?.Length > 0)
-                    restaurante.Imagen = registroFind.Imagen;
-
-                registroFind.Nombre = restaurante.Nombre;
-                registroFind.Descripcion = restaurante.Descripcion;
-                registroFind.Direccion = restaurante.Direccion;
-
-                _context.Update(registroFind);
-                await _context.SaveChangesAsync();
+                if (!RestauranteExists(restaurante.IdRestaurante))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
             }
             return RedirectToAction(nameof(Index));
 
@@ -150,13 +251,14 @@ namespace T_Reservation.Controllers
             }
 
             var restaurante = await _context.Restaurantes
+                .Include(s => s.Mesas)
                 .Include(r => r.Empleados)
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .FirstOrDefaultAsync(m => m.IdRestaurante == id);
             if (restaurante == null)
             {
                 return NotFound();
             }
-
+            ViewBag.Accion = "Delete";
             return View(restaurante);
         }
 
@@ -184,7 +286,7 @@ namespace T_Reservation.Controllers
 
         private bool RestauranteExists(int id)
         {
-          return _context.Restaurantes.Any(e => e.Id == id);
+          return _context.Restaurantes.Any(e => e.IdRestaurante == id);
         }
     }
 }

@@ -63,16 +63,16 @@
             </td>
                         <td class="btn-group-vertical">
 
-                           
-        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-dark">Editar</a>
-                                
 
-                          
-        <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-secondary">Detalles</a>
-                          
-           <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">Eliminar</a>     
-                            
-           </td>
+                            <a asp-action="Edit" asp-route-id="@item.IdRestaurante" class="btn btn-dark">Editar</a>
+
+
+
+                            <a asp-action="Details" asp-route-id="@item.IdRestaurante" class="btn btn-secondary">Detalles</a>
+
+                            <a asp-action="Delete" asp-route-id="@item.IdRestaurante" class="btn btn-danger">Eliminar</a>
+
+                        </td>
         </tr>
 }
     </tbody>

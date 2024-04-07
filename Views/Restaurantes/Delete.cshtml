@@ -45,10 +45,15 @@
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Empleados.Nombre)
         </dd>
+                <div class="row">
+                    <div class="row row-cols-md-12">
+                        @await Html.PartialAsync("_Mesas", Model.Mesas)
+                    </div>
+                </div>
     </dl>
     
     <form asp-action="Delete">
-        <input type="hidden" asp-for="Id" />
+                <input type="hidden" asp-for="IdRestaurante" />
         <input type="submit" value="Eliminar" class="btn btn-danger" /> |
      <a asp-action="Index" class="btn btn-dark">Cancelar</a>
         

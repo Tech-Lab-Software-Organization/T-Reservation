@@ -91,7 +91,7 @@ namespace T_Reservation.Controllers
 
             var restaurante = await _context.Restaurantes
                 .Include(m => m.Menus)
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .FirstOrDefaultAsync(m => m.IdRestaurante == id);
             if (restaurante == null)
             {
                 return NotFound();
@@ -102,7 +102,7 @@ namespace T_Reservation.Controllers
 
         private bool restauranteExists(int id)
         {
-            return _context.Restaurantes.Any(e => e.Id == id);
+            return _context.Restaurantes.Any(e => e.IdRestaurante == id);
         }
 
 

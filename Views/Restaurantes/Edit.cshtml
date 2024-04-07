@@ -14,7 +14,7 @@
     <div class="col-md-12">
         <form asp-action="Edit" enctype="multipart/form-data" class="row g-3">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
+                    <input type="hidden" asp-for="IdRestaurante" />
             <div class="form-group col-md-6">
                 <label asp-for="Nombre" class="control-label"></label>
                 <input asp-for="Nombre" class="form-control" />
@@ -54,8 +54,13 @@
                 <select asp-for="EmpleadoId" class="form-control" asp-items="ViewBag.EmpleadoId"></select>
                 <span asp-validation-for="EmpleadoId" class="text-danger"></span>
             </div>
+                    <div class="row">
+                        <div class="row row-cols-md-12">
+                            @await Html.PartialAsync("_Mesas", Model.Mesas)
+                        </div>
+                    </div>
             <div class="form-group">
-              <input type="submit" value="Crear" class="btn btn-secondary" /> |
+              <input type="submit" value="Editar" class="btn btn-secondary" /> |
                 <a asp-action="Index" class="btn btn-dark">cancelar</a>
 
             </div>

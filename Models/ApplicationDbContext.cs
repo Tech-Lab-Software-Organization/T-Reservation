@@ -42,11 +42,10 @@ namespace T_Reservation.Models
                 .HasForeignKey(m => m.RestauranteId);
 
             //Configuración de la relación entre Restaurante y Mesa (1:M)/
-            modelBuilder.Entity<Mesa>()
-                .HasOne(t => t.Restaurante)
-                .WithMany(r => r.Mesas)
-                .HasForeignKey(t => t.RestauranteId);
-
+            modelBuilder.Entity<Restaurante>()
+        .HasMany(r => r.Mesas)
+        .WithOne(m => m.Restaurante)
+        .HasForeignKey(m => m.IdRestaurante);
             //Configuración de la relación entre Mesa y Reserva (1:M)/
             modelBuilder.Entity<Reserva>()
                 .HasOne(r => r.Mesa)
@@ -74,6 +73,8 @@ namespace T_Reservation.Models
             .HasMany(r => r.Clientes)
             .WithMany(c => c.Restaurante)
             .UsingEntity(j => j.ToTable("RestauranteCliente"));
+
+            base.OnModelCreating(modelBuilder);
         }
 
    

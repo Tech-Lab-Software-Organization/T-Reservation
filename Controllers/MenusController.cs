@@ -56,7 +56,7 @@ namespace T_Reservation.Controllers
         [Authorize(Roles = "Administrador, Empleado")]
         public IActionResult Create()
         {
-            ViewData["RestauranteId"] = new SelectList(_context.Restaurantes, "Id", "Nombre");
+            ViewData["RestauranteId"] = new SelectList(_context.Restaurantes, "IdRestaurante", "Nombre");
             return View();
         }
 
@@ -96,7 +96,7 @@ namespace T_Reservation.Controllers
             {
                 return NotFound();
             }
-            ViewData["RestauranteId"] = new SelectList(_context.Restaurantes, "Id", "Nombre", menu.RestauranteId);
+            ViewData["RestauranteId"] = new SelectList(_context.Restaurantes, "IdRestaurante", "Nombre", menu.RestauranteId);
             return View(menu);
         }
 
