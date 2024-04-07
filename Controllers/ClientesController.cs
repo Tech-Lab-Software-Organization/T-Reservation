@@ -30,8 +30,7 @@ namespace T_Reservation.Controllers
         [Authorize(Roles = "Administrador, Empleado")]
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Clientes;
-            return View(await applicationDbContext.ToListAsync());
+            return View(await _context.Clientes.ToListAsync());
         }
 
         // GET: Clientes/Details/5 Administrador
@@ -59,7 +58,7 @@ namespace T_Reservation.Controllers
         public IActionResult Create()
         {
             Cliente cliente = new Cliente();
-            return View(cliente);
+            return View();
         }
 
         // POST: Clientes/Create
@@ -73,7 +72,8 @@ namespace T_Reservation.Controllers
             cliente.Password = CalcularHashMD5(cliente.Password);
             _context.Add(cliente);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Login", "Login");
+
         }
 
         // GET: Clientes/Edit/5

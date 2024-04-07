@@ -26,8 +26,10 @@ namespace T_Reservation.Controllers
         public async Task<IActionResult> Login(string returnUrl = null)
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+
             ViewBag.ReturnUrl = returnUrl;
             return View();
+
         }
         [AllowAnonymous]
     [HttpPost]
