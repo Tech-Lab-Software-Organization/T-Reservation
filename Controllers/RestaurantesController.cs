@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -288,5 +289,71 @@ namespace T_Reservation.Controllers
         {
           return _context.Restaurantes.Any(e => e.IdRestaurante == id);
         }
+
+
+        public ActionResult GraficoPorFecha()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> GetInfoGraficoPorFecha()
+        {
+            var claimsPrincipal = HttpContext.User;
+
+            // Access the "name" claim (containing email)
+            var email = claimsPrincipal.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value;
+
+            // Get the user ID from the database using email
+            var usuario = await _context.Empleados.FirstOrDefaultAsync(u => u.Correo == email);
+
+            // Check if user exists before proceeding
+            if (usuario == null)
+            {
+                // Handle case where user is not found (e.g., return error)
+                return BadRequest("Usuario no encontrado");
+            }
+
+            int empleadoId = usuario.Id; // Assuming EmpleadoId is the user ID
+
+            var reservas = await _context.Reservas
+                .Include(r => r.Restaurante)
+                .Where(r => r.Restaurante.EmpleadoId == empleadoId)
+                .ToListAsync();
+            var objs = new List<object>();
+
+
+
+            // Group reservations by restaurant name, reservation ID, and date, and count the number of reservations in each group
+            var reservasPorFecha = reservas.GroupBy(r => r.FechaInicio.Date)
+    .Select(group => new
+    {
+        fecha = group.Key,
+        cantidad = group.Count(),
+        // Si necesitas almacenar los nombres de los restaurantes o ids de reservas agrupados, puedes usar una lista o añadir propiedades adicionales:
+        restaurantes = group.Select(r => r.Restaurante.Nombre).ToList(),
+        reservasIds = group.Select(r => r.Id).ToList()
+    });
+
+
+            foreach (var reserva in reservasPorFecha)
+            {
+                objs.Add(new
+                {
+                    fecha = reserva.fecha.ToString("yyyy-MM-dd"),
+                    cantidad = reserva.cantidad,
+                    // Opcionalmente, incluye las propiedades para nombres o ids agrupados:
+                    restaurantes = reserva.restaurantes,
+                    reservasIds = reserva.reservasIds
+                });
+            }
+
+
+
+            return Json(objs);
+        }
+
+
+
     }
 }

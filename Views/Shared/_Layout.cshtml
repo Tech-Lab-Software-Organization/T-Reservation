@@ -65,6 +65,11 @@
 
                                     <a class="nav-link text-white" asp-area="" asp-controller="Login" asp-action="Login">Cerrar Sesión</a>
                                 </li>
+                                <li class="nav-item">
+
+                                    <a class="nav-link text-white" asp-area="" asp-controller="Restaurantes" asp-action="GraficoPorFecha">Grafico</a>
+
+                                </li>
                             }
                         }
                         @if (User.IsInRole("Empleado"))
@@ -93,6 +98,11 @@
                             <li class="nav-item">
 
                                 <a class="nav-link text-white" asp-area="" asp-controller="Login" asp-action="Login">Cerrar Sesión</a>
+                            </li>
+                            <li class="nav-item">
+
+                                <a class="nav-link text-white" asp-area="" asp-controller="Restaurantes" asp-action="GraficoPorFecha">Grafico</a>
+
                             </li>
                         }
 

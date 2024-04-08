@@ -1,0 +1,80 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+<script src="https://www.gstatic.com/charts/loader.js"></script>
+<div id="myChartPastel" style="width:100%; max-width:800px; height:700px;">
+</div>
+<div id="myChartBarra" style="width:100%; max-width:800px; height:700px;">
+</div>
+
+
+
+@section Scripts {
+    <script>
+
+        google.charts.load('current', { 'packages': ['corechart'] });
+        var datosGrafico = {};
+
+        function drawChartPastel() {
+
+            // Set Data
+            const data = google.visualization.arrayToDataTable(datosGrafico);
+
+            // Set Options
+            const options = {
+                title: 'Reservaciones del Restuarante',
+                is3D: true
+            };
+
+            // Draw
+            const chart = new google.visualization.PieChart(document.getElementById('myChartPastel'));
+            chart.draw(data, options);
+
+        }
+        function drawChartBarra() {
+
+            // Set Data
+            const data = google.visualization.arrayToDataTable(datosGrafico);
+
+            // Set Options
+
+            // Draw
+            const options = {
+                title: 'Reservaciones del Restuarante'
+            };
+
+            // Draw
+            const chart = new google.visualization.BarChart(document.getElementById('myChartBarra'));
+            chart.draw(data, options);
+
+        }
+        function iniciar() {
+            $.ajax({
+                url: '@Url.Action("GetInfoGraficoPorFecha", "Restaurantes")',
+                method: "POST",
+                success: function (response) {
+                    datosGrafico = [
+                        ['Fecha', 'Cantidad']
+                    ];
+                    for (var i = 0; i < response.length; i++) {
+                        const item = response[i];
+                        datosGrafico.push([item.fecha, item.cantidad]);
+                    }
+                    google.charts.setOnLoadCallback(drawChartPastel);
+                    google.charts.setOnLoadCallback(drawChartBarra);
+
+                },
+                error: function (error) {
+                    console.log("Error creating user:", error);
+                }
+            });
+
+        }
+        iniciar();
+    </script>
+
+
+}
