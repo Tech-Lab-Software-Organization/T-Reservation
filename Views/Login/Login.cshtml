@@ -4,16 +4,16 @@
     ViewBag.Title = "Inicio de Sesión";
     Layout = "~/Views/Shared/_LayoutLogin.cshtml";
 }
+<br />
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-6">
 <div class="card">
     <div class="card-body">
 
-                    <h4 class="text-center">Inicio de sesión</h4>
-    <hr />
+                    <h1 class="text-center card-title">Iniciar sesión</h1>
 
-
+<br />
     <form asp-action="Login">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <input type="hidden" name="ReturnUrl" value="@ViewBag.ReturnUrl" />
@@ -29,11 +29,12 @@
         </div>
         <br />
         <div class="form-group">
-            <input type="submit" value="Entrar" class="btn btn-primary col-md-12" />
+            <input type="submit" value="Iniciar sesión" class="btn btn-dark col-md-12" />
             <span>@ViewBag.Error</span>
             <br />
-            <label class="control-label">¿No tienes una cuenta?</label>
-            <span> <a asp-area="" class="btn btn-link" asp-controller="Home" asp-action="IndexHome">Registrar</a></span>
+         <br />
+            
+            <span> <a asp-area="" class="btn btn-danger cold-md-12" asp-controller="Home" asp-action="IndexHome">Cancelar</a></span>
          
         </div>
     </form>

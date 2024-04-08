@@ -6,8 +6,10 @@
 <head>
 	<link rel="stylesheet" href="~/css/loginhome.css">
 </head>
-
-	<h1 class="card-footer"   style="background-color:lavenderblush " >Bienvenidos a T-Reservation</h1>
+<br />
+<div class="card">
+	<h1 class="card-body text-center">Bienvenid@s a T-Reservation</h1>
+</div>
 <div class="container text-center" style="margin-top: 3rem;">
     <div class="row">
       @*   <div class="col-md-4">
@@ -19,21 +21,23 @@
                 </div>
             </div>
         </div> *@
-        <div class="col-md-4">
+        <div class="col-md-6">
             <div class="card card-custom">
+                <br />
                 <img class="card-img-center" src="~/img/person.svg" alt="Imagen de Usuario">
                 <div class="card-body">
 
-                    <a asp-area="" class="btn btn-dark btn-block btn-custom" asp-controller="Login" asp-action="Login"> Iniciar Sesión</a>
+                    <a asp-area=""class="btn btn-dark btn-block btn-custom" asp-controller="Login" asp-action="Login">Iniciar Sesión</a>
                 </div>
             </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-6">
             <div class="card card-custom">
+                <br />
                 <img class="card-img-center" src="~/img/calendario.svg" alt="Imagen de Cliente">
                 <div class="card-body">
                  
-                    <a asp-area="" class="btn btn-dark btn-block btn-custom" asp-controller="Clientes" asp-action="Create">Registrar Cliente</a>
+                    <a asp-area="" class="btn btn-dark btn-block btn-custom" asp-controller="Clientes" asp-action="Create">Registrarse</a>
                 </div>
             </div>
         </div>
