@@ -3,6 +3,7 @@
 }
 @model IEnumerable<Mesa>
 <input type="hidden" name="accion" value="@ViewBag.Accion" />
+<div class="table-responsive">
 <table class="table">
     <thead>
         <tr>
@@ -25,7 +26,7 @@
                 @if (ViewBag.Accion == "Create" || ViewBag.Accion == "Edit")
                 {
 
-                    <button type="submit" class="btn btn-primary" formaction="@Url.Action("AgregarDetalles")">Agregar</button>
+                    <button type="submit" class="btn btn-dark" formaction="@Url.Action("AgregarDetalles")">Agregar</button>
                 }
 
             </th>
@@ -66,7 +67,7 @@
                             @if (ViewBag.Accion == "Create" || ViewBag.Accion == "Edit")
                             {
                              
-                                <button name="index" value="@index" class="btn btn-primary" type="submit" formaction="@Url.Action("EliminarDetalles")">Eliminar</button>
+                                <button name="index" value="@index" class="btn btn-danger" type="submit" formaction="@Url.Action("EliminarDetalles")">Eliminar</button>
                             }
 
                         </td>
@@ -93,6 +94,7 @@
 
     </tbody>
 </table>
+</div>
 @if (ViewBag.Accion == "Details" || ViewBag.Accion == "Delete")
 {
     <script>

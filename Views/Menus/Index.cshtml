@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<T_Reservation.Models.Menu>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Productos";
 
 
 }
@@ -9,11 +9,11 @@
 
 <div class="card">
     <div class="card-body">
-<h1 class="card-title">Menú</h1>
+<h1 class="card-title">Lista de productos</h1>
 
 <p>
 <a asp-action="Create" class="btn btn-dark">Agregar producto</a>
-                            
+        <div class="table-responsive">                  
 </p>
 <table class="table table-bordered table-sm">
     <thead>
@@ -81,3 +81,4 @@
 </table>
 </div>
 </div>
+</div>  

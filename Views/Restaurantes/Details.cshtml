@@ -9,8 +9,7 @@
         <h1 class="card-title">Detalles</h1>
 
 <div>
-    <h4>Restaurante</h4>
-    <hr />
+
     <dl class="row">
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Nombre)
@@ -53,7 +52,7 @@
     </dl>
 </div>
 <div>
-            <a asp-action="Edit" class="btn btn-secondary" asp-route-id="@Model?.IdRestaurante">Editar</a> |
+            <a asp-action="Edit" class="btn btn-secondary" asp-route-id="@Model?.IdRestaurante">Editar</a>
  <a asp-action="Index" class="btn btn-danger">Cancelar</a>
 </div>
 </div>

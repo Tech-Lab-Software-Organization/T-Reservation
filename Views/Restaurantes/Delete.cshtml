@@ -10,7 +10,7 @@
 
         <h3 class="text-danger">¿Estas seguro que quieres eliminar este restaurante?</h3>
 <div>
-    <hr />
+
     <dl class="row">
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Nombre)
@@ -54,7 +54,7 @@
     
     <form asp-action="Delete">
                 <input type="hidden" asp-for="IdRestaurante" />
-        <input type="submit" value="Eliminar" class="btn btn-danger" /> |
+        <input type="submit" value="Eliminar" class="btn btn-danger" />
      <a asp-action="Index" class="btn btn-dark">Cancelar</a>
         
     </form>
