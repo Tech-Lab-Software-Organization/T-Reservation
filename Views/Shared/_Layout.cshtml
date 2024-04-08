@@ -26,6 +26,11 @@
                             {
                                 <li class="nav-item">
 
+                                    <a class="navbar-brand" text-dark" asp-area="" asp-controller="Restaurantes" asp-action="GraficoPorFecha">T-Reservation</a>
+
+                                </li>
+                                <li class="nav-item">
+
                                     <a class="navbar-brand" text-dark" asp-area="" asp-controller="Restaurantes" asp-action="GraficoPorFecha">Metricas</a>
 
                                 </li>
@@ -68,33 +73,38 @@
                         {
                             <li class="nav-item">
 
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Restaurantes" asp-action="GraficoPorFecha">Metricas</a>
+                                <a class="navbar-brand" text-dark" asp-area="" asp-controller="Restaurantes" asp-action="GraficoPorFecha">T-Reservation</a>
 
                             </li>
                             <li class="nav-item">
 
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Restaurantes" asp-action="Index">My restaurante</a>
+                                <a class="navbar-brand" text-dark" asp-area="" asp-controller="Restaurantes" asp-action="GraficoPorFecha">Metricas</a>
 
                             </li>
                             <li class="nav-item">
 
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Menus" asp-action="Index">Productos</a>
+                                <a class="navbar-brand" text-dark" asp-area="" asp-controller="Restaurantes" asp-action="Index">My restaurante</a>
 
                             </li>
                             <li class="nav-item">
 
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Reservas" asp-action="Index">Reservaciones</a>
+                                <a class="navbar-brand" text-dark" asp-area="" asp-controller="Menus" asp-action="Index">Productos</a>
+
+                            </li>
+                            <li class="nav-item">
+
+                                <a class="navbar-brand" text-dark" asp-area="" asp-controller="Reservas" asp-action="Index">Reservaciones</a>
 
                             </li>
                            
                             <li class="nav-item">
 
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Clientes" asp-action="Index">Clientes</a>
+                                <a class="navbar-brand" text-dark" asp-area="" asp-controller="Clientes" asp-action="Index">Clientes</a>
 
                             </li>
                             <li class="nav-item">
 
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Login" asp-action="Login">Cerrar Sesión</a>
+                                <a class="navbar-brand" text-dark" asp-area="" asp-controller="Login" asp-action="Login">Cerrar Sesión</a>
                             </li>
 
                         }
@@ -103,19 +113,25 @@
                         {
                             <li class="nav-item">
 
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="CatalogoRestaurante">Restaurantes</a>
+                                <a class="navbar-brand" text-dark" asp-area="" asp-controller="Home" asp-action="CatalogoRestaurante">T-Reservation</a>
 
                             </li>
                             <li class="nav-item">
 
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Reservas" asp-action="Index">Reservaciones</a>
+                                <a class="navbar-brand" text-dark" asp-area="" asp-controller="Home" asp-action="CatalogoRestaurante">Restaurantes</a>
 
                             </li>
                             <li class="nav-item">
 
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="CatalogoMenu">Productos</a>
+                                <a class="navbar-brand" text-dark" asp-area="" asp-controller="Home" asp-action="CatalogoMenu">Productos</a>
 
                             </li>
+                            <li class="nav-item">
+
+                                <a class="navbar-brand" text-dark" asp-area="" asp-controller="Reservas" asp-action="Index">Reservaciones</a>
+
+                            </li>
+
 
                             <li class="nav-item">
 
@@ -124,7 +140,7 @@
                         }
                         
                             <li>
-                              <span>@User.Identity.Name</span>
+                            <a class="navbar-brand" tex-dark">@User.Identity.Name</a>
                             </li>
                         
                        
