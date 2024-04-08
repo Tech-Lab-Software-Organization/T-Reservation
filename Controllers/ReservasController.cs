@@ -79,14 +79,24 @@ namespace T_Reservation.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(reserva);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                bool reservaExistente = _context.Reservas.Any(r => r.FechaInicio.Date == reserva.FechaInicio.Date && r.RestauranteId == reserva.RestauranteId);
+
+                if (reservaExistente)
+                {
+                    // Mostrar mensaje de error
+                    ModelState.AddModelError(string.Empty, "Ya existe una reserva para el mismo día en este restaurante.");
+                    // Recargar la vista con los datos ingresados por el usuario
+                    ViewData["ClienteId"] = new SelectList(_context.Clientes, "Id", "Correo", reserva.ClienteId);
+                    ViewData["MesaId"] = new SelectList(_context.Mesas, "Id", "Area", reserva.MesaId);
+                    ViewData["RestauranteId"] = new SelectList(_context.Restaurantes, "IdRestaurante", "Nombre", reserva.RestauranteId);
+                    return View(reserva);
+                }
+               
             }
-            ViewData["ClienteId"] = new SelectList(_context.Clientes, "Id", "Correo", reserva.ClienteId);
-            ViewData["MesaId"] = new SelectList(_context.Mesas, "Id", "Area", reserva.MesaId);
-            ViewData["RestauranteId"] = new SelectList(_context.Restaurantes, "Id", "Nombre", reserva.RestauranteId);
-            return View(reserva);
+            _context.Add(reserva);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+
         }
 
         // GET: Reservas/Edit/5
