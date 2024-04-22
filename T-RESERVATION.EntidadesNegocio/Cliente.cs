@@ -7,7 +7,7 @@ namespace T_Reservation.Models
 {
     public class Cliente
     {
-        [key]
+        [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 

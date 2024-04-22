@@ -1,0 +1,12 @@
+C:\Users\MINEDUCYT\Desktop\T-Reservation--\T-Reservation\T-RESERVATION.LogicaNegocio\bin\Debug\net6.0\T-RESERVATION.LogicaNegocio.deps.json
+C:\Users\MINEDUCYT\Desktop\T-Reservation--\T-Reservation\T-RESERVATION.LogicaNegocio\bin\Debug\net6.0\T-RESERVATION.LogicaNegocio.dll
+C:\Users\MINEDUCYT\Desktop\T-Reservation--\T-Reservation\T-RESERVATION.LogicaNegocio\bin\Debug\net6.0\T-RESERVATION.LogicaNegocio.pdb
+C:\Users\MINEDUCYT\Desktop\T-Reservation--\T-Reservation\T-RESERVATION.LogicaNegocio\obj\Debug\net6.0\T-RESERVATION.LogicaNegocio.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\MINEDUCYT\Desktop\T-Reservation--\T-Reservation\T-RESERVATION.LogicaNegocio\obj\Debug\net6.0\T-RESERVATION.LogicaNegocio.AssemblyInfoInputs.cache
+C:\Users\MINEDUCYT\Desktop\T-Reservation--\T-Reservation\T-RESERVATION.LogicaNegocio\obj\Debug\net6.0\T-RESERVATION.LogicaNegocio.AssemblyInfo.cs
+C:\Users\MINEDUCYT\Desktop\T-Reservation--\T-Reservation\T-RESERVATION.LogicaNegocio\obj\Debug\net6.0\T-RESERVATION.LogicaNegocio.csproj.CoreCompileInputs.cache
+C:\Users\MINEDUCYT\Desktop\T-Reservation--\T-Reservation\T-RESERVATION.LogicaNegocio\obj\Debug\net6.0\T-RESERVATION.LogicaNegocio.sourcelink.json
+C:\Users\MINEDUCYT\Desktop\T-Reservation--\T-Reservation\T-RESERVATION.LogicaNegocio\obj\Debug\net6.0\T-RESERVATION.LogicaNegocio.dll
+C:\Users\MINEDUCYT\Desktop\T-Reservation--\T-Reservation\T-RESERVATION.LogicaNegocio\obj\Debug\net6.0\refint\T-RESERVATION.LogicaNegocio.dll
+C:\Users\MINEDUCYT\Desktop\T-Reservation--\T-Reservation\T-RESERVATION.LogicaNegocio\obj\Debug\net6.0\T-RESERVATION.LogicaNegocio.pdb
+C:\Users\MINEDUCYT\Desktop\T-Reservation--\T-Reservation\T-RESERVATION.LogicaNegocio\obj\Debug\net6.0\ref\T-RESERVATION.LogicaNegocio.dll

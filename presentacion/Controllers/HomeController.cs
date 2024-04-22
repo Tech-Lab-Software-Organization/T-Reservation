@@ -9,6 +9,8 @@ namespace T_Reservation.Controllers
     [Authorize(Roles = "Cliente,Administrador")]
     public class HomeController : Controller
     {
+        
+
        
         private readonly ApplicationDbContext _context;
 
