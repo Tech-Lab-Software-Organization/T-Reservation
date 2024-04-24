@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-
+using T_RESERVATION.EntidadesNegocio;
 
 namespace T_RESERVATION.AccesoDatos;
 
@@ -12,7 +12,7 @@ public static class DenpencyContainer
         services.AddDbContext<ApplicationDbContext>(options =>
         options.UseSqlServer(configuration.GetConnectionString("conn")));
 
-        services.AddScoped<>();
+        services.AddScoped<ClientesDAL>();
 
         return services;
     }
