@@ -4,4 +4,6 @@ git add .
 
 git commit -m "$Message"
 
+git push
+
 write-host "se inserto con exito" 
