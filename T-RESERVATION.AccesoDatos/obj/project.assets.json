@@ -782,6 +782,21 @@
             "rid": "win"
           }
         }
+      },
+      "T-RESERVATION.EntidadesNegocio/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v6.0",
+        "dependencies": {
+          "Microsoft.EntityFrameworkCore.Design": "6.0.29",
+          "Microsoft.EntityFrameworkCore.SqlServer": "6.0.29",
+          "Microsoft.EntityFrameworkCore.Tools": "6.0.29"
+        },
+        "compile": {
+          "bin/placeholder/T-RESERVATION.EntidadesNegocio.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/T-RESERVATION.EntidadesNegocio.dll": {}
+        }
       }
     }
   },
@@ -2003,13 +2018,19 @@
         "useSharedDesignerContext.txt",
         "version.txt"
       ]
+    },
+    "T-RESERVATION.EntidadesNegocio/1.0.0": {
+      "type": "project",
+      "path": "../T-RESERVATION.EntidadesNegocio/T-RESERVATION.EntidadesNegocio.csproj",
+      "msbuildProject": "../T-RESERVATION.EntidadesNegocio/T-RESERVATION.EntidadesNegocio.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net6.0": [
       "Microsoft.EntityFrameworkCore.Design >= 6.0.29",
       "Microsoft.EntityFrameworkCore.SqlServer >= 6.0.29",
-      "Microsoft.EntityFrameworkCore.Tools >= 6.0.29"
+      "Microsoft.EntityFrameworkCore.Tools >= 6.0.29",
+      "T-RESERVATION.EntidadesNegocio >= 1.0.0"
     ]
   },
   "packageFolders": {
@@ -2038,7 +2059,11 @@
       "frameworks": {
         "net6.0": {
           "targetAlias": "net6.0",
-          "projectReferences": {}
+          "projectReferences": {
+            "C:\\Users\\MINEDUCYT\\Desktop\\T-Reservation--\\T-Reservation\\T-RESERVATION.EntidadesNegocio\\T-RESERVATION.EntidadesNegocio.csproj": {
+              "projectPath": "C:\\Users\\MINEDUCYT\\Desktop\\T-Reservation--\\T-Reservation\\T-RESERVATION.EntidadesNegocio\\T-RESERVATION.EntidadesNegocio.csproj"
+            }
+          }
         }
       },
       "warningProperties": {

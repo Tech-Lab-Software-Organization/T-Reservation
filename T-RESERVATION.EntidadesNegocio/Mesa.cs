@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace T_Reservation.Models
+namespace T_RESERVATION.EntidadesNegocio
 {
     public class Mesa
     {

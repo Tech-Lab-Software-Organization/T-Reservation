@@ -1,4 +1,4 @@
-namespace T_Reservation.Models;
+namespace T_RESERVATION.EntidadesNegocio;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 

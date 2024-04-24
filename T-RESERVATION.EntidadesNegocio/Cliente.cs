@@ -3,7 +3,7 @@ using System;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel;
 
-namespace T_Reservation.Models
+namespace T_RESERVATION.EntidadesNegocio
 {
     public class Cliente
     {

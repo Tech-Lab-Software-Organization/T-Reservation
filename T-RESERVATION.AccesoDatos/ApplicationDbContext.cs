@@ -1,7 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using T_RESERVATION.EntidadesNegocio;
 
-namespace T_Reservation.Models
+
+namespace T_RESERVATION.AccesoDatos
 {
     public class ApplicationDbContext : DbContext
     {
