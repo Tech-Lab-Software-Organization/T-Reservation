@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography;
+﻿using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using T_Reservation.Models;
+using T_RESERVATION.AccesoDatos;
 
 namespace T_Reservation.Controllers
 {
@@ -111,7 +107,7 @@ namespace T_Reservation.Controllers
                     var originalEmpledo = await _context.Empleados.FindAsync(id);
 
                     // Copiar la contraseña original al cliente que se va a actualizar
-                    empleado.Password = originalEmpledo.Password;
+                   // empleado.Password = originalEmpledo.Password;
 
                     // Actualizar el resto de las propiedades del cliente
                     _context.Entry(originalEmpledo).CurrentValues.SetValues(empleado);

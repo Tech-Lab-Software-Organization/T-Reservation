@@ -24,4 +24,8 @@
     <PackageReference Include="Unidecode.NET" Version="2.1.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\T-RESERVATION.AccesoDatos\T-RESERVATION.AccesoDatos.csproj" />
+  </ItemGroup>
+
 </Project>

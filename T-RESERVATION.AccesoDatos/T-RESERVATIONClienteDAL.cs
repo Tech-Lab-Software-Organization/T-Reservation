@@ -97,22 +97,22 @@ public class ClientesDAL
     }
 
     public static string CalcularHashMD5(string texto)
+    {
+        using (MD5 md5 = MD5.Create())
         {
-            using (MD5 md5 = MD5.Create())
+            //Convierte la cadena de texto a bytes
+            byte[] inputbytes = Encoding.UTF8.GetBytes(texto);
+
+            //Calcula el hash MD5 de los bytes
+            byte[] HashBytes = md5.ComputeHash(inputbytes);
+
+            //convierte el hash a una cadena hexadecimal
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < HashBytes.Length; i++)
             {
-                //Convierte la cadena de texto a bytes
-                byte[] inputbytes = Encoding.UTF8.GetBytes(texto);
-
-                //Calcula el hash MD5 de los bytes
-                byte[] HashBytes = md5.ComputeHash(inputbytes);
-
-                //convierte el hash a una cadena hexadecimal
-                StringBuilder sb = new StringBuilder();
-                for (int i = 0; i < HashBytes.Length; i++)
-                {
-                    sb.Append(HashBytes[i].ToString("x2"));
-                }
-                return sb.ToString();
+                sb.Append(HashBytes[i].ToString("x2"));
             }
+            return sb.ToString();
         }
+    }
 }
