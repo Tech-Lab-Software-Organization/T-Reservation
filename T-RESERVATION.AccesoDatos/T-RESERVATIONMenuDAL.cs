@@ -11,23 +11,23 @@ public class MenuDAL{
         {
             _context = context;
         }
-        public async Task<List<Menu>> GetAllMenusAsync()
+        public async Task<List<Menu>> Menu()
         {
             return await _context.Menu.Include(m => m.Restaurante).ToListAsync();
         }
-        public async Task<Menu> GetMenuByIdAsync(int id)
+        public async Task<Menu> GetMenu(int id)
         {
             return await _context.Menu.Include(m => m.Restaurante).FirstOrDefaultAsync(m => m.Id == id);
         }
 
-        public async Task CreateMenuAsync(Menu menu)
+        public async Task CrearMenu(Menu menu)
         {
             
             _context.Add(menu);
             await _context.SaveChangesAsync();
         }
 
-        public async Task UpdateMenuAsync(Menu menu)
+        public async Task ModificarMenu(Menu menu)
         {
             var existingMenu = await _context.Menu.FirstOrDefaultAsync(s => s.Id == menu.Id);
 
@@ -47,7 +47,7 @@ public class MenuDAL{
             await _context.SaveChangesAsync();
         }
 
-        public async Task DeleteMenuAsync(int id)
+        public async Task EliminarMenu(int id)
         {
             var menu = await _context.Menu.FindAsync(id);
             if (menu == null)
