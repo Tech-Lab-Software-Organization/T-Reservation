@@ -1,24 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\React2023\\T-Reservation\\T-RESERVATION.LogicaNegocio\\T-RESERVATION.LogicaNegocio.csproj": {}
+    "C:\\Users\\MINEDUCYT\\Desktop\\T-Reservation--\\T-Reservation\\T-RESERVATION.LogicaNegocio\\T-RESERVATION.LogicaNegocio.csproj": {}
   },
   "projects": {
-    "C:\\React2023\\T-Reservation\\T-RESERVATION.LogicaNegocio\\T-RESERVATION.LogicaNegocio.csproj": {
+    "C:\\Users\\MINEDUCYT\\Desktop\\T-Reservation--\\T-Reservation\\T-RESERVATION.AccesoDatos\\T-RESERVATION.AccesoDatos.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\React2023\\T-Reservation\\T-RESERVATION.LogicaNegocio\\T-RESERVATION.LogicaNegocio.csproj",
-        "projectName": "T-RESERVATION.LogicaNegocio",
-        "projectPath": "C:\\React2023\\T-Reservation\\T-RESERVATION.LogicaNegocio\\T-RESERVATION.LogicaNegocio.csproj",
-        "packagesPath": "C:\\Users\\elmer\\.nuget\\packages\\",
-        "outputPath": "C:\\React2023\\T-Reservation\\T-RESERVATION.LogicaNegocio\\obj\\",
+        "projectUniqueName": "C:\\Users\\MINEDUCYT\\Desktop\\T-Reservation--\\T-Reservation\\T-RESERVATION.AccesoDatos\\T-RESERVATION.AccesoDatos.csproj",
+        "projectName": "T-RESERVATION.AccesoDatos",
+        "projectPath": "C:\\Users\\MINEDUCYT\\Desktop\\T-Reservation--\\T-Reservation\\T-RESERVATION.AccesoDatos\\T-RESERVATION.AccesoDatos.csproj",
+        "packagesPath": "C:\\Users\\MINEDUCYT\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\MINEDUCYT\\Desktop\\T-Reservation--\\T-Reservation\\T-RESERVATION.AccesoDatos\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\elmer\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Users\\MINEDUCYT\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -26,8 +22,80 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
-          "https://api.nuget.org/v3/index.json": {}
+          "https://www.nuget.org/api/v2/": {}
+        },
+        "frameworks": {
+          "net6.0": {
+            "targetAlias": "net6.0",
+            "projectReferences": {
+              "C:\\Users\\MINEDUCYT\\Desktop\\T-Reservation--\\T-Reservation\\T-RESERVATION.EntidadesNegocio\\T-RESERVATION.EntidadesNegocio.csproj": {
+                "projectPath": "C:\\Users\\MINEDUCYT\\Desktop\\T-Reservation--\\T-Reservation\\T-RESERVATION.EntidadesNegocio\\T-RESERVATION.EntidadesNegocio.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net6.0": {
+          "targetAlias": "net6.0",
+          "dependencies": {
+            "Microsoft.EntityFrameworkCore.Design": {
+              "target": "Package",
+              "version": "[6.0.29, )"
+            },
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[6.0.29, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "target": "Package",
+              "version": "[6.0.29, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.104\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\MINEDUCYT\\Desktop\\T-Reservation--\\T-Reservation\\T-RESERVATION.EntidadesNegocio\\T-RESERVATION.EntidadesNegocio.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\MINEDUCYT\\Desktop\\T-Reservation--\\T-Reservation\\T-RESERVATION.EntidadesNegocio\\T-RESERVATION.EntidadesNegocio.csproj",
+        "projectName": "T-RESERVATION.EntidadesNegocio",
+        "projectPath": "C:\\Users\\MINEDUCYT\\Desktop\\T-Reservation--\\T-Reservation\\T-RESERVATION.EntidadesNegocio\\T-RESERVATION.EntidadesNegocio.csproj",
+        "packagesPath": "C:\\Users\\MINEDUCYT\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\MINEDUCYT\\Desktop\\T-Reservation--\\T-Reservation\\T-RESERVATION.EntidadesNegocio\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\MINEDUCYT\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net6.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://www.nuget.org/api/v2/": {}
         },
         "frameworks": {
           "net6.0": {
@@ -74,7 +142,80 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.304\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.104\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\MINEDUCYT\\Desktop\\T-Reservation--\\T-Reservation\\T-RESERVATION.LogicaNegocio\\T-RESERVATION.LogicaNegocio.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\MINEDUCYT\\Desktop\\T-Reservation--\\T-Reservation\\T-RESERVATION.LogicaNegocio\\T-RESERVATION.LogicaNegocio.csproj",
+        "projectName": "T-RESERVATION.LogicaNegocio",
+        "projectPath": "C:\\Users\\MINEDUCYT\\Desktop\\T-Reservation--\\T-Reservation\\T-RESERVATION.LogicaNegocio\\T-RESERVATION.LogicaNegocio.csproj",
+        "packagesPath": "C:\\Users\\MINEDUCYT\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\MINEDUCYT\\Desktop\\T-Reservation--\\T-Reservation\\T-RESERVATION.LogicaNegocio\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\MINEDUCYT\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net6.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://www.nuget.org/api/v2/": {}
+        },
+        "frameworks": {
+          "net6.0": {
+            "targetAlias": "net6.0",
+            "projectReferences": {
+              "C:\\Users\\MINEDUCYT\\Desktop\\T-Reservation--\\T-Reservation\\T-RESERVATION.AccesoDatos\\T-RESERVATION.AccesoDatos.csproj": {
+                "projectPath": "C:\\Users\\MINEDUCYT\\Desktop\\T-Reservation--\\T-Reservation\\T-RESERVATION.AccesoDatos\\T-RESERVATION.AccesoDatos.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net6.0": {
+          "targetAlias": "net6.0",
+          "dependencies": {
+            "Microsoft.EntityFrameworkCore.Design": {
+              "target": "Package",
+              "version": "[6.0.29, )"
+            },
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[6.0.29, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "target": "Package",
+              "version": "[6.0.29, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.104\\RuntimeIdentifierGraph.json"
         }
       }
     }

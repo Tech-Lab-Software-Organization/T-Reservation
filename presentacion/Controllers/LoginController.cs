@@ -8,6 +8,7 @@ using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using T_Reservation.Models;
+using T_RESERVATION.AccesoDatos;
 
 namespace T_Reservation.Controllers
 {
@@ -32,13 +33,13 @@ namespace T_Reservation.Controllers
 
         }
         [AllowAnonymous]
-    [HttpPost]
-    public async Task<IActionResult> Login(Usuario model, string returnUrl = null)
-    {
-        if (ModelState.IsValid)
+        [HttpPost]
+        public async Task<IActionResult> Login(Usuario model, string returnUrl = null)
         {
-            
-            string passwordHash = CalcularHashMD5(model.Password);
+            if (ModelState.IsValid)
+            {
+
+                string passwordHash = CalcularHashMD5(model.Password);
 
                 // Verificar si el usuario es "root"
                 if (model.Correo == "root@gmail.com")
@@ -58,61 +59,61 @@ namespace T_Reservation.Controllers
                 // Verificar las credenciales del empleado
                 var empleado = await _context.Empleados.FirstOrDefaultAsync(e => e.Correo == model.Correo && e.Password == passwordHash);
 
-            // Verificar las credenciales del cliente si no se encontró un empleado
-            if (empleado == null)
-            {
-                var cliente = await _context.Clientes.FirstOrDefaultAsync(c => c.Correo == model.Correo && c.Password == passwordHash);
-            
-                if (cliente != null)
+                // Verificar las credenciales del cliente si no se encontró un empleado
+                if (empleado == null)
                 {
-                    // Autenticación del cliente
-                    // Crear las claims necesarias
-                    var claims = new List<Claim>
+                    var cliente = await _context.Clientes.FirstOrDefaultAsync(c => c.Correo == model.Correo && c.Password == passwordHash);
+
+                    if (cliente != null)
                     {
-                        new Claim(ClaimTypes.Name, cliente.Correo),
+                        // Autenticación del cliente
+                        // Crear las claims necesarias
+                        var claims = new List<Claim>
+                    {
+                        new Claim(ClaimTypes.Name, Convert.ToString(cliente.Correo)),
                         new Claim(ClaimTypes.Role, "Cliente"),
                         // Otras claims según sea necesario
                     };
 
-                    // Crear el identity del cliente
-                    var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                        // Crear el identity del cliente
+                        var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
 
-                    // Iniciar sesión del cliente
-                    await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity));
+                        // Iniciar sesión del cliente
+                        await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity));
 
-                    // Redirigir al cliente al destino adecuado
-                    return RedirectToAction("CatalogoRestaurante", "Home");
+                        // Redirigir al cliente al destino adecuado
+                        return RedirectToAction("CatalogoRestaurante", "Home");
+                    }
                 }
-            }
-            else
-            {
-                // Autenticación del empleado
-                // Crear las claims necesarias
-                var claims = new List<Claim>
+                else
                 {
-                    new Claim(ClaimTypes.Name, empleado.Correo),
+                    // Autenticación del empleado
+                    // Crear las claims necesarias
+                    var claims = new List<Claim>
+                {
+                    new Claim(ClaimTypes.Name, Convert.ToString( empleado.Correo)),
                     new Claim(ClaimTypes.Role, "Empleado"),
                     // Otras claims según sea necesario
                 };
 
-                // Crear el identity del empleado
-                var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                    // Crear el identity del empleado
+                    var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
 
-                // Iniciar sesión del empleado
-                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity));
+                    // Iniciar sesión del empleado
+                    await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity));
 
-                // Redirigir al empleado al destino adecuado
-                return RedirectToAction("Index", "Restaurantes");
+                    // Redirigir al empleado al destino adecuado
+                    return RedirectToAction("Index", "Restaurantes");
+                }
+
+                ModelState.AddModelError(string.Empty, "Credenciales incorrectas");
             }
-        
-            ModelState.AddModelError(string.Empty, "Credenciales incorrectas");
+
+
+            return View(model);
         }
 
-       
-        return View(model);
-    }
-    
-       
+
         private string CalcularHashMD5(string texto)
         {
             using (MD5 md5 = MD5.Create())

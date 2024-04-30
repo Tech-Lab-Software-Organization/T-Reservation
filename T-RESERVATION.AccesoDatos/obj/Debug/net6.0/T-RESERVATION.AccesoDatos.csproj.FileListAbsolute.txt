@@ -10,3 +10,9 @@ C:\Users\MINEDUCYT\Desktop\T-Reservation--\T-Reservation\T-RESERVATION.AccesoDat
 C:\Users\MINEDUCYT\Desktop\T-Reservation--\T-Reservation\T-RESERVATION.AccesoDatos\obj\Debug\net6.0\refint\T-RESERVATION.AccesoDatos.dll
 C:\Users\MINEDUCYT\Desktop\T-Reservation--\T-Reservation\T-RESERVATION.AccesoDatos\obj\Debug\net6.0\T-RESERVATION.AccesoDatos.pdb
 C:\Users\MINEDUCYT\Desktop\T-Reservation--\T-Reservation\T-RESERVATION.AccesoDatos\obj\Debug\net6.0\ref\T-RESERVATION.AccesoDatos.dll
+C:\Users\MINEDUCYT\Desktop\T-Reservation--\T-Reservation\T-RESERVATION.AccesoDatos\bin\Debug\net6.0\T-RESERVATION.AccesoDatos.runtimeconfig.json
+C:\Users\MINEDUCYT\Desktop\T-Reservation--\T-Reservation\T-RESERVATION.AccesoDatos\bin\Debug\net6.0\T-RESERVATION.EntidadesNegocio.dll
+C:\Users\MINEDUCYT\Desktop\T-Reservation--\T-Reservation\T-RESERVATION.AccesoDatos\bin\Debug\net6.0\T-RESERVATION.EntidadesNegocio.pdb
+C:\Users\MINEDUCYT\Desktop\T-Reservation--\T-Reservation\T-RESERVATION.AccesoDatos\obj\Debug\net6.0\T-RESERVATION.AccesoDatos.csproj.AssemblyReference.cache
+C:\Users\MINEDUCYT\Desktop\T-Reservation--\T-Reservation\T-RESERVATION.AccesoDatos\obj\Debug\net6.0\T-RESERVATION.AccesoDatos.csproj.CopyComplete
+C:\Users\MINEDUCYT\Desktop\T-Reservation--\T-Reservation\T-RESERVATION.AccesoDatos\obj\Debug\net6.0\T-RESERVATION.AccesoDatos.genruntimeconfig.cache

@@ -10,3 +10,11 @@ C:\Users\MINEDUCYT\Desktop\T-Reservation--\T-Reservation\T-RESERVATION.LogicaNeg
 C:\Users\MINEDUCYT\Desktop\T-Reservation--\T-Reservation\T-RESERVATION.LogicaNegocio\obj\Debug\net6.0\refint\T-RESERVATION.LogicaNegocio.dll
 C:\Users\MINEDUCYT\Desktop\T-Reservation--\T-Reservation\T-RESERVATION.LogicaNegocio\obj\Debug\net6.0\T-RESERVATION.LogicaNegocio.pdb
 C:\Users\MINEDUCYT\Desktop\T-Reservation--\T-Reservation\T-RESERVATION.LogicaNegocio\obj\Debug\net6.0\ref\T-RESERVATION.LogicaNegocio.dll
+C:\Users\MINEDUCYT\Desktop\T-Reservation--\T-Reservation\T-RESERVATION.LogicaNegocio\bin\Debug\net6.0\T-RESERVATION.LogicaNegocio.runtimeconfig.json
+C:\Users\MINEDUCYT\Desktop\T-Reservation--\T-Reservation\T-RESERVATION.LogicaNegocio\bin\Debug\net6.0\T-RESERVATION.AccesoDatos.dll
+C:\Users\MINEDUCYT\Desktop\T-Reservation--\T-Reservation\T-RESERVATION.LogicaNegocio\bin\Debug\net6.0\T-RESERVATION.EntidadesNegocio.dll
+C:\Users\MINEDUCYT\Desktop\T-Reservation--\T-Reservation\T-RESERVATION.LogicaNegocio\bin\Debug\net6.0\T-RESERVATION.AccesoDatos.pdb
+C:\Users\MINEDUCYT\Desktop\T-Reservation--\T-Reservation\T-RESERVATION.LogicaNegocio\bin\Debug\net6.0\T-RESERVATION.EntidadesNegocio.pdb
+C:\Users\MINEDUCYT\Desktop\T-Reservation--\T-Reservation\T-RESERVATION.LogicaNegocio\obj\Debug\net6.0\T-RESERVATION.LogicaNegocio.csproj.AssemblyReference.cache
+C:\Users\MINEDUCYT\Desktop\T-Reservation--\T-Reservation\T-RESERVATION.LogicaNegocio\obj\Debug\net6.0\T-RESERVATION.LogicaNegocio.csproj.CopyComplete
+C:\Users\MINEDUCYT\Desktop\T-Reservation--\T-Reservation\T-RESERVATION.LogicaNegocio\obj\Debug\net6.0\T-RESERVATION.LogicaNegocio.genruntimeconfig.cache

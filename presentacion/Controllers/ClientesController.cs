@@ -1,60 +1,46 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
-using System.Security.Cryptography;
+﻿using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using T_Reservation.Models;
 using Microsoft.AspNetCore.Authorization;
+using T_RESERVATION.LogicaNegocio;
+using T_RESERVATION.EntidadesNegocio;
+using Cliente = T_RESERVATION.EntidadesNegocio.Cliente;
+
 
 namespace T_Reservation.Controllers
 {
-   
+
     public class ClientesController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        readonly LogicaNegocio _clienteBL;
 
-        public ClientesController(ApplicationDbContext context)
+
+        public ClientesController(LogicaNegocio logicaNegocio)
         {
-            _context = context;
+            _clienteBL = logicaNegocio;
         }
 
 
         // GET: Clientes
         [Authorize(Roles = "Administrador, Empleado")]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(T_RESERVATION.EntidadesNegocio.Cliente cliente)
         {
-            return View(await _context.Clientes.ToListAsync());
+            return View(await _clienteBL.Search(cliente));
         }
 
         // GET: Clientes/Details/5 Administrador
         [Authorize(Roles = "Administrador, Empleado")]
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(int id)
         {
-            if (id == null || _context.Clientes == null)
-            {
-                return NotFound();
-            }
+            var clientes = await _clienteBL.GetForId(new Cliente { Id = id });
 
-            var cliente = await _context.Clientes
-                
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (cliente == null)
-            {
-                return NotFound();
-            }
-
-            return View(cliente);
+            return View(clientes);
         }
 
         // GET: Clientes/Create
-        
+
         public IActionResult Create()
         {
             Cliente cliente = new Cliente();
@@ -66,32 +52,29 @@ namespace T_Reservation.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Nombre,Dui,Telefono,Correo,Direccion,FechaNacimiento,Password")] Cliente cliente)
+        public async Task<IActionResult> Create(Cliente cliente)
         {
 
-            cliente.Password = CalcularHashMD5(cliente.Password);
-            _context.Add(cliente);
-            await _context.SaveChangesAsync();
-            return RedirectToAction("Login", "Login");
+            try
+            {
+                await _clienteBL.Create(cliente);
+
+                return RedirectToAction(nameof(Index));
+            }
+            catch
+            {
+                return View();
+            }
 
         }
 
         // GET: Clientes/Edit/5
         [Authorize(Roles = "Cliente")]
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(int id)
         {
-            if (id == null || _context.Clientes == null)
-            {
-                return NotFound();
-            }
+            var estudiante = await _clienteBL.GetForId(new Cliente { Id = id });
 
-            var cliente = await _context.Clientes.FindAsync(id);
-            if (cliente == null)
-            {
-                return NotFound();
-            }
-          
-            return View(cliente);
+            return View(estudiante);
         }
 
         // POST: Clientes/Edit/5
@@ -100,82 +83,49 @@ namespace T_Reservation.Controllers
         [HttpPost]
         [Authorize(Roles = "Cliente")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Nombre,Dui,Telefono,Correo,Direccion,FechaNacimiento")] Cliente cliente)
+        public async Task<IActionResult> Edit(Cliente cliente)
         {
-            if (id != cliente.Id)
+            try
             {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(cliente);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!ClienteExists(cliente.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
+                await _clienteBL.Update(cliente);
                 return RedirectToAction(nameof(Index));
             }
-          
-            return View(cliente);
+            catch
+            {
+                return View();
+            }
         }
 
 
         // GET: Clientes/Delete/5
         [Authorize(Roles = "Administrador,Cliente")]
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(int id)
         {
-            if (id == null || _context.Clientes == null)
-            {
-                return NotFound();
-            }
-
-            var cliente = await _context.Clientes
-                
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (cliente == null)
-            {
-                return NotFound();
-            }
-
-            return View(cliente);
+            var estudiante = await _clienteBL.GetForId(new Cliente { Id = id });
+            return View(estudiante);
         }
 
         // POST: Clientes/Delete/5
         [HttpPost, ActionName("Delete")]
         [Authorize(Roles = "Administrador,Cliente")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(int id, Cliente cliente)
         {
-            if (_context.Clientes == null)
-            {
-                return Problem("Entity set 'ApplicationDbContext.Clientes'  is null.");
-            }
-            var cliente = await _context.Clientes.FindAsync(id);
-            if (cliente != null)
-            {
-                _context.Clientes.Remove(cliente);
-            }
-
-            await _context.SaveChangesAsync();
+            try
+        {
+            await _clienteBL.Delete(cliente);
             return RedirectToAction(nameof(Index));
         }
-
-        private bool ClienteExists(int id)
+        catch
         {
-            return _context.Clientes.Any(e => e.Id == id);
+            return View();
         }
+        }
+
+        // private bool ClienteExists(int id)
+        // {
+        //     // return _clienteBL..Any(e => e.Id == id);
+        // }
 
         private string CalcularHashMD5(string texto)
         {

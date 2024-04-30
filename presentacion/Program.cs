@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
-using T_Reservation.Models;
+using T_RESERVATION.AccesoDatos;
 
 var builder = WebApplication.CreateBuilder(args);
 
