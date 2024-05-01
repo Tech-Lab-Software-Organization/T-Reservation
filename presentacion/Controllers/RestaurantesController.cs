@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
+﻿using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using T_Reservation.Models;
 using T_RESERVATION.AccesoDatos;
+using T_RESERVATION.EntidadesNegocio;
 
 namespace T_Reservation.Controllers
 {
@@ -56,11 +53,11 @@ namespace T_Reservation.Controllers
         [Authorize(Roles = "Administrador,Empleado")]
         public IActionResult Create()
         {
-            var restaurant = new Restaurante();
+            var restaurant = new T_RESERVATION.EntidadesNegocio.Restaurante();
 
 
-            restaurant.Mesas = new List<Mesa>();
-            restaurant.Mesas.Add(new Mesa
+            restaurant.Mesas = new List<T_RESERVATION.EntidadesNegocio.Mesa>();
+            restaurant.Mesas.Add(new T_RESERVATION.EntidadesNegocio.Mesa
             {
                 Numero = 1,
                 Capacidad = 1,
@@ -77,7 +74,7 @@ namespace T_Reservation.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Administrador,Empleado")]
-        public async Task<IActionResult> Create([Bind("IdRestaurante,Nombre,Descripcion,Direccion,EmpleadoId,Mesas")] Restaurante restaurante, IFormFile imagen)
+        public async Task<IActionResult> Create([Bind("IdRestaurante,Nombre,Descripcion,Direccion,EmpleadoId,Mesas")] T_RESERVATION.EntidadesNegocio.Restaurante restaurante, IFormFile imagen)
         {
             if (imagen != null && imagen.Length > 0)
             {
@@ -98,10 +95,10 @@ namespace T_Reservation.Controllers
             return RedirectToAction(nameof(Index));
         }
         [HttpPost]
-        public ActionResult AgregarDetalles([Bind("IdRestaurante,Nombre,Descripcion,Direccion,EmpleadoId,Mesas")] Restaurante restaurante, string accion)
+        public ActionResult AgregarDetalles([Bind("IdRestaurante,Nombre,Descripcion,Direccion,EmpleadoId,Mesas")] T_RESERVATION.EntidadesNegocio.Restaurante restaurante, string accion)
         {
             // Agregar una nueva mesa al restaurante
-            restaurante.Mesas.Add(new Mesa());
+            restaurante.Mesas.Add(new T_RESERVATION.EntidadesNegocio.Mesa());
 
             // Mantener la imagen y el empleado seleccionado en la vista
 
@@ -113,7 +110,7 @@ namespace T_Reservation.Controllers
             return View(accion, restaurante);
         }
 
-        public ActionResult EliminarDetalles([Bind("IdRestaurante,Nombre,Descripcion,Direccion,EmpleadoId,Mesas")] Restaurante restaurante, int index, string accion)
+        public ActionResult EliminarDetalles([Bind("IdRestaurante,Nombre,Descripcion,Direccion,EmpleadoId,Mesas")] T_RESERVATION.EntidadesNegocio.Restaurante restaurante, int index, string accion)
         {
             // Eliminar la mesa seleccionada
             var det = restaurante.Mesas[index];
@@ -166,7 +163,7 @@ namespace T_Reservation.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Administrador, Empleado")]
-        public async Task<IActionResult> Edit([Bind("IdRestaurante,Nombre,Descripcion,Direccion,EmpleadoId,Mesas")] Restaurante restaurante, IFormFile imagen)
+        public async Task<IActionResult> Edit([Bind("IdRestaurante,Nombre,Descripcion,Direccion,EmpleadoId,Mesas")] T_RESERVATION.EntidadesNegocio.Restaurante restaurante, IFormFile imagen)
         {
             try
             {

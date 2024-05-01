@@ -1,11 +1,12 @@
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace T_RESERVATION.EntidadesNegocio
+namespace T_RESERVATION.EntidadesNegocio;
+
+public class Usuario
 {
-    public class Usuario
-    {
+
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
@@ -21,5 +22,6 @@ namespace T_RESERVATION.EntidadesNegocio
         public string Password { get; set; }
 
         public string Rol { get; set; }
-    }
+    
 }
+

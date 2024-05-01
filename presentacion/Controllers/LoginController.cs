@@ -7,8 +7,8 @@ using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
-using T_Reservation.Models;
 using T_RESERVATION.AccesoDatos;
+using T_RESERVATION.EntidadesNegocio;
 
 namespace T_Reservation.Controllers
 {
@@ -34,12 +34,12 @@ namespace T_Reservation.Controllers
         }
         [AllowAnonymous]
         [HttpPost]
-        public async Task<IActionResult> Login(Usuario model, string returnUrl = null)
+        public async Task<IActionResult> Login(T_RESERVATION.EntidadesNegocio.Usuario model, string returnUrl = null)
         {
-            if (ModelState.IsValid)
-            {
-
+            Console.WriteLine("jjj");
+          
                 string passwordHash = CalcularHashMD5(model.Password);
+                Console.WriteLine(passwordHash);
 
                 // Verificar si el usuario es "root"
                 if (model.Correo == "root@gmail.com")
@@ -70,7 +70,7 @@ namespace T_Reservation.Controllers
                         // Crear las claims necesarias
                         var claims = new List<Claim>
                     {
-                        new Claim(ClaimTypes.Name, Convert.ToString(cliente.Correo)),
+                        new Claim(ClaimTypes.Name, cliente.Correo),
                         new Claim(ClaimTypes.Role, "Cliente"),
                         // Otras claims según sea necesario
                     };
@@ -91,7 +91,7 @@ namespace T_Reservation.Controllers
                     // Crear las claims necesarias
                     var claims = new List<Claim>
                 {
-                    new Claim(ClaimTypes.Name, Convert.ToString( empleado.Correo)),
+                    new Claim(ClaimTypes.Name, empleado.Correo),
                     new Claim(ClaimTypes.Role, "Empleado"),
                     // Otras claims según sea necesario
                 };
@@ -107,7 +107,7 @@ namespace T_Reservation.Controllers
                 }
 
                 ModelState.AddModelError(string.Empty, "Credenciales incorrectas");
-            }
+            
 
 
             return View(model);

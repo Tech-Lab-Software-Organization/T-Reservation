@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("T-RESERVATION.EntidadesNegocio")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+87a9d3f610fd9932ffceedcd86b8e8f3aa215207")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+14a6a037109f7a03b0ab004b88790202ca7043a9")]
 [assembly: System.Reflection.AssemblyProductAttribute("T-RESERVATION.EntidadesNegocio")]
 [assembly: System.Reflection.AssemblyTitleAttribute("T-RESERVATION.EntidadesNegocio")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
