@@ -13,7 +13,7 @@ public static class DenpencyContainer
         services.AddDalDependecides(configuration);
         services.AddScoped<ClienteBL>();
         services.AddScoped<EmpleadosBL>();
-
+        services.AddScoped<MenuBL>();
         return services;
     }
 }

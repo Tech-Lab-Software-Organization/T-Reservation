@@ -1,10 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "RNS1wPN6p+eZ1UDl4v0M7+xdRNadqjnHxokeyYpvJiWvVa/h1xBXkgh1ig9U03kO19nfSOpTRy/q7itRa9GrTw==",
+  "dgSpecHash": "Lep14olTi30+zvNNtf4CsrY2fKpt/lGiDAhOs42sVN/a2vlXpuflLw1mVnEVU2NrUup0j5nZV3mnZwRIeHqOgQ==",
   "success": true,
   "projectFilePath": "C:\\agape\\T-Reservation\\T-RESERVATION.AccesoDatos\\T-RESERVATION.AccesoDatos.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\elmer\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
+    "C:\\Users\\elmer\\.nuget\\packages\\microsoft.aspnetcore.http.features\\2.1.1\\microsoft.aspnetcore.http.features.2.1.1.nupkg.sha512",
     "C:\\Users\\elmer\\.nuget\\packages\\microsoft.csharp\\4.5.0\\microsoft.csharp.4.5.0.nupkg.sha512",
     "C:\\Users\\elmer\\.nuget\\packages\\microsoft.data.sqlclient\\2.1.7\\microsoft.data.sqlclient.2.1.7.nupkg.sha512",
     "C:\\Users\\elmer\\.nuget\\packages\\microsoft.data.sqlclient.sni.runtime\\2.1.1\\microsoft.data.sqlclient.sni.runtime.2.1.1.nupkg.sha512",

@@ -14,6 +14,7 @@ public static class DenpencyContainer
 
         services.AddScoped<ClientesDAL>();
         services.AddScoped<EmpleadoDAL>();
+        services.AddScoped<MenuDAL>();
 
         return services;
     }

@@ -2,8 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using T_Reservation.Models;
-using T_RESERVATION.AccesoDatos;
+using T_RESERVATION.EntidadesNegocio;
+using T_RESERVATION.LogicaNegocio;
 
 namespace T_Reservation.Controllers
 {
@@ -11,50 +11,42 @@ namespace T_Reservation.Controllers
 
     public class MenusController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly MenuBL _menuBL;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public MenusController(ApplicationDbContext context, IHttpContextAccessor httpContextAccessor)
+        public MenusController(MenuBL menuBL, IHttpContextAccessor httpContextAccessor)
         {
-            _context = context;
+            _menuBL = menuBL;
             _httpContextAccessor = httpContextAccessor;
         }
 
         // GET: Menus
         public async Task<IActionResult> Index()
         {
-           
-                var applicationDbContext = _context.Menu.Include(m => m.Restaurante);
-                return View(await applicationDbContext.ToListAsync());
-          
+            return View(await _menuBL.ObtenerTodo());
         }
 
         // GET: Menus/Details/5
         [Authorize(Roles = "Administrador, Empleado")]
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(int id)
         {
-            if (id == null || _context.Menu == null)
-            {
-                return NotFound();
-            }
 
-            var menu = await _context.Menu
-                .Include(m => m.Restaurante)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (menu == null)
-            {
-                return NotFound();
-            }
-
+            var menu = await _menuBL.ObtenerId(new Menu { Id = id });
             return View(menu);
         }
 
         // GET: Menus/Create
         [Authorize(Roles = "Administrador, Empleado")]
-        public IActionResult Create()
+        public async Task< IActionResult> Create()
         {
-            ViewData["RestauranteId"] = new SelectList(_context.Restaurantes, "IdRestaurante", "Nombre");
+            var menu = await _menuBL.ObtenerRestaurante();
+            
+
+            ViewBag.restaurante = new SelectList(menu, "Id", "Nombre");
+            
+
             return View();
+            
         }
 
         // POST: Menus/Create
@@ -65,35 +57,24 @@ namespace T_Reservation.Controllers
         [Authorize(Roles = "Administrador, Empleado")]
         public async Task<IActionResult> Create([Bind("Id,Producto,Descripcion,NotaEspecial,Precio,RestauranteId")] Menu menu, IFormFile imagen)
         {
-            if (imagen != null && imagen.Length > 0)
-            {
-                using (var memoryStream = new MemoryStream())
-                {
-                    await imagen.CopyToAsync(memoryStream);
-                    menu.Imagen = memoryStream.ToArray();
-
-                }
-            }
-            _context.Add(menu);
-            await _context.SaveChangesAsync();
+            await _menuBL.Crear(menu, imagen);
             return RedirectToAction(nameof(Index));
         }
 
         // GET: Menus/Edit/5
         [Authorize(Roles = "Administrador, Empleado")]
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(int id)
         {
-            if (id == null || _context.Menu == null)
-            {
-                return NotFound();
-            }
-
-            var menu = await _context.Menu.FindAsync(id);
+            var menu = await _menuBL.ObtenerId(new Menu { Id = id });
             if (menu == null)
             {
                 return NotFound();
             }
-            ViewData["RestauranteId"] = new SelectList(_context.Restaurantes, "IdRestaurante", "Nombre", menu.RestauranteId);
+
+            var restaurantes = await _menuBL.ObtenerRestaurante();
+
+            ViewBag.restaurante = new SelectList(restaurantes, "Id", "Nombre");
+
             return View(menu);
         }
 
@@ -110,83 +91,62 @@ namespace T_Reservation.Controllers
                 return NotFound();
             }
 
-            if (imagen != null && imagen.Length > 0)
+
+            try
             {
-                
-                 using (var memoryStream = new MemoryStream())
-                {
-                    await imagen.CopyToAsync(memoryStream);
-                    menu.Imagen = memoryStream.ToArray();
-                }
-                _context.Update(menu);
-                await _context.SaveChangesAsync();
+                await _menuBL.Modificar(menu, imagen);
             }
-
-            else
+            catch (DbUpdateConcurrencyException)
             {
-                var registroFind = await _context.Menu.FirstOrDefaultAsync(s => s.Id == menu.Id);
-
-                if (registroFind?.Imagen?.Length > 0)
-                    menu.Imagen = registroFind.Imagen;
-
-                registroFind.Producto = menu.Producto;
-                registroFind.Descripcion = menu.Descripcion;
-                registroFind.NotaEspecial = menu.NotaEspecial;
-                registroFind.Precio = menu.Precio;
-                registroFind.RestauranteId = menu.RestauranteId;
-
-                _context.Update(registroFind);
-                await _context.SaveChangesAsync();
+                if (!MenuExists(menu.Id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
             }
             return RedirectToAction(nameof(Index));
-
-
-           
         }
 
         // GET: Menus/Delete/5
         [Authorize(Roles = "Administrador, Empleado")]
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(int id)
         {
-            if (id == null || _context.Menu == null)
+            var menus = await _menuBL.ObtenerId(new Menu { Id = id });
+            if (menus == null)
             {
                 return NotFound();
             }
-
-            var menu = await _context.Menu
-                .Include(m => m.Restaurante)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (menu == null)
-            {
-                return NotFound();
-            }
-
-            return View(menu);
+            var menu = await _menuBL.ObtenerRestaurante();
+            ViewBag.restaurante = new SelectList(menu, "Id", "Nombre");
+            return View(menus);
         }
 
         // POST: Menus/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [Authorize(Roles = "Administrador, Empleado")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            if (_context.Menu == null)
-            {
-                return Problem("Entity set 'ApplicationDbContext.Menu'  is null.");
-            }
-            var menu = await _context.Menu.FindAsync(id);
-            if (menu != null)
-            {
-                _context.Menu.Remove(menu);
-            }
+        //[HttpPost, ActionName("Delete")]
+        //[Authorize(Roles = "Administrador, Empleado")]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> DeleteConfirmed(int id)
+        //{
+        //    if (_context.Menu == null)
+        //    {
+        //        return Problem("Entity set 'ApplicationDbContext.Menu'  is null.");
+        //    }
+        //    var menu = await _context.Menu.FindAsync(id);
+        //    if (menu != null)
+        //    {
+        //        _context.Menu.Remove(menu);
+        //    }
             
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
+        //    await _context.SaveChangesAsync();
+        //    return RedirectToAction(nameof(Index));
+        //}
         
         private bool MenuExists(int id)
         {
-          return _context.Menu.Any(e => e.Id == id);
+            return _menuBL.MenuExists(id);
         }
     }
 }
