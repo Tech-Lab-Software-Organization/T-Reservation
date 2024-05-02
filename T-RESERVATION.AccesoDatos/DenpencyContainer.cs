@@ -13,6 +13,7 @@ public static class DenpencyContainer
         options.UseSqlServer(configuration.GetConnectionString("conn")));
 
         services.AddScoped<ClientesDAL>();
+        services.AddScoped<EmpleadoDAL>();
 
         return services;
     }

@@ -46,11 +46,31 @@ public class EmpleadoDAL
     public async Task<int> Delete(Empleado empleado)
     {
 
-        var EmpleadoDB = await _context.Clientes.FirstAsync(s => s.Id == empleado.Id);
+        var EmpleadoDB = await _context.Empleados.FirstOrDefaultAsync(s => s.Id == empleado.Id);
 
         if (EmpleadoDB != null) _context.Remove(EmpleadoDB);
 
         return await _context.SaveChangesAsync();
+    }
+
+    public async Task<Empleado> ObtenerId(Empleado empleado)
+    {
+        var clientea = await _context.Empleados.FirstOrDefaultAsync(s => s.Id ==empleado.Id);
+        if (clientea != null)
+        {
+            return clientea;
+        }
+        else
+            return new Empleado();
+
+    }
+
+    public async Task<List<Empleado>> ObtenerTodo()
+    {
+        return _context.Empleados != null ?
+
+        await _context.Empleados.ToListAsync() :
+        new List<Empleado>();
     }
 
     private string CalcularHashMD5(string texto)
@@ -71,5 +91,10 @@ public class EmpleadoDAL
             }
             return sb.ToString();
         }
+
+    }
+    public bool EmpleadoExists(int id)
+    {
+        return (_context.Empleados?.Any(e => e.Id == id)).GetValueOrDefault();
     }
 }

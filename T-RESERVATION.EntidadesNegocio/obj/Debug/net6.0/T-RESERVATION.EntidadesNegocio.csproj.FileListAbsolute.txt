@@ -13,3 +13,17 @@ C:\Users\MINEDUCYT\Desktop\T-Reservation--\T-Reservation\T-RESERVATION.Entidades
 C:\Users\MINEDUCYT\Desktop\T-Reservation--\T-Reservation\T-RESERVATION.EntidadesNegocio\bin\Debug\net6.0\T-RESERVATION.EntidadesNegocio.runtimeconfig.json
 C:\Users\MINEDUCYT\Desktop\T-Reservation--\T-Reservation\T-RESERVATION.EntidadesNegocio\obj\Debug\net6.0\T-RESERVATION.EntidadesNegocio.csproj.AssemblyReference.cache
 C:\Users\MINEDUCYT\Desktop\T-Reservation--\T-Reservation\T-RESERVATION.EntidadesNegocio\obj\Debug\net6.0\T-RESERVATION.EntidadesNegocio.genruntimeconfig.cache
+C:\agape\T-Reservation\T-RESERVATION.EntidadesNegocio\bin\Debug\net6.0\T-RESERVATION.EntidadesNegocio.deps.json
+C:\agape\T-Reservation\T-RESERVATION.EntidadesNegocio\bin\Debug\net6.0\T-RESERVATION.EntidadesNegocio.runtimeconfig.json
+C:\agape\T-Reservation\T-RESERVATION.EntidadesNegocio\bin\Debug\net6.0\T-RESERVATION.EntidadesNegocio.dll
+C:\agape\T-Reservation\T-RESERVATION.EntidadesNegocio\bin\Debug\net6.0\T-RESERVATION.EntidadesNegocio.pdb
+C:\agape\T-Reservation\T-RESERVATION.EntidadesNegocio\obj\Debug\net6.0\T-RESERVATION.EntidadesNegocio.csproj.AssemblyReference.cache
+C:\agape\T-Reservation\T-RESERVATION.EntidadesNegocio\obj\Debug\net6.0\T-RESERVATION.EntidadesNegocio.GeneratedMSBuildEditorConfig.editorconfig
+C:\agape\T-Reservation\T-RESERVATION.EntidadesNegocio\obj\Debug\net6.0\T-RESERVATION.EntidadesNegocio.AssemblyInfoInputs.cache
+C:\agape\T-Reservation\T-RESERVATION.EntidadesNegocio\obj\Debug\net6.0\T-RESERVATION.EntidadesNegocio.AssemblyInfo.cs
+C:\agape\T-Reservation\T-RESERVATION.EntidadesNegocio\obj\Debug\net6.0\T-RESERVATION.EntidadesNegocio.csproj.CoreCompileInputs.cache
+C:\agape\T-Reservation\T-RESERVATION.EntidadesNegocio\obj\Debug\net6.0\T-RESERVATION.EntidadesNegocio.dll
+C:\agape\T-Reservation\T-RESERVATION.EntidadesNegocio\obj\Debug\net6.0\refint\T-RESERVATION.EntidadesNegocio.dll
+C:\agape\T-Reservation\T-RESERVATION.EntidadesNegocio\obj\Debug\net6.0\T-RESERVATION.EntidadesNegocio.pdb
+C:\agape\T-Reservation\T-RESERVATION.EntidadesNegocio\obj\Debug\net6.0\T-RESERVATION.EntidadesNegocio.genruntimeconfig.cache
+C:\agape\T-Reservation\T-RESERVATION.EntidadesNegocio\obj\Debug\net6.0\ref\T-RESERVATION.EntidadesNegocio.dll

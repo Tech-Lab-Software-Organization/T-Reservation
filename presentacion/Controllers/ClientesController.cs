@@ -2,10 +2,9 @@
 using System.Text;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using T_Reservation.Models;
+
 using Microsoft.AspNetCore.Authorization;
 using T_RESERVATION.LogicaNegocio;
-using T_RESERVATION.EntidadesNegocio;
 using Cliente = T_RESERVATION.EntidadesNegocio.Cliente;
 
 
@@ -14,10 +13,10 @@ namespace T_Reservation.Controllers
 
     public class ClientesController : Controller
     {
-        readonly LogicaNegocio _clienteBL;
+        readonly ClienteBL _clienteBL;
 
 
-        public ClientesController(LogicaNegocio logicaNegocio)
+        public ClientesController(ClienteBL logicaNegocio)
         {
             _clienteBL = logicaNegocio;
         }
@@ -25,16 +24,16 @@ namespace T_Reservation.Controllers
 
         // GET: Clientes
         [Authorize(Roles = "Administrador, Empleado")]
-        public async Task<IActionResult> Index(T_RESERVATION.EntidadesNegocio.Cliente cliente)
+        public async Task<IActionResult> Index()
         {
-            return View(await _clienteBL.Search(cliente));
+            return View(await _clienteBL.ObtenerTodo());
         }
 
         // GET: Clientes/Details/5 Administrador
         [Authorize(Roles = "Administrador, Empleado")]
         public async Task<IActionResult> Details(int id)
         {
-            var clientes = await _clienteBL.GetForId(new Cliente { Id = id });
+            var clientes = await _clienteBL.ObtenerId(new Cliente { Id = id });
 
             return View(clientes);
         }
@@ -57,7 +56,7 @@ namespace T_Reservation.Controllers
 
             try
             {
-                await _clienteBL.Create(cliente);
+                await _clienteBL.Crear(cliente);
 
                 return RedirectToAction(nameof(Index));
             }
@@ -72,7 +71,7 @@ namespace T_Reservation.Controllers
         [Authorize(Roles = "Cliente")]
         public async Task<IActionResult> Edit(int id)
         {
-            var estudiante = await _clienteBL.GetForId(new Cliente { Id = id });
+            var estudiante = await _clienteBL.Modificar(new Cliente { Id = id });
 
             return View(estudiante);
         }
@@ -87,7 +86,7 @@ namespace T_Reservation.Controllers
         {
             try
             {
-                await _clienteBL.Update(cliente);
+                await _clienteBL.Modificar(cliente);
                 return RedirectToAction(nameof(Index));
             }
             catch
@@ -101,50 +100,32 @@ namespace T_Reservation.Controllers
         [Authorize(Roles = "Administrador,Cliente")]
         public async Task<IActionResult> Delete(int id)
         {
-            var estudiante = await _clienteBL.GetForId(new Cliente { Id = id });
+            var estudiante = await _clienteBL.Eliminar(new Cliente { Id = id });
             return View(estudiante);
         }
 
         // POST: Clientes/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [Authorize(Roles = "Administrador,Cliente")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id, Cliente cliente)
-        {
-            try
-        {
-            await _clienteBL.Delete(cliente);
-            return RedirectToAction(nameof(Index));
-        }
-        catch
-        {
-            return View();
-        }
-        }
+        //[HttpPost, ActionName("Delete")]
+        //[Authorize(Roles = "Administrador,Cliente")]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> DeleteConfirmed(int id, Cliente cliente)
+        //{
+        //    try
+        //{
+        //    await _clienteBL.Delete(cliente);
+        //    return RedirectToAction(nameof(Index));
+        //}
+        //catch
+        //{
+        //    return View();
+        //}
+        //}
 
         // private bool ClienteExists(int id)
         // {
         //     // return _clienteBL..Any(e => e.Id == id);
         // }
 
-        private string CalcularHashMD5(string texto)
-        {
-            using (MD5 md5 = MD5.Create())
-            {
-                //Convierte la cadena de texto a bytes
-                byte[] inputbytes = Encoding.UTF8.GetBytes(texto);
-
-                //Calcula el hash MD5 de los bytes
-                byte[] HashBytes = md5.ComputeHash(inputbytes);
-
-                //convierte el hash a una cadena hexadecimal
-                StringBuilder sb = new StringBuilder();
-                for (int i = 0; i < HashBytes.Length; i++)
-                {
-                    sb.Append(HashBytes[i].ToString("x2"));
-                }
-                return sb.ToString();
-            }
-        }
+        
     }
 }

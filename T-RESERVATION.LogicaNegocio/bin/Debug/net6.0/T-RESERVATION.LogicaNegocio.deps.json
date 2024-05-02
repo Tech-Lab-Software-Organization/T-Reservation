@@ -11,7 +11,8 @@
           "Microsoft.EntityFrameworkCore.Design": "6.0.29",
           "Microsoft.EntityFrameworkCore.SqlServer": "6.0.29",
           "Microsoft.EntityFrameworkCore.Tools": "6.0.29",
-          "T-RESERVATION.AccesoDatos": "1.0.0"
+          "T-RESERVATION.AccesoDatos": "1.0.0",
+          "T-RESERVATION.EntidadesNegocio": "1.0.0"
         },
         "runtime": {
           "T-RESERVATION.LogicaNegocio.dll": {}

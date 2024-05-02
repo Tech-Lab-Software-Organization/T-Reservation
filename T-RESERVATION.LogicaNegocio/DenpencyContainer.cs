@@ -11,7 +11,8 @@ public static class DenpencyContainer
     IConfiguration configuration){
 
         services.AddDalDependecides(configuration);
-        services.AddScoped<LogicaNegocio>();
+        services.AddScoped<ClienteBL>();
+        services.AddScoped<EmpleadosBL>();
 
         return services;
     }

@@ -25,7 +25,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\T-RESERVATION.AccesoDatos\T-RESERVATION.AccesoDatos.csproj" />
     <ProjectReference Include="..\T-RESERVATION.LogicaNegocio\T-RESERVATION.LogicaNegocio.csproj" />
     <ProjectReference Include="..\T-RESERVATION.EntidadesNegocio\T-RESERVATION.EntidadesNegocio.csproj" />
   </ItemGroup>

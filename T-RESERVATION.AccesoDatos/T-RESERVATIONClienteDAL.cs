@@ -15,15 +15,17 @@ public class ClientesDAL
         _context = context;
     }
 
-    public async Task<int> Create(Cliente cliente)
+    public async Task<int> Crear(Cliente cliente)
     {
 
+        cliente.Password = CalcularHashMD5(cliente.Password);
         _context.Add(cliente);
+        await _context.SaveChangesAsync();
         return await _context.SaveChangesAsync();
     }
 
 
-    public async Task<int> Update(Cliente cliente)
+    public async Task<int> Modificar(Cliente cliente)
     {
 
         var ClienteDB = await _context.Clientes.FirstOrDefaultAsync(s => s.Id == cliente.Id);
@@ -44,56 +46,49 @@ public class ClientesDAL
         return await _context.SaveChangesAsync();
     }
 
-    public async Task<int> Delete(Cliente cliente)
+    public async Task<int> Eliminar(Cliente cliente)
     {
 
-        var ClienteDB = await _context.Clientes.FirstAsync(s => s.Id == cliente.Id);
+        var ClienteDB = await _context.Clientes.FirstOrDefaultAsync(s => s.Id == cliente.Id);
 
         if (ClienteDB != null) _context.Remove(ClienteDB);
 
         return await _context.SaveChangesAsync();
     }
+  
 
-    public async Task<Cliente> GetForId(Cliente cliente)
+    public async Task<Cliente> ObtenerId(Cliente cliente)
     {
-
-        var ClienteDB = await _context.Clientes.FirstOrDefaultAsync(s => s.Id == cliente.Id);
-
-        if (ClienteDB != null)
-
-            return ClienteDB;
-
+        var clientea = await _context.Clientes.FirstOrDefaultAsync(s => s.Id == cliente.Id);
+        if (clientea != null)
+        {
+            return clientea;
+        }
         else
-
             return new Cliente();
+        
     }
 
-    public async Task<List<Cliente>> GetAll()
+    public async Task<List<Cliente>> ObtenerTodo()
     {
-        return await _context.Clientes.ToListAsync();
+        return _context.Clientes != null ?
+
+        await _context.Clientes.ToListAsync() :
+        new List<Cliente>();
     }
 
-    public async Task<List<Cliente>> Search(Cliente cliente)
+    public async Task<List<Cliente>> Buscar(Cliente cliente)
     {
-        var query = _context.Clientes.AsQueryable();
-
-        if (!string.IsNullOrWhiteSpace(cliente.Nombre))
+        var query =  _context.Clientes.AsQueryable();
+        if(!string.IsNullOrWhiteSpace(cliente.Nombre))
         {
-
             query = query.Where(s => s.Nombre.Contains(cliente.Nombre));
-
         }
-
-        if (!string.IsNullOrWhiteSpace(cliente.Correo))
-        {
-
-            query = query.Where(s => s.Correo.Contains(cliente.Correo));
-
-        }
-
         return await query.ToListAsync();
 
     }
+
+    
 
     public static string CalcularHashMD5(string texto)
     {

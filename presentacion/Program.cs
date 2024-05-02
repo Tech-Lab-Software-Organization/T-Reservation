@@ -1,14 +1,17 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using T_RESERVATION.AccesoDatos;
+using T_RESERVATION.LogicaNegocio;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-options.UseSqlServer(builder.Configuration.GetConnectionString("conn")));
+//builder.Services.AddDbContext<ApplicationDbContext>(options =>
+//options.UseSqlServer(builder.Configuration.GetConnectionString("conn")));
+builder.Services.AddBLDependecies(builder.Configuration);
+builder.Services.AddControllersWithViews();
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>

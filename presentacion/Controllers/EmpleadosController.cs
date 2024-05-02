@@ -2,20 +2,21 @@
 using System.Text;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using T_Reservation.Models;
-using T_RESERVATION.AccesoDatos;
+
+using T_RESERVATION.LogicaNegocio;
 using T_RESERVATION.EntidadesNegocio;
+using T_RESERVATION.AccesoDatos;
+using T_Reservation.Models;
 
 namespace T_Reservation.Controllers
 {
     [Authorize(Roles = "Administrador, Empleado")]
     public class EmpleadosController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly EmpleadosBL _context;
 
-        public EmpleadosController(ApplicationDbContext context)
+        public EmpleadosController(EmpleadosBL context)
         {
             _context = context;
         }
@@ -25,26 +26,15 @@ namespace T_Reservation.Controllers
         [Authorize(Roles = "Administrador")]
         public async Task<IActionResult> Index()
         {
-              return View(await _context.Empleados.ToListAsync());
+              return View(await _context.ObtenerTodo());
         }
 
         // GET: Empleados/Details/5
         [Authorize(Roles = "Administrador, Empleado")]
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(int id)
         {
-            if (id == null || _context.Empleados == null)
-            {
-                return NotFound();
-            }
-
-            var empleado = await _context.Empleados
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (empleado == null)
-            {
-                return NotFound();
-            }
-
-            return View(empleado);
+            var clientes = await _context.ObtenerId(new Empleado { Id = id });
+            return View(clientes);
         }
 
         // GET: Empleados/Create
@@ -62,29 +52,26 @@ namespace T_Reservation.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Administrador")]
-        public async Task<IActionResult> Create([Bind("Id,Nombre,Dui,FechaNacimiento,Direccion,Correo,Telefono,Password,RestauranteId")] Empleado empleado)
+        public async Task<IActionResult> Create(Empleado empleado)
         {
-            empleado.Password = CalcularHashMD5(empleado.Password);
-            _context.Add(empleado);
-            await _context.SaveChangesAsync();
-            return RedirectToAction("Index", "Restaurantes");
+            try
+            {
+                await _context.Crear(empleado);
+
+                return RedirectToAction(nameof(Index));
+            }
+            catch
+            {
+                return View();
+            }
         }
 
         // GET: Empleados/Edit/5
         [Authorize(Roles = "Administrador,Empleado")]
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(int id)
         {
-            if (id == null || _context.Empleados == null)
-            {
-                return NotFound();
-            }
-
-            var empleado = await _context.Empleados.FindAsync(id);
-            if (empleado == null)
-            {
-                return NotFound();
-            }
-            return View(empleado);
+            var cliente = await _context.ObtenerId(new Empleado { Id = id });
+            return View(cliente);
         }
 
         // POST: Empleados/Edit/5
@@ -93,86 +80,39 @@ namespace T_Reservation.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Administrador,Empleado")]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Nombre,Dui,FechaNacimiento,Direccion,Correo,Telefono,RestauranteId")] Empleado empleado)
+        public async Task<IActionResult> Edit(Empleado empleado)
         {
-            if (id != empleado.Id)
+            try
             {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                   
-                    var originalEmpledo = await _context.Empleados.FindAsync(id);
-
-                    // Copiar la contraseña original al cliente que se va a actualizar
-                   // empleado.Password = originalEmpledo.Password;
-
-                    // Actualizar el resto de las propiedades del cliente
-                    _context.Entry(originalEmpledo).CurrentValues.SetValues(empleado);
-
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!EmpleadoExists(empleado.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
+                await _context.Modificar(empleado);
                 return RedirectToAction(nameof(Index));
             }
-            return View(empleado);
+            catch
+            {
+                return View();
+            }
         }
 
         // GET: Empleados/Delete/5
         [Authorize(Roles = "Administrador")]
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(int id)
         {
-            if (id == null || _context.Empleados == null)
-            {
-                return NotFound();
-            }
-
-            var empleado = await _context.Empleados
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (empleado == null)
-            {
-                return NotFound();
-            }
-
+            var empleado = await _context.ObtenerId(new Empleado { Id = id });
             return View(empleado);
         }
 
         // POST: Empleados/Delete/5
         [HttpPost, ActionName("Delete")]
-        [Authorize(Roles = "Administrador")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Empleados == null)
-            {
-                return Problem("Entity set 'ApplicationDbContext.Empleados'  is null.");
-            }
-            var empleado = await _context.Empleados.FindAsync(id);
-            if (empleado != null)
-            {
-                _context.Empleados.Remove(empleado);
-            }
-            
-            await _context.SaveChangesAsync();
+            await _context.Eliminar(new Empleado { Id = id });
             return RedirectToAction(nameof(Index));
         }
 
         private bool EmpleadoExists(int id)
         {
-          return _context.Empleados.Any(e => e.Id == id);
+            return _context.EmpleadoExists(id);
         }
 
         private string CalcularHashMD5(string texto)
