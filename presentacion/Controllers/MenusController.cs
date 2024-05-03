@@ -32,21 +32,25 @@ namespace T_Reservation.Controllers
         {
 
             var menu = await _menuBL.ObtenerId(new Menu { Id = id });
+            if (menu == null)
+            {
+                return NotFound();
+            }
+            var restaurantes = await _menuBL.ObtenerRestaurante();
+            ViewBag.restaurante = new SelectList(restaurantes, "RestauranteId", "Producto");
             return View(menu);
         }
 
         // GET: Menus/Create
         [Authorize(Roles = "Administrador, Empleado")]
-        public async Task< IActionResult> Create()
+        public async Task<IActionResult> Create()
         {
-            var menu = await _menuBL.ObtenerRestaurante();
-            
+            var restaurantes = await _menuBL.ObtenerRestaurante();
 
-            ViewBag.restaurante = new SelectList(menu, "Id", "Nombre");
-            
+            // Asumiendo que "RestauranteId" es el identificador único del restaurante y "Nombre" es el nombre del restaurante
+            ViewBag.Restaurante = new SelectList(restaurantes, "RestauranteId", "Nombre");
 
             return View();
-            
         }
 
         // POST: Menus/Create
@@ -71,9 +75,8 @@ namespace T_Reservation.Controllers
                 return NotFound();
             }
 
-            var restaurantes = await _menuBL.ObtenerRestaurante();
-
-            ViewBag.restaurante = new SelectList(restaurantes, "Id", "Nombre");
+            var menus = await _menuBL.ObtenerRestaurante();
+            ViewBag.restaurante = new SelectList(menus, "RestauranteId", "Producto");
 
             return View(menu);
         }
@@ -120,7 +123,7 @@ namespace T_Reservation.Controllers
                 return NotFound();
             }
             var menu = await _menuBL.ObtenerRestaurante();
-            ViewBag.restaurante = new SelectList(menu, "Id", "Nombre");
+            ViewBag.restaurante = new SelectList(menu, "RestauranteId", "Producto");
             return View(menus);
         }
 
