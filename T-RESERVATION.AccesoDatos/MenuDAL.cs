@@ -13,6 +13,10 @@ public class MenuDAL{
         }
     public async Task<List<Menu>> ObtenerTodo()
     {
+        IQueryable<Menu> restaurantes = _context.Menu;
+
+        restaurantes = restaurantes
+                                 .Include(p => p.RestauranteId);
         return _context.Menu != null ?
 
      await _context.Menu.ToListAsync() :
