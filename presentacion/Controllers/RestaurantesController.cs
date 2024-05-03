@@ -20,7 +20,7 @@ namespace T_Reservation.Controllers
 
         // GET: Restaurantes
 
-  
+
         public async Task<IActionResult> Index()
         {
             return View(await _context.ObtenerTodo());
@@ -54,27 +54,31 @@ namespace T_Reservation.Controllers
             //return View(restaurante);
         }
 
-        // GET: Restaurantes/Create
-        [Authorize(Roles = "Administrador,Empleado")]
+       
         public async Task<IActionResult> CreateAsync()
         {
-            var restaurant = new T_RESERVATION.EntidadesNegocio.Restaurante();
+            // Inicializar el modelo de restaurante
+            var restaurante = new Restaurante();
 
-
-            restaurant.Mesas = new List<T_RESERVATION.EntidadesNegocio.Mesa>();
-            restaurant.Mesas.Add(new T_RESERVATION.EntidadesNegocio.Mesa
+            // Inicializar la lista de mesas del restaurante
+            restaurante.Mesas = new List<Mesa>();
+            restaurante.Mesas.Add(new Mesa
             {
                 Numero = 1,
-                Capacidad = 1,
+                Capacidad = 1
             });
 
-            ViewBag.Accion = "Create";
+            // Obtener la lista de empleados
             var empleados = await _context.ObtenerEmpleado();
 
+            // Configurar datos necesarios en ViewBag o ViewData
+            ViewBag.Accion = "Create";
+            ViewBag.Empleados = new SelectList(empleados, "Id", "Nombre");
 
-            ViewBag.emplado = new SelectList(empleados, "Id", "Nombre");
-            return View();
+            // Pasar el modelo y cualquier otro dato necesario a la vista
+            return View(restaurante);
         }
+
 
         // POST: Restaurantes/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
@@ -85,7 +89,7 @@ namespace T_Reservation.Controllers
         public async Task<IActionResult> Create([Bind("IdRestaurante,Nombre,Descripcion,Direccion,EmpleadoId,Mesas")] Restaurante restaurante, IFormFile imagen)
         {
 
-            await _context.Crear(restaurante, imagen); 
+            await _context.Crear(restaurante, imagen);
             return RedirectToAction(nameof(Index));
         }
         [HttpPost]
@@ -94,10 +98,10 @@ namespace T_Reservation.Controllers
 
 
             var empleados = await _context.ObtenerEmpleado();
-            
+
 
             ViewBag.emplado = new SelectList(empleados, "Id", "Nombre");
-            
+
             ViewData["Imagen"] = restaurante.Imagen; // Mantener la imagen en la vista
             ViewBag.Accion = accion;
 
@@ -149,7 +153,7 @@ namespace T_Reservation.Controllers
         //    {
         //        return NotFound();
         //    }
-           
+
         //    ViewData["EmpleadoId"] = new SelectList(_context.Empleados, "Id", "Nombre", restaurante.EmpleadoId);
         //    ViewBag.Accion = "Edit";
         //    return View(restaurante);
@@ -274,7 +278,7 @@ namespace T_Reservation.Controllers
         //    {
         //        _context.Restaurantes.Remove(restaurante);
         //    }
-            
+
         //    await _context.SaveChangesAsync();
         //    return RedirectToAction(nameof(Index));
         //}
@@ -283,71 +287,71 @@ namespace T_Reservation.Controllers
 
         private bool RestauranteExists(int id)
         {
-          return _context.RestauranteExists(id);
+            return _context.RestauranteExists(id);
         }
 
 
-    //    public ActionResult GraficoPorFecha()
-    //    {
-    //        return View();
-    //    }
+        //    public ActionResult GraficoPorFecha()
+        //    {
+        //        return View();
+        //    }
 
-    //    [HttpPost]
-    //    public async Task<ActionResult> GetInfoGraficoPorFecha()
-    //    {
-    //        var claimsPrincipal = HttpContext.User;
+        //    [HttpPost]
+        //    public async Task<ActionResult> GetInfoGraficoPorFecha()
+        //    {
+        //        var claimsPrincipal = HttpContext.User;
 
-    //        // Access the "name" claim (containing email)
-    //        var email = claimsPrincipal.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value;
+        //        // Access the "name" claim (containing email)
+        //        var email = claimsPrincipal.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value;
 
-    //        // Get the user ID from the database using email
-    //        var usuario = await _context.Empleados.FirstOrDefaultAsync(u => u.Correo == email);
+        //        // Get the user ID from the database using email
+        //        var usuario = await _context.Empleados.FirstOrDefaultAsync(u => u.Correo == email);
 
-    //        // Check if user exists before proceeding
-    //        if (usuario == null)
-    //        {
-    //            // Handle case where user is not found (e.g., return error)
-    //            return BadRequest("Usuario no encontrado");
-    //        }
+        //        // Check if user exists before proceeding
+        //        if (usuario == null)
+        //        {
+        //            // Handle case where user is not found (e.g., return error)
+        //            return BadRequest("Usuario no encontrado");
+        //        }
 
-    //        int empleadoId = usuario.Id; // Assuming EmpleadoId is the user ID
+        //        int empleadoId = usuario.Id; // Assuming EmpleadoId is the user ID
 
-    //        var reservas = await _context.Reservas
-    //            .Include(r => r.Restaurante)
-    //            .Where(r => r.Restaurante.EmpleadoId == empleadoId)
-    //            .ToListAsync();
-    //        var objs = new List<object>();
-
-
-
-    //        // Group reservations by restaurant name, reservation ID, and date, and count the number of reservations in each group
-    //        var reservasPorFecha = reservas.GroupBy(r => r.FechaInicio.Date)
-    //.Select(group => new
-    //{
-    //    fecha = group.Key,
-    //    cantidad = group.Count(),
-    //    // Si necesitas almacenar los nombres de los restaurantes o ids de reservas agrupados, puedes usar una lista o añadir propiedades adicionales:
-    //    restaurantes = group.Select(r => r.Restaurante.Nombre).ToList(),
-    //    reservasIds = group.Select(r => r.Id).ToList()
-    //});
-
-
-    //        foreach (var reserva in reservasPorFecha)
-    //        {
-    //            objs.Add(new
-    //            {
-    //                fecha = reserva.fecha.ToString("yyyy-MM-dd"),
-    //                cantidad = reserva.cantidad,
-    //                // Opcionalmente, incluye las propiedades para nombres o ids agrupados:
-    //                restaurantes = reserva.restaurantes,
-    //                reservasIds = reserva.reservasIds
-    //            });
-    //        }
+        //        var reservas = await _context.Reservas
+        //            .Include(r => r.Restaurante)
+        //            .Where(r => r.Restaurante.EmpleadoId == empleadoId)
+        //            .ToListAsync();
+        //        var objs = new List<object>();
 
 
 
-    //        return Json(objs);
-    //    }
+        //        // Group reservations by restaurant name, reservation ID, and date, and count the number of reservations in each group
+        //        var reservasPorFecha = reservas.GroupBy(r => r.FechaInicio.Date)
+        //.Select(group => new
+        //{
+        //    fecha = group.Key,
+        //    cantidad = group.Count(),
+        //    // Si necesitas almacenar los nombres de los restaurantes o ids de reservas agrupados, puedes usar una lista o añadir propiedades adicionales:
+        //    restaurantes = group.Select(r => r.Restaurante.Nombre).ToList(),
+        //    reservasIds = group.Select(r => r.Id).ToList()
+        //});
+
+
+        //        foreach (var reserva in reservasPorFecha)
+        //        {
+        //            objs.Add(new
+        //            {
+        //                fecha = reserva.fecha.ToString("yyyy-MM-dd"),
+        //                cantidad = reserva.cantidad,
+        //                // Opcionalmente, incluye las propiedades para nombres o ids agrupados:
+        //                restaurantes = reserva.restaurantes,
+        //                reservasIds = reserva.reservasIds
+        //            });
+        //        }
+
+
+
+        //        return Json(objs);
+        //    }
 
 
 

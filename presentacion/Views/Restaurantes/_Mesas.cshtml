@@ -1,7 +1,10 @@
 ﻿@{
     Layout = null;
 }
-@model IEnumerable<Mesa>
+@model IEnumerable<T_RESERVATION.EntidadesNegocio.Mesa>
+
+@if (Model != null && Model.Any()){
+
 <input type="hidden" name="accion" value="@ViewBag.Accion" />
 <div class="table-responsive">
 <table class="table">
@@ -26,7 +29,7 @@
                 @if (ViewBag.Accion == "Create" || ViewBag.Accion == "Edit")
                 {
 
-                    <button type="submit" class="btn btn-dark" formaction="@Url.Action("AgregarDetalles")">Agregar</button>
+                    <button type="submit" class="btn btn-dark" formaction="@Url.Action("AgregarDetallesAsync")">Agregar</button>
                 }
 
             </th>
@@ -67,7 +70,7 @@
                             @if (ViewBag.Accion == "Create" || ViewBag.Accion == "Edit")
                             {
                              
-                                <button name="index" value="@index" class="btn btn-danger" type="submit" formaction="@Url.Action("EliminarDetalles")">Eliminar</button>
+                                <button name="index" value="@index" class="btn btn-danger" type="submit" formaction="@Url.Action("EliminarDetallesAsync")">Eliminar</button>
                             }
 
                         </td>
@@ -95,6 +98,13 @@
     </tbody>
 </table>
 </div>
+
+}
+else{
+    <p>no</p>
+}
+
+
 @if (ViewBag.Accion == "Details" || ViewBag.Accion == "Delete")
 {
     <script>

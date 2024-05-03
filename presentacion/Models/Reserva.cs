@@ -1,6 +1,7 @@
 ﻿
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using T_RESERVATION.EntidadesNegocio;
 
 namespace T_Reservation.Models
 {

@@ -1,6 +1,7 @@
 ﻿namespace T_Reservation.Models;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using T_RESERVATION.EntidadesNegocio;
 
 public class Menu
 {
