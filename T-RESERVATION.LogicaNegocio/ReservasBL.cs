@@ -34,10 +34,22 @@ namespace T_RESERVATION.LogicaNegocio
         {
             return await _context.ObtenerTodo();
         }
-        //public bool EmpleadoExists(int id)
-        //{
-        //    return _context.EmpleadoExists(id);
-        //}
+        public bool ReservaExists(int id)
+        {
+            return _context.ReservaExiste(id);
+        }
+        public async Task<List<Restaurante>> ObtenerRestaurante()
+        {
+            return await _context.ObtenerRestaurante();
+        }
+        public async Task<List<Cliente>> ObtenerCliente()
+        {
+            return await _context.ObtenerCliente();
+        }
+        public async Task<List<Mesa>> ObtenerMesa()
+        {
+            return await _context.ObtenerMesa();
+        }
     }
 
 }

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using T_RESERVATION.AccesoDatos;
+using T_RESERVATION.EntidadesNegocio;
 using T_RESERVATION.LogicaNegocio;
 
 namespace T_Reservation.Controllers
@@ -34,33 +35,32 @@ namespace T_Reservation.Controllers
 
         // GET: Reservas/Details/5
 
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(int id)
         {
-            if (id == null || _context.Reservas == null)
+            var menu = await _context.ObtenerId(new Reserva { Id = id });
+            if (menu == null)
             {
                 return NotFound();
             }
-
-            var reserva = await _context.Reservas
-                .Include(r => r.Cliente)
-                .Include(r => r.Mesa)
-                .Include(r => r.Restaurante)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (reserva == null)
-            {
-                return NotFound();
-            }
-
-            return View(reserva);
+            var restaurantes = await _context.ObtenerRestaurante();
+            ViewBag.restaurante = new SelectList(restaurantes, "RestauranteId", "Producto");
+            var mesa = await _context.ObtenerMesa();
+            ViewBag.restaurante = new SelectList(mesa, "ClienteId", "Producto");
+            var cliente = await _context.ObtenerCliente();
+            ViewBag.restaurante = new SelectList(cliente, "MesaId", "Producto");
+            return View(menu);
         }
 
         // GET: Reservas/Create
         [Authorize(Roles = "Cliente")]
-        public IActionResult Create()
+        public async Task<IActionResult> CreateAsync()
         {
-            ViewData["ClienteId"] = new SelectList(_context.Clientes, "Id", "Correo");
-            ViewData["MesaId"] = new SelectList(_context.Mesas, "Id", "Area");
-            ViewData["RestauranteId"] = new SelectList(_context.Restaurantes, "IdRestaurante", "Nombre");
+            var restaurantes = await _context.ObtenerRestaurante();
+            ViewBag.restaurante = new SelectList(restaurantes, "RestauranteId", "Producto");
+            var mesa = await _context.ObtenerMesa();
+            ViewBag.restaurante = new SelectList(mesa, "ClienteId", "Producto");
+            var cliente = await _context.ObtenerCliente();
+            ViewBag.restaurante = new SelectList(cliente, "MesaId", "Producto");
             return View();
         }
 
@@ -73,45 +73,26 @@ namespace T_Reservation.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,ClienteId,RestauranteId,MesaId,CantidadPersonas,FechaInicio,FechaFin")] Reserva reserva)
         {
-            if (ModelState.IsValid)
-            {
-                bool reservaExistente = _context.Reservas.Any(r => r.FechaInicio.Date == reserva.FechaInicio.Date && r.RestauranteId == reserva.RestauranteId);
-
-                if (reservaExistente)
-                {
-                    // Mostrar mensaje de error
-                    ModelState.AddModelError(string.Empty, "Ya existe una reserva para el mismo día en este restaurante.");
-                    // Recargar la vista con los datos ingresados por el usuario
-                    ViewData["ClienteId"] = new SelectList(_context.Clientes, "Id", "Correo", reserva.ClienteId);
-                    ViewData["MesaId"] = new SelectList(_context.Mesas, "Id", "Area", reserva.MesaId);
-                    ViewData["RestauranteId"] = new SelectList(_context.Restaurantes, "IdRestaurante", "Nombre", reserva.RestauranteId);
-                    return View(reserva);
-                }
-
-            }
-            _context.Add(reserva);
-            await _context.SaveChangesAsync();
+            await _context.Crear(reserva);
             return RedirectToAction(nameof(Index));
 
         }
 
         // GET: Reservas/Edit/5
         [Authorize(Roles = "Cliente")]
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(int id)
         {
-            if (id == null || _context.Reservas == null)
-            {
-                return NotFound();
-            }
-
-            var reserva = await _context.Reservas.FindAsync(id);
+            var reserva = await _context.ObtenerId(new Reserva { Id = id });
             if (reserva == null)
             {
                 return NotFound();
             }
-            ViewData["ClienteId"] = new SelectList(_context.Clientes, "Id", "Correo", reserva.ClienteId);
-            ViewData["MesaId"] = new SelectList(_context.Mesas, "Id", "Area", reserva.MesaId);
-            ViewData["RestauranteId"] = new SelectList(_context.Restaurantes, "IdRestaurante", "Nombre", reserva.RestauranteId);
+            var restaurantes = await _context.ObtenerRestaurante();
+            ViewBag.restaurante = new SelectList(restaurantes, "RestauranteId", "Producto");
+            var mesa = await _context.ObtenerMesa();
+            ViewBag.restaurante = new SelectList(mesa, "ClienteId", "Producto");
+            var cliente = await _context.ObtenerCliente();
+            ViewBag.restaurante = new SelectList(cliente, "MesaId", "Producto");
 
             return View(reserva);
         }
@@ -133,8 +114,7 @@ namespace T_Reservation.Controllers
             {
                 try
                 {
-                    _context.Update(reserva);
-                    await _context.SaveChangesAsync();
+                    await _context.Modificar(reserva);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -147,12 +127,14 @@ namespace T_Reservation.Controllers
                         throw;
                     }
                 }
-
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ClienteId"] = new SelectList(_context.Clientes, "Id", "Correo", reserva.ClienteId);
-            ViewData["MesaId"] = new SelectList(_context.Mesas, "Id", "Area", reserva.MesaId);
-            ViewData["RestauranteId"] = new SelectList(_context.Restaurantes, "IdRestaurante", "Nombre", reserva.RestauranteId);
+            var restaurantes = await _context.ObtenerRestaurante();
+            ViewBag.restaurante = new SelectList(restaurantes, "RestauranteId", "Producto");
+            var mesa = await _context.ObtenerMesa();
+            ViewBag.restaurante = new SelectList(mesa, "ClienteId", "Producto");
+            var cliente = await _context.ObtenerCliente();
+            ViewBag.restaurante = new SelectList(cliente, "MesaId", "Producto");
             return View(reserva);
         }
 
@@ -160,23 +142,19 @@ namespace T_Reservation.Controllers
 
         // GET: Reservas/Delete/5
         [Authorize(Roles = "Cliente, Administrador")]
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(int id)
         {
-            if (id == null || _context.Reservas == null)
-            {
-                return NotFound();
-            }
-
-            var reserva = await _context.Reservas
-                .Include(r => r.Cliente)
-                .Include(r => r.Mesa)
-                .Include(r => r.Restaurante)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var reserva = await _context.ObtenerId(new Reserva { Id = id });
             if (reserva == null)
             {
                 return NotFound();
             }
-
+            var restaurantes = await _context.ObtenerRestaurante();
+            ViewBag.restaurante = new SelectList(restaurantes, "RestauranteId", "Producto");
+            var mesa = await _context.ObtenerMesa();
+            ViewBag.restaurante = new SelectList(mesa, "ClienteId", "Producto");
+            var cliente = await _context.ObtenerCliente();
+            ViewBag.restaurante = new SelectList(cliente, "MesaId", "Producto");
             return View(reserva);
         }
 
@@ -186,23 +164,13 @@ namespace T_Reservation.Controllers
         [Authorize(Roles = "Cliente, Administrador")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Reservas == null)
-            {
-                return Problem("Entity set 'ApplicationDbContext.Reservas'  is null.");
-            }
-            var reserva = await _context.Reservas.FindAsync(id);
-            if (reserva != null)
-            {
-                _context.Reservas.Remove(reserva);
-            }
-
-            await _context.SaveChangesAsync();
+            await _context.Eliminar(new Reserva { Id = id });
             return RedirectToAction(nameof(Index));
         }
 
         private bool ReservaExists(int id)
         {
-            return _context.Reservas.Any(e => e.Id == id);
+            return _context.ReservaExists(id);
         }
     }
 }

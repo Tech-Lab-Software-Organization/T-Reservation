@@ -23,6 +23,8 @@ namespace T_Reservation.Controllers
         // GET: Menus
         public async Task<IActionResult> Index()
         {
+            var restaurantes = await _menuBL.ObtenerRestaurante();
+            ViewBag.restaurante = new SelectList(restaurantes, "RestauranteId", "Producto");
             return View(await _menuBL.ObtenerTodo());
         }
 

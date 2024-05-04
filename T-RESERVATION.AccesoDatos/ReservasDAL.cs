@@ -67,8 +67,23 @@ namespace T_RESERVATION.AccesoDatos
             await _context.Reservas.ToListAsync() :
             new List<Reserva>();
         }
+        public bool ReservaExiste(int id)
+        {
+            return (_context.Reservas?.Any(p => p.Id == id)).GetValueOrDefault();
+        }
+        public async Task<List<Restaurante>> ObtenerRestaurante()
+        {
+            return await _context.Restaurantes.ToListAsync();
+        }
+        public async Task<List<Mesa>> ObtenerMesa()
+        {
+            return await _context.Mesas.ToListAsync();
+        }
+        public async Task<List<Cliente>> ObtenerCliente()
+        {
+            return await _context.Clientes.ToListAsync();
+        }
 
-        
     }
 }
 
