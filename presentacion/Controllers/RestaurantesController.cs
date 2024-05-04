@@ -247,35 +247,27 @@ namespace T_Reservation.Controllers
 
         // GET: Restaurantes/Delete/5
         [Authorize(Roles = "Empleado, Administrador")]
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(int id)
         {
-             
-            //{
-            //    return NotFound();
-            //}
-            //ViewBag.Accion = "Delete";
+
+            var facturaVentum = await _context.ObtenerId(new Restaurante { IdRestaurante = id });
+            if (facturaVentum == null)
+            {
+                return NotFound();
+            }
+            ViewBag.Accion = "Delete";
             return View();
         }
 
-        // POST: Restaurantes/Delete/5
-        //[HttpPost, ActionName("Delete")]
-        //[Authorize(Roles = "Administrador, Empleado")]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> DeleteConfirmed(int id)
-        //{
-        //    if (_context.Restaurantes == null)
-        //    {
-        //        return Problem("Entity set 'ApplicationDbContext.Restaurantes'  is null.");
-        //    }
-        //    var restaurante = await _context.Restaurantes.FindAsync(id);
-        //    if (restaurante != null)
-        //    {
-        //        _context.Restaurantes.Remove(restaurante);
-        //    }
-
-        //    await _context.SaveChangesAsync();
-        //    return RedirectToAction(nameof(Index));
-        //}
+        //POST: Restaurantes/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [Authorize(Roles = "Administrador, Empleado")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            await _context.Eliminar(new Restaurante { IdRestaurante = id });
+            return RedirectToAction(nameof(Index));
+        }
 
 
 

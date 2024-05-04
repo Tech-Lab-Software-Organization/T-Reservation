@@ -24,7 +24,7 @@ namespace T_RESERVATION.AccesoDatos
         public async Task<Restaurante> ObtenerId(Restaurante restaurante)
         {
             var facturaRestaurante = await _context.Restaurantes
-              .Include(f => f.EmpleadoId)
+              .Include(f => f.Empleados)
               .Include(s => s.Menus)
               .FirstOrDefaultAsync(m => m.IdRestaurante == restaurante.IdRestaurante);
             if (facturaRestaurante != null)
