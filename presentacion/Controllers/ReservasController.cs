@@ -6,35 +6,30 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using T_Reservation.Models;
 using T_RESERVATION.AccesoDatos;
+using T_RESERVATION.LogicaNegocio;
 
 namespace T_Reservation.Controllers
 {
     [Authorize(Roles = "Administrador, Empleado,Cliente")]
     public class ReservasController : Controller
     {
-        private readonly ApplicationDbContext _context;
-       
+        private readonly ReservacionBL _context;
 
-        public ReservasController(ApplicationDbContext context)
+
+        public ReservasController(ReservacionBL context)
         {
             _context = context;
-            
+
         }
 
         // GET: Reservas
-        
+
         public async Task<IActionResult> Index()
         {
-           
-
-            var applicationDbContext = _context.Reservas.Include(r => r.Cliente).Include(r => r.Mesa).Include(r => r.Restaurante);
-            return View(await applicationDbContext.ToListAsync());
-          
-
+            return View(await _context.ObtenerTodo());
         }
-       
+
 
 
         // GET: Reservas/Details/5
@@ -92,7 +87,7 @@ namespace T_Reservation.Controllers
                     ViewData["RestauranteId"] = new SelectList(_context.Restaurantes, "IdRestaurante", "Nombre", reserva.RestauranteId);
                     return View(reserva);
                 }
-               
+
             }
             _context.Add(reserva);
             await _context.SaveChangesAsync();
@@ -117,7 +112,7 @@ namespace T_Reservation.Controllers
             ViewData["ClienteId"] = new SelectList(_context.Clientes, "Id", "Correo", reserva.ClienteId);
             ViewData["MesaId"] = new SelectList(_context.Mesas, "Id", "Area", reserva.MesaId);
             ViewData["RestauranteId"] = new SelectList(_context.Restaurantes, "IdRestaurante", "Nombre", reserva.RestauranteId);
-            
+
             return View(reserva);
         }
 
@@ -152,7 +147,7 @@ namespace T_Reservation.Controllers
                         throw;
                     }
                 }
-        
+
                 return RedirectToAction(nameof(Index));
             }
             ViewData["ClienteId"] = new SelectList(_context.Clientes, "Id", "Correo", reserva.ClienteId);
@@ -161,7 +156,7 @@ namespace T_Reservation.Controllers
             return View(reserva);
         }
 
-        
+
 
         // GET: Reservas/Delete/5
         [Authorize(Roles = "Cliente, Administrador")]
@@ -200,14 +195,14 @@ namespace T_Reservation.Controllers
             {
                 _context.Reservas.Remove(reserva);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool ReservaExists(int id)
         {
-          return _context.Reservas.Any(e => e.Id == id);
+            return _context.Reservas.Any(e => e.Id == id);
         }
     }
 }

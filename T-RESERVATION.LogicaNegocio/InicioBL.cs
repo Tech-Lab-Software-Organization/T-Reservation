@@ -5,9 +5,9 @@ namespace T_RESERVATION.LogicaNegocio;
 
 public class InicioBL
 {
-    readonly TRESERVATIONIniciarSesion _context;
+    readonly IniciarSesionDAL _context;
 
-    public InicioBL(TRESERVATIONIniciarSesion contexto)
+    public InicioBL(IniciarSesionDAL contexto)
     {
         _context = contexto;
     }

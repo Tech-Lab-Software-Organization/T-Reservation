@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore;
 namespace T_RESERVATION.AccesoDatos
 {
 
-   public class TRESERVATIONIniciarSesion
+   public class IniciarSesionDAL
     {
         private readonly ApplicationDbContext _context;
 
-        public TRESERVATIONIniciarSesion(ApplicationDbContext context)
+        public IniciarSesionDAL(ApplicationDbContext context)
         {
             _context = context;
         }

@@ -15,7 +15,8 @@ public static class DenpencyContainer
         services.AddScoped<EmpleadosBL>();
         services.AddScoped<MenuBL>();
         services.AddScoped<RestauranteBL>();
-        return services;
+        services.AddScoped<ReservacionBL>();
+        return services; 
     }
 }
 
