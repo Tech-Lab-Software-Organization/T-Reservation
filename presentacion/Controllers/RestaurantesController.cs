@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using T_RESERVATION.AccesoDatos;
 using T_RESERVATION.EntidadesNegocio;
+using T_RESERVATION.LogicaNegocio;
 
 namespace T_Reservation.Controllers
 {
@@ -23,6 +24,8 @@ namespace T_Reservation.Controllers
 
         public async Task<IActionResult> Index()
         {
+            var empleados = await _context.ObtenerEmpleado();
+            ViewBag.empleado = new SelectList(empleados, "EmpladoId", "Nombre");
             return View(await _context.ObtenerTodo());
         }
 
@@ -136,7 +139,7 @@ namespace T_Reservation.Controllers
             return View(accion, restaurante);
         }
 
-        //// GET: Restaurantes/Edit/5
+        // GET: Restaurantes/Edit/5
         //[Authorize(Roles = "Administrador, Empleado")]
         //public async Task<IActionResult> Edit(int? id)
         //{
@@ -246,16 +249,7 @@ namespace T_Reservation.Controllers
         [Authorize(Roles = "Empleado, Administrador")]
         public async Task<IActionResult> Delete(int? id)
         {
-            //if (id == null || _context.Restaurantes == null)
-            //{
-            //    return NotFound();
-            //}
-
-            //var restaurante = await _context.Restaurantes
-            //    .Include(s => s.Mesas)
-            //    .Include(r => r.Empleados)
-            //    .FirstOrDefaultAsync(m => m.IdRestaurante == id);
-            //if (restaurante == null)
+             
             //{
             //    return NotFound();
             //}

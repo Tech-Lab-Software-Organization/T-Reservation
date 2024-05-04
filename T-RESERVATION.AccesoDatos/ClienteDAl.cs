@@ -87,8 +87,11 @@ public class ClientesDAL
         return await query.ToListAsync();
 
     }
+    public bool ClienteExists(int id)
+    {
+        return (_context.Clientes?.Any(p => p.Id == id)).GetValueOrDefault();
+    }
 
-    
 
     public static string CalcularHashMD5(string texto)
     {

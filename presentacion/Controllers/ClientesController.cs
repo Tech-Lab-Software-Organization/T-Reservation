@@ -100,32 +100,32 @@ namespace T_Reservation.Controllers
         [Authorize(Roles = "Administrador,Cliente")]
         public async Task<IActionResult> Delete(int id)
         {
-            var estudiante = await _clienteBL.Eliminar(new Cliente { Id = id });
+            var estudiante = await _clienteBL.ObtenerId(new Cliente { Id = id });
             return View(estudiante);
         }
 
         // POST: Clientes/Delete/5
-        //[HttpPost, ActionName("Delete")]
-        //[Authorize(Roles = "Administrador,Cliente")]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> DeleteConfirmed(int id, Cliente cliente)
-        //{
-        //    try
-        //{
-        //    await _clienteBL.Delete(cliente);
-        //    return RedirectToAction(nameof(Index));
-        //}
-        //catch
-        //{
-        //    return View();
-        //}
-        //}
+        [HttpPost, ActionName("Delete")]
+        [Authorize(Roles = "Administrador,Cliente")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id, Cliente cliente)
+        {
+            try
+            {
+                await _clienteBL.Eliminar(cliente);
+                return RedirectToAction(nameof(Index));
+            }
+            catch
+            {
+                return View();
+            }
+        }
 
-        // private bool ClienteExists(int id)
-        // {
-        //     // return _clienteBL..Any(e => e.Id == id);
-        // }
+        private bool ClienteExists(int id)
+        {
+            return _clienteBL.ClienteExists(id);
+        }
 
-        
+
     }
 }

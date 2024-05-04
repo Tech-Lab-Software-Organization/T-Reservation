@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using T_RESERVATION.AccesoDatos;
 using T_RESERVATION.EntidadesNegocio;
 using T_RESERVATION.LogicaNegocio;
 
@@ -129,26 +130,16 @@ namespace T_Reservation.Controllers
             return View(menus);
         }
 
-        // POST: Menus/Delete/5
-        //[HttpPost, ActionName("Delete")]
-        //[Authorize(Roles = "Administrador, Empleado")]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> DeleteConfirmed(int id)
-        //{
-        //    if (_context.Menu == null)
-        //    {
-        //        return Problem("Entity set 'ApplicationDbContext.Menu'  is null.");
-        //    }
-        //    var menu = await _context.Menu.FindAsync(id);
-        //    if (menu != null)
-        //    {
-        //        _context.Menu.Remove(menu);
-        //    }
-            
-        //    await _context.SaveChangesAsync();
-        //    return RedirectToAction(nameof(Index));
-        //}
-        
+        ////POST: Menus/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [Authorize(Roles = "Administrador, Empleado")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        { 
+            await _menuBL.Eliminar(new Menu { Id = id });
+            return RedirectToAction(nameof(Index));
+        }
+
         private bool MenuExists(int id)
         {
             return _menuBL.MenuExists(id);

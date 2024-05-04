@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using T_RESERVATION.AccesoDatos;
 using T_RESERVATION.EntidadesNegocio;
 
@@ -40,5 +41,10 @@ public class ClienteBL
     public async Task<List<Cliente>> Buscar(Cliente cliente)
     {
         return await _ClienteDAL.Buscar(cliente);
+    }
+
+    public bool ClienteExists(int id)
+    {
+        return _ClienteDAL.ClienteExists(id);
     }
 }

@@ -28,6 +28,12 @@ namespace T_Reservation.Controllers
 
         public async Task<IActionResult> Index()
         {
+            var restaurantes = await _context.ObtenerRestaurante();
+            ViewBag.restaurante = new SelectList(restaurantes, "RestauranteId", "Producto");
+            var mesa = await _context.ObtenerMesa();
+            ViewBag.restaurante = new SelectList(mesa, "ClienteId", "Producto");
+            var cliente = await _context.ObtenerCliente();
+            ViewBag.restaurante = new SelectList(cliente, "MesaId", "Producto");
             return View(await _context.ObtenerTodo());
         }
 
