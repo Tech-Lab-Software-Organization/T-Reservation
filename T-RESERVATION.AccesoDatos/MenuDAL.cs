@@ -61,7 +61,9 @@ public class MenuDAL{
     }
     public async Task<List<Restaurante>> ObtenerRestaurante()
     {
-        return await _context.Restaurantes.ToListAsync();
+         return await _context.Restaurantes.ToListAsync();
+
+       
     }
     private byte[] LeerArchivo(IFormFile archivo)
     {

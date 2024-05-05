@@ -3,7 +3,7 @@
 }
 @model IEnumerable<T_RESERVATION.EntidadesNegocio.Mesa>
 
-@if (Model != null && Model.Any()){
+
 
 <input type="hidden" name="accion" value="@ViewBag.Accion" />
 <div class="table-responsive">
@@ -99,10 +99,8 @@
 </table>
 </div>
 
-}
-else{
-    <p>no</p>
-}
+
+
 
 
 @if (ViewBag.Accion == "Details" || ViewBag.Accion == "Delete")

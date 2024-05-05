@@ -74,9 +74,11 @@ namespace T_Reservation.Controllers
             // Obtener la lista de empleados
             var empleados = await _context.ObtenerEmpleado();
 
+            Console.WriteLine("fffffffffvfvf"+ empleados);
+
             // Configurar datos necesarios en ViewBag o ViewData
             ViewBag.Accion = "Create";
-            ViewBag.Empleados = new SelectList(empleados, "Id", "Nombre");
+            ViewData["EmpleadoId"] = new SelectList(empleados, "Id", "Nombre");
 
             // Pasar el modelo y cualquier otro dato necesario a la vista
             return View(restaurante);
@@ -131,6 +133,7 @@ namespace T_Reservation.Controllers
 
             var empleados = await _context.ObtenerEmpleado();
 
+            
 
             ViewBag.emplado = new SelectList(empleados, "Id", "Nombre");
             ViewData["Imagen"] = restaurante.Imagen; // Mantener la imagen en la vista

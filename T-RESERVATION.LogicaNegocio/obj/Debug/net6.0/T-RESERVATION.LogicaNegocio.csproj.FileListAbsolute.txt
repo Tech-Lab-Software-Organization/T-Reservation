@@ -51,9 +51,9 @@ C:\Users\MINEDUCYT\Desktop\T-Reservation\T-RESERVATION.LogicaNegocio\obj\Debug\n
 C:\Users\MINEDUCYT\Desktop\T-Reservation\T-RESERVATION.LogicaNegocio\obj\Debug\net6.0\T-RESERVATION.LogicaNegocio.AssemblyInfo.cs
 C:\Users\MINEDUCYT\Desktop\T-Reservation\T-RESERVATION.LogicaNegocio\obj\Debug\net6.0\T-RESERVATION.LogicaNegocio.csproj.CoreCompileInputs.cache
 C:\Users\MINEDUCYT\Desktop\T-Reservation\T-RESERVATION.LogicaNegocio\obj\Debug\net6.0\T-RESERVATION.LogicaNegocio.sourcelink.json
-C:\Users\MINEDUCYT\Desktop\T-Reservation\T-RESERVATION.LogicaNegocio\obj\Debug\net6.0\T-RESERVATION.LogicaNegocio.csproj.CopyComplete
 C:\Users\MINEDUCYT\Desktop\T-Reservation\T-RESERVATION.LogicaNegocio\obj\Debug\net6.0\T-RESERVATION.LogicaNegocio.dll
 C:\Users\MINEDUCYT\Desktop\T-Reservation\T-RESERVATION.LogicaNegocio\obj\Debug\net6.0\refint\T-RESERVATION.LogicaNegocio.dll
 C:\Users\MINEDUCYT\Desktop\T-Reservation\T-RESERVATION.LogicaNegocio\obj\Debug\net6.0\T-RESERVATION.LogicaNegocio.pdb
 C:\Users\MINEDUCYT\Desktop\T-Reservation\T-RESERVATION.LogicaNegocio\obj\Debug\net6.0\T-RESERVATION.LogicaNegocio.genruntimeconfig.cache
 C:\Users\MINEDUCYT\Desktop\T-Reservation\T-RESERVATION.LogicaNegocio\obj\Debug\net6.0\ref\T-RESERVATION.LogicaNegocio.dll
+C:\Users\MINEDUCYT\Desktop\T-Reservation\T-RESERVATION.LogicaNegocio\obj\Debug\net6.0\T-RESERV.66E53809.Up2Date

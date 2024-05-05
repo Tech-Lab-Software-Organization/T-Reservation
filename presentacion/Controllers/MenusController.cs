@@ -25,7 +25,10 @@ namespace T_Reservation.Controllers
         public async Task<IActionResult> Index()
         {
             var restaurantes = await _menuBL.ObtenerRestaurante();
-            ViewBag.restaurante = new SelectList(restaurantes, "RestauranteId", "Producto");
+
+         
+                                                                      
+            ViewData["RestauranteId"] = new SelectList(restaurantes, "IdRestaurante", "Nombre");
             return View(await _menuBL.ObtenerTodo());
         }
 
@@ -51,7 +54,7 @@ namespace T_Reservation.Controllers
             var restaurantes = await _menuBL.ObtenerRestaurante();
 
             // Asumiendo que "RestauranteId" es el identificador único del restaurante y "Nombre" es el nombre del restaurante
-            ViewBag.Restaurante = new SelectList(restaurantes, "RestauranteId", "Nombre");
+            ViewData["RestauranteId"] = new SelectList(restaurantes, "IdRestaurante", "Nombre");
 
             return View();
         }
@@ -79,7 +82,7 @@ namespace T_Reservation.Controllers
             }
 
             var menus = await _menuBL.ObtenerRestaurante();
-            ViewBag.restaurante = new SelectList(menus, "RestauranteId", "Producto");
+            ViewData["RestauranteId"] = new SelectList(menus, "IdRestaurante", "Nombre");
 
             return View(menu);
         }
