@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34607.119
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "T-Reservation", "T-Reservation.csproj", "{AFC818CA-978D-480E-921A-8A24896F8257}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "T-Reservation", "T-Reservation.csproj", "{AFC818CA-978D-480E-921A-8A24896F8257}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "T-RESERVATION.AccesoDatos", "..\T-RESERVATION.AccesoDatos\T-RESERVATION.AccesoDatos.csproj", "{E5F51793-189A-4E3A-AAC6-7CDB1D0BE6E9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "T-RESERVATION.AccesoDatos", "..\T-RESERVATION.AccesoDatos\T-RESERVATION.AccesoDatos.csproj", "{E5F51793-189A-4E3A-AAC6-7CDB1D0BE6E9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "T-RESERVATION.LogicaNegocio", "..\T-RESERVATION.LogicaNegocio\T-RESERVATION.LogicaNegocio.csproj", "{F18A34E1-6C35-4438-96B1-DD6D904D735C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "T-RESERVATION.LogicaNegocio", "..\T-RESERVATION.LogicaNegocio\T-RESERVATION.LogicaNegocio.csproj", "{F18A34E1-6C35-4438-96B1-DD6D904D735C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "T-RESERVATION.EntidadesNegocio", "..\T-RESERVATION.EntidadesNegocio\T-RESERVATION.EntidadesNegocio.csproj", "{F3BD7337-362C-4144-B1CC-FEE9703DC465}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "T-RESERVATION.EntidadesNegocio", "..\T-RESERVATION.EntidadesNegocio\T-RESERVATION.EntidadesNegocio.csproj", "{F3BD7337-362C-4144-B1CC-FEE9703DC465}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

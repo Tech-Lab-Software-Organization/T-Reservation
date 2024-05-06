@@ -13,10 +13,12 @@ namespace T_Reservation.Controllers
     public class RestaurantesController : Controller
     {
         private readonly RestauranteBL _context;
+        private readonly ApplicationDbContext _dbContext;
 
-        public RestaurantesController(RestauranteBL context)
+        public RestaurantesController(RestauranteBL context, ApplicationDbContext dbContext)
         {
             _context = context;
+            _dbContext = dbContext;
         }
 
         // GET: Restaurantes
@@ -280,67 +282,67 @@ namespace T_Reservation.Controllers
         }
 
 
-        //    public ActionResult GraficoPorFecha()
-        //    {
-        //        return View();
-        //    }
+        public ActionResult GraficoPorFecha()
+        {
+            return View();
+        }
 
-        //    [HttpPost]
-        //    public async Task<ActionResult> GetInfoGraficoPorFecha()
-        //    {
-        //        var claimsPrincipal = HttpContext.User;
+        [HttpPost]
+        public async Task<ActionResult> GetInfoGraficoPorFecha()
+        {
+            var claimsPrincipal = HttpContext.User;
 
-        //        // Access the "name" claim (containing email)
-        //        var email = claimsPrincipal.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value;
+            // Access the "name" claim (containing email)
+            var email = claimsPrincipal.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value;
 
-        //        // Get the user ID from the database using email
-        //        var usuario = await _context.Empleados.FirstOrDefaultAsync(u => u.Correo == email);
+            // Get the user ID from the database using email
+            var usuario = await _dbContext.Empleados.FirstOrDefaultAsync(u => u.Correo == email);
 
-        //        // Check if user exists before proceeding
-        //        if (usuario == null)
-        //        {
-        //            // Handle case where user is not found (e.g., return error)
-        //            return BadRequest("Usuario no encontrado");
-        //        }
+            // Check if user exists before proceeding
+            if (usuario == null)
+            {
+                // Handle case where user is not found (e.g., return error)
+                return BadRequest("Usuario no encontrado");
+            }
 
-        //        int empleadoId = usuario.Id; // Assuming EmpleadoId is the user ID
+            int empleadoId = usuario.Id; // Assuming EmpleadoId is the user ID
 
-        //        var reservas = await _context.Reservas
-        //            .Include(r => r.Restaurante)
-        //            .Where(r => r.Restaurante.EmpleadoId == empleadoId)
-        //            .ToListAsync();
-        //        var objs = new List<object>();
-
-
-
-        //        // Group reservations by restaurant name, reservation ID, and date, and count the number of reservations in each group
-        //        var reservasPorFecha = reservas.GroupBy(r => r.FechaInicio.Date)
-        //.Select(group => new
-        //{
-        //    fecha = group.Key,
-        //    cantidad = group.Count(),
-        //    // Si necesitas almacenar los nombres de los restaurantes o ids de reservas agrupados, puedes usar una lista o añadir propiedades adicionales:
-        //    restaurantes = group.Select(r => r.Restaurante.Nombre).ToList(),
-        //    reservasIds = group.Select(r => r.Id).ToList()
-        //});
-
-
-        //        foreach (var reserva in reservasPorFecha)
-        //        {
-        //            objs.Add(new
-        //            {
-        //                fecha = reserva.fecha.ToString("yyyy-MM-dd"),
-        //                cantidad = reserva.cantidad,
-        //                // Opcionalmente, incluye las propiedades para nombres o ids agrupados:
-        //                restaurantes = reserva.restaurantes,
-        //                reservasIds = reserva.reservasIds
-        //            });
-        //        }
+            var reservas = await _dbContext.Reservas
+                .Include(r => r.Restaurante)
+                .Where(r => r.Restaurante.EmpleadoId == empleadoId)
+                .ToListAsync();
+            var objs = new List<object>();
 
 
 
-        //        return Json(objs);
-        //    }
+            // Group reservations by restaurant name, reservation ID, and date, and count the number of reservations in each group
+            var reservasPorFecha = reservas.GroupBy(r => r.FechaInicio.Date)
+    .Select(group => new
+    {
+        fecha = group.Key,
+        cantidad = group.Count(),
+        // Si necesitas almacenar los nombres de los restaurantes o ids de reservas agrupados, puedes usar una lista o añadir propiedades adicionales:
+        restaurantes = group.Select(r => r.Restaurante.Nombre).ToList(),
+        reservasIds = group.Select(r => r.Id).ToList()
+    });
+
+
+            foreach (var reserva in reservasPorFecha)
+            {
+                objs.Add(new
+                {
+                    fecha = reserva.fecha.ToString("yyyy-MM-dd"),
+                    cantidad = reserva.cantidad,
+                    // Opcionalmente, incluye las propiedades para nombres o ids agrupados:
+                    restaurantes = reserva.restaurantes,
+                    reservasIds = reserva.reservasIds
+                });
+            }
+
+
+
+            return Json(objs);
+        }
 
 
 
