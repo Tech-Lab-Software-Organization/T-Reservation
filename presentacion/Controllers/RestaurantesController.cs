@@ -60,7 +60,7 @@ namespace T_Reservation.Controllers
         }
 
        
-        public async Task<IActionResult> CreateAsync()
+        public async Task<IActionResult> Create()
         {
             // Inicializar el modelo de restaurante
             var restaurante = new Restaurante();
@@ -76,7 +76,7 @@ namespace T_Reservation.Controllers
             // Obtener la lista de empleados
             var empleados = await _context.ObtenerEmpleado();
 
-            Console.WriteLine("fffffffffvfvf"+ empleados);
+            
 
             // Configurar datos necesarios en ViewBag o ViewData
             ViewBag.Accion = "Create";
@@ -100,23 +100,23 @@ namespace T_Reservation.Controllers
             return RedirectToAction(nameof(Index));
         }
         [HttpPost]
-        public async Task<ActionResult> AgregarDetallesAsync([Bind("IdRestaurante,Nombre,Descripcion,Direccion,EmpleadoId,Mesas")] Restaurante restaurante, string accion)
+        public IActionResult ActualizarDetalles([Bind("Mesas")] Restaurante restaurante, string accion)
         {
-
-
-            var empleados = await _context.ObtenerEmpleado();
-
-
-            ViewBag.emplado = new SelectList(empleados, "Id", "Nombre");
+            ViewBag.Accion = accion;
+            return PartialView("_Mesas", restaurante.Mesas);
+        }
+        [HttpPost]
+        public  IActionResult AgregarDetalles([Bind("Mesas")] Restaurante restaurante, string accion)
+        {
 
             ViewData["Imagen"] = restaurante.Imagen; // Mantener la imagen en la vista
             ViewBag.Accion = accion;
 
             // Devolver la vista con los datos actualizados
-            return View(accion, restaurante);
+            return PartialView("_Mesas", restaurante.Mesas);
         }
 
-        public async Task<ActionResult> EliminarDetallesAsync([Bind("IdRestaurante,Nombre,Descripcion,Direccion,EmpleadoId,Mesas")] Restaurante restaurante, int index, string accion)
+        public IActionResult EliminarDetalles([Bind("Mesas")] Restaurante restaurante, int index, string accion)
         {
             //// Eliminar la mesa seleccionada
             var det = restaurante.Mesas[index];
@@ -133,15 +133,11 @@ namespace T_Reservation.Controllers
             ViewBag.Accion = accion;
             // Mantener la imagen y el empleado seleccionado en la vista
 
-            var empleados = await _context.ObtenerEmpleado();
-
             
-
-            ViewBag.emplado = new SelectList(empleados, "Id", "Nombre");
             ViewData["Imagen"] = restaurante.Imagen; // Mantener la imagen en la vista
 
             // Devolver la vista con los datos actualizados
-            return View(accion, restaurante);
+            return PartialView("_Mesas", restaurante.Mesas);
         }
 
         // GET: Restaurantes/Edit/5

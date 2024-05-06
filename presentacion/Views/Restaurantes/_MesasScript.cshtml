@@ -1,0 +1,40 @@
+﻿﻿<script>
+     
+     function crearDetalles() {
+         $.ajax({
+             url: '@Url.Action("AgregarDetalles")',
+             data: $("#frmFacturaVenta").serialize(),
+             dataType: "html",
+             type: 'POST',
+             success: function (textHtml) {
+                 $("#divDetalleFacturaVenta").html(textHtml);
+                 actualizarTotalFactura();
+             }
+         });
+     }
+     function eliminarDetalles(index) {
+         $("#txtIndexDetalle").val(index);
+         $.ajax({
+             url: '@Url.Action("EliminarDetalles")',
+             data: $("#frmFacturaVenta").serialize(),
+             dataType: "html",
+             type: 'POST',
+             success: function (textHtml) {
+                 $("#divDetalleFacturaVenta").html(textHtml);
+                 actualizarTotalFactura();
+             }
+         });
+     }
+     function actualizarDetalles() {
+         $.ajax({
+             url: '@Url.Action("ActualizarDetalles")',
+             data: $("#frmFacturaVenta").serialize(),
+             dataType: "html",
+             type: 'POST',
+             success: function (textHtml) {
+                 $("#divDetalleFacturaVenta").html(textHtml);
+                 actualizarTotalFactura();
+             }
+         });
+     }
+</script>

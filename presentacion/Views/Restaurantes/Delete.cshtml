@@ -21,12 +21,12 @@
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Imagen)
         </dt>
-        <dd class="col-sm-10">
-            @if (Model.Imagen != null && Model.Imagen.Length > 0)
-            {
-                <img src="data:image/jpg;base64,@(Convert.ToBase64String(Model.Imagen))" style="max-width: 100px; max-height: 100px;" />
-            }
-        </dd>
+                <dd class="col-sm-10">
+                    @if (Model.Imagen != null && Model.Imagen.Length > 0)
+                    {
+                        <img src="data:image/jpg;base64,@(Convert.ToBase64String(Model.Imagen))" style="max-width: 100px; max-height: 100px;" />
+                    }
+                </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Descripcion)
         </dt>
@@ -45,11 +45,11 @@
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Empleados.Nombre)
         </dd>
-                <div class="row">
-                    <div class="row row-cols-md-12">
+
+                <div class="row row-cols-md-12">
                         @await Html.PartialAsync("_Mesas", Model.Mesas)
-                    </div>
-                </div>
+                 </div>
+                
     </dl>
     
     <form asp-action="Delete">

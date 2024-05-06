@@ -29,7 +29,7 @@
                 @if (ViewBag.Accion == "Create" || ViewBag.Accion == "Edit")
                 {
 
-                    <button type="submit" class="btn btn-dark" formaction="@Url.Action("AgregarDetallesAsync")">Agregar</button>
+                        <button type="button" onclick="crearDetalles()" class="btn btn-primary">Agregar</button>
                 }
 
             </th>
@@ -54,23 +54,23 @@
 
                             <input type="hidden" name="Mesas[@index].IdRestaurante" value="@item.IdRestaurante">
 
-                            <input class="form-control" data-readonly type="number" name="Mesas[@index].Numero" value="@item.Numero">
+                                <input class="form-control" onchange="actualizarDetalles()" data-readonly type="number" name="Mesas[@index].Numero" value="@item.Numero">
                         </td>
                         <td>
-                            <input class="form-control" data-readonly type="number" name="Mesas[@index].Capacidad" value="@item.Capacidad">
+                                <input class="form-control" onchange="actualizarDetalles()" data-readonly type="number" name="Mesas[@index].Capacidad" value="@item.Capacidad">
                         </td>
                         <td>
-                            <input class="form-control" data-readonly type="text" name="Mesas[@index].Area" value="@item.Area">
+                                <input class="form-control" onchange="actualizarDetalles()" data-readonly type="text" name="Mesas[@index].Area" value="@item.Area">
                         </td>
                         <td>
-                            <input class="form-control" data-readonly type="text" name="Mesas[@index].Disponibilidad" value="@item.Disponibilidad">
+                                <input class="form-control" onchange="actualizarDetalles()" data-readonly type="text" name="Mesas[@index].Disponibilidad" value="@item.Disponibilidad">
                         </td>
          
                         <td>
                             @if (ViewBag.Accion == "Create" || ViewBag.Accion == "Edit")
                             {
-                             
-                                <button name="index" value="@index" class="btn btn-danger" type="submit" formaction="@Url.Action("EliminarDetallesAsync")">Eliminar</button>
+
+                                    <button onclick="eliminarDetalles('@index')" class="btn btn-primary" type="button">Eliminar</button>
                             }
 
                         </td>
@@ -106,7 +106,6 @@
 @if (ViewBag.Accion == "Details" || ViewBag.Accion == "Delete")
 {
     <script>
-
         const readOnly = document.querySelectorAll("*[data-readonly]");
         for (var i = 0; i < readOnly.length; i++) {
             const item = readOnly[i];

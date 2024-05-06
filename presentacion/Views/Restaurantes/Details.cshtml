@@ -44,11 +44,11 @@
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Empleados.Nombre)
         </dd>
-                <div class="row">
-                    <div class="row row-cols-md-12">
-                        @await Html.PartialAsync("_Mesas", Model.Mesas)
+
+                <div class="row row-cols-md-12" id="divDetalleFacturaVenta">
+                    @await Html.PartialAsync("_Mesas", Model.Mesas)
                     </div>
-                </div>
+                
     </dl>
 </div>
 <div>
@@ -57,3 +57,4 @@
 </div>
 </div>
 </div>
+
