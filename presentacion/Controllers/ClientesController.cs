@@ -68,10 +68,10 @@ namespace T_Reservation.Controllers
         }
 
         // GET: Clientes/Edit/5
-        [Authorize(Roles = "Cliente")]
+        //[Authorize(Roles = "Cliente")]
         public async Task<IActionResult> Edit(int id)
         {
-            var estudiante = await _clienteBL.Modificar(new Cliente { Id = id });
+            var estudiante = await _clienteBL.ObtenerId(new Cliente { Id = id });
 
             return View(estudiante);
         }
@@ -80,7 +80,7 @@ namespace T_Reservation.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [Authorize(Roles = "Cliente")]
+        //[Authorize(Roles = "Cliente")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Cliente cliente)
         {
@@ -97,7 +97,7 @@ namespace T_Reservation.Controllers
 
 
         // GET: Clientes/Delete/5
-        [Authorize(Roles = "Administrador,Cliente")]
+        //[Authorize(Roles = "Administrador,Cliente")]
         public async Task<IActionResult> Delete(int id)
         {
             var estudiante = await _clienteBL.ObtenerId(new Cliente { Id = id });
@@ -106,7 +106,7 @@ namespace T_Reservation.Controllers
 
         // POST: Clientes/Delete/5
         [HttpPost, ActionName("Delete")]
-        [Authorize(Roles = "Administrador,Cliente")]
+        //[Authorize(Roles = "Administrador,Cliente")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id, Cliente cliente)
         {

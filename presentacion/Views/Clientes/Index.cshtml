@@ -2,7 +2,10 @@
 @{
     ViewData["Title"] = "Cliente";
 }
-
+<p>
+    <a asp-action="Create" class="btn btn-secondary">Crear nuevo Cliente</a>
+    <div class="table-responsive">
+</p>
 <div class="card">
     <div class="card-body">
 <h1 class="card-title">Registro de clientes</h1>
@@ -62,11 +65,11 @@
                             </td>
                            
              <td class="btn-group-vertical" >
-                                @if (User.IsInRole("Cliente,Administrador"))
-                                {
+                                
+                                
                                     <a class="mb3 btn btn-danger" asp-action="Delete" asp-route-id="@item.Id">Eliminar</a>
                                     <a class="mb3 btn btn-dark" asp-action="Edit" asp-route-id="@item.Id">Editar</a>
-                                }
+                                
                              
              
                         <a class="mb3 btn btn-secondary" asp-action="Details" asp-route-id="@item.Id">Detalle</a>
