@@ -12,7 +12,7 @@ using T_RESERVATION.LogicaNegocio;
 
 namespace T_Reservation.Controllers
 {
-    [Authorize(Roles = "Administrador, Empleado,Cliente")]
+    //[Authorize(Roles = "Administrador, Empleado,Cliente")]
     public class ReservasController : Controller
     {
         private readonly ReservacionBL _context;
@@ -58,22 +58,22 @@ namespace T_Reservation.Controllers
         }
 
         // GET: Reservas/Create
-        [Authorize(Roles = "Cliente")]
+        //[Authorize(Roles = "Cliente")]
         public async Task<IActionResult> CreateAsync()
         {
             var restaurantes = await _context.ObtenerRestaurante();
-            ViewBag.restaurante = new SelectList(restaurantes, "RestauranteId", "Producto");
+            ViewData["RestauranteId"] = new SelectList(restaurantes, "IdRestaurante", "Nombre");
             var mesa = await _context.ObtenerMesa();
-            ViewBag.restaurante = new SelectList(mesa, "ClienteId", "Producto");
+            ViewData["MesaId"] = new SelectList(mesa, "Id", "Numero");
             var cliente = await _context.ObtenerCliente();
-            ViewBag.restaurante = new SelectList(cliente, "MesaId", "Producto");
+            ViewData["ClienteId"] = new SelectList(cliente, "Id", "Nombre");
             return View();
         }
 
         // POST: Reservas/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [Authorize(Roles = "Cliente")]
+        //[Authorize(Roles = "Cliente")]
         [HttpPost]
 
         [ValidateAntiForgeryToken]
@@ -85,7 +85,7 @@ namespace T_Reservation.Controllers
         }
 
         // GET: Reservas/Edit/5
-        [Authorize(Roles = "Cliente")]
+        //[Authorize(Roles = "Cliente")]
         public async Task<IActionResult> Edit(int id)
         {
             var reserva = await _context.ObtenerId(new Reserva { Id = id });
@@ -94,12 +94,11 @@ namespace T_Reservation.Controllers
                 return NotFound();
             }
             var restaurantes = await _context.ObtenerRestaurante();
-            ViewBag.restaurante = new SelectList(restaurantes, "RestauranteId", "Producto");
+            ViewData["RestauranteId"] = new SelectList(restaurantes, "RestauranteId", "Producto");
             var mesa = await _context.ObtenerMesa();
-            ViewBag.restaurante = new SelectList(mesa, "ClienteId", "Producto");
+            ViewData["ClienteId"] = new SelectList(mesa, "ClienteId", "Producto");
             var cliente = await _context.ObtenerCliente();
-            ViewBag.restaurante = new SelectList(cliente, "MesaId", "Producto");
-
+            ViewData["MesaId"] = new SelectList(cliente, "MesaId", "Producto");
             return View(reserva);
         }
 
@@ -108,7 +107,7 @@ namespace T_Reservation.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Cliente")]
+        //[Authorize(Roles = "Cliente")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,ClienteId,RestauranteId,MesaId,CantidadPersonas,FechaInicio,FechaFin")] Reserva reserva)
         {
             if (id != reserva.Id)
@@ -147,7 +146,7 @@ namespace T_Reservation.Controllers
 
 
         // GET: Reservas/Delete/5
-        [Authorize(Roles = "Cliente, Administrador")]
+        //[Authorize(Roles = "Cliente, Administrador")]
         public async Task<IActionResult> Delete(int id)
         {
             var reserva = await _context.ObtenerId(new Reserva { Id = id });
@@ -156,18 +155,18 @@ namespace T_Reservation.Controllers
                 return NotFound();
             }
             var restaurantes = await _context.ObtenerRestaurante();
-            ViewBag.restaurante = new SelectList(restaurantes, "RestauranteId", "Producto");
+            ViewData["RestauranteId"] = new SelectList(restaurantes, "RestauranteId", "Producto");
             var mesa = await _context.ObtenerMesa();
-            ViewBag.restaurante = new SelectList(mesa, "ClienteId", "Producto");
+            ViewData["ClienteId"] = new SelectList(mesa, "ClienteId", "Producto");
             var cliente = await _context.ObtenerCliente();
-            ViewBag.restaurante = new SelectList(cliente, "MesaId", "Producto");
+            ViewData["MesaId"] = new SelectList(cliente, "MesaId", "Producto");
             return View(reserva);
         }
 
         // POST: Reservas/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Cliente, Administrador")]
+        //[/*Authorize(Roles = "Cliente, Administrador")]*/
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             await _context.Eliminar(new Reserva { Id = id });

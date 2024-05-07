@@ -13,13 +13,13 @@ namespace T_Reservation.Controllers
 {
     public class LoginController : Controller
     {
-        private readonly ApplicationDbContext _context;
-        private readonly T_RESERVATION.LogicaNegocio.InicioBL LoginObj;
+        //private readonly ApplicationDbContext _context;
+        private readonly InicioBL LoginObj;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
         public LoginController(ApplicationDbContext contexto, IHttpContextAccessor httpContextAccessor)
         {
-            _context = contexto;
+            //_context = contexto;
             _httpContextAccessor = httpContextAccessor;
         }
 
